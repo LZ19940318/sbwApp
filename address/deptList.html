@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>智慧赢家</title>
+        <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+            <script src="http://hostname"></script>
+            <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+            <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+            <script src="../combestres/js/combest.js"></script>
+            <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <!--okfdjgdgb;lkfdjglkfdj-->
+                    
+                    <style type="text/css">
+                        .showChecked>span{
+                            display:inline-block;
+                        }
+                    .hiddenChecked>span{
+                        display:none;
+                    }
+                    #messagelist-department_box{
+                        position: absolute;
+                        z-index: 2;
+                        width: 100%;
+                        height: 100%;
+                        top:0px;
+                        left: 0px;
+                        transition:all 0.5s;
+                        background: #ffffff;
+                    }
+                    
+                    #box2{
+                        position: absolute;
+                        z-index: 1;
+                        width: 100%;
+                        height: 100%;
+                        top:0px;
+                        left: 0px;
+                        background: #ffffff;
+                        transition:all 0.5s;
+                    }
+                    .conter_ul{
+                        width: 100%;
+                    }
+                    .conter_li:hover{
+                        background: #F5F5F5;
+                    }
+                    .conter_li{
+                        width: 100%;
+                        padding:10px 0px;
+                        list-style: none;
+                        border-bottom:1px solid #e2e2e2;
+                        border-top:1px solid #e2e2e2;
+                        transition:all 0.5s;
+                    }
+                    .conter_li>div{
+                        width: 90%;
+                        height: auto;
+                        margin:auto;
+                        font-size:1.1em;
+                    }
+                    .conter_li>div>span{
+                        float: right;
+                    }
+                    .conter_li>p{
+                        
+                    }
+                    </style>
+    </head>
+    <body>
+        <div id="messagelist-department_box" data-page="conter1" style="margin-top:-5px;">
+            <div class='list-group-item' onclick='goBack()'><div class='glyphicon glyphicon-arrow-left' style='float:left;margin-right:5px;'></div><h4 class='list-group-item-heading'><b>返回上一级</b></h4></div>
+            <div id="messagelist-department_box_con">
+            </div>
+        </div>
+        <script type="text/javascript">
+            var $_GET = (function(){
+                         var url = window.document.location.href.toString();
+                         var u = url.split("?");
+                         if(typeof(u[1]) == "string"){
+                         u = u[1].split("&");
+                         var get = {};
+                         for(var i in u){
+                         var j = u[i].split("=");
+                         get[j[0]] = j[1];
+                         }
+                         return get;
+                         } else {
+                         return {};
+                         }
+                         })();
+                         $("body").on("click",".conter_li",function(){
+                                      var num = $(this).attr("data-num");
+                                      var right_title = $(this).attr("data-text")
+                                      window.location.href="deptList.html?unids="+num+"&right_title="+right_title
+                                      })
+                                      function goBack(){
+                                          history.back(-1)
+                                      }
+        </script>
+        <script type="text/javascript">
+            $(function(){
+              var u = $_GET['unids'];
+              var t = $_GET['right_title'];
+              if(u==null||u==""){
+              loding("#messagelist-department_box_con","conter_li","root");
+              }
+              if(u!=""||u!=null){
+              loding("#messagelist-department_box_con","conter_li",u);
+              }
+              if(t!=""){
+              $("#right_title").html(decodeURIComponent(t));
+              }
+              if(decodeURIComponent(t)=="undefined"){
+              $("#right_title").html("");
+              }
+              })
+              function loding(a,b,c,d,e){
+                  var data = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocProList.xsp","db=app.ou/combest_hr.nsf&vw=CBVw_pmUserListByDeptNum&vwDept=CBVw_deptListByParNum&cat="+c+"&items=ShortName,ChineseName,cellnum,etJobTitle&itemsDept=typeNum,Type");
+                  var len = data.length;
+                  var datas = JSON.parse(data.substring(2,len-1));
+                  //$(a).append("<div class='list-group-item' ' onclick='goBack()'><div class='glyphicon glyphicon-arrow-left' style='float:left;margin-right:5px;'></div><h4 class='list-group-item-heading'>返回上一级</h4></div>")
+                  
+                  for (var i = 0 ; i <= datas.dept.length-1; i++) {
+                      //$(a).append("<li data-text="+datas.dept[i].Type+" class="+b+" data-num="+datas.dept[i].typeNum+" data-unid="+datas.dept[i].unid+"><div><span class='glyphicon glyphicon-th-list' style='margin-right:5px;float:left;'></span>"+datas.dept[i].Type+"<span class='glyphicon glyphicon-menu-right'></span></div></li>")
+                      $(a).append("<li data-text="+datas.dept[i].Type+" class="+b+" data-num="+datas.dept[i].typeNum+" data-unid="+datas.dept[i].unid+" style='font-size:1.1em;color:#4c4948;'><div><span class='glyphicon glyphicon-th-list' style='margin-right:5px;float:left;'></span>"+datas.dept[i].Type+"<span class='glyphicon glyphicon-menu-right'></span></div></li>")
+                  }
+                  for (var i = 0 ; i <= datas.users.length-1; i++) {
+                      //$(a).append("<div class='list-group-item hiddenChecked' checked='0' onclick='parent.addUser(this,\""+datas.users.ChineseName+"("+datas.users.ShortName+")"+"\")'><h4 class='list-group-item-heading'><span class='glyphicon glyphicon-user' style='margin-right:5px;float:left;'></span>"+datas.users[i].ChineseName+"</h4>"+'<span class="list-group-item-text  checkclass" style="float:right;margin-right:10px;color:blue;" ><span class="glyphicon glyphicon-ok"></span></span>'+"<p class='list-group-item-text'>"+datas.users[i].cellnum+"&nbsp;&nbsp;&nbsp;"+datas.users[i].etJobTitle+"</p></div>")
+                      $(a).append("<div class='list-group-item hiddenChecked' checked='0' onclick=\"parent.addUser(this,'"+datas.users[i].ChineseName+"("+datas.users[i].ShortName+")')\"><p class='list-group-item-heading'><span class='glyphicon glyphicon-user' style='margin-right:5px;float:left;font-size:1em;color:#0099ff;'></span><font font-size:1.1em;color:#4c4948;>"+datas.users[i].ChineseName+"</font></p>"+'<span class="list-group-item-text  checkclass" style="float:right;margin-right:10px;color:blue;" ><span class="glyphicon glyphicon-ok"></span></span>'+"<p class='list-group-item-text' style='font-size:0.8em;color:#4c4948;'>"+datas.users[i].cellnum+"&nbsp;&nbsp;&nbsp;"+datas.users[i].etJobTitle+"</p></div>")
+                  }
+              }
+        
+        
+/**>>>>>>>>>>>>>>>>>ios 原生交互 回调 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+            function callback(data){
+                
+
+             var a = "#messagelist-department_box_con";
+             var b = "conter_li";
+             var len = data.length;
+             var datas = data.substring(2,len-1);
+          //   var datas = JSON.parse(data.substring(2,len-1));
+             var datas = eval("("+datas+")");
+          
+          
+             //var datas = eval(datas);
+
+             //$(a).append("<div class='list-group-item' ' onclick='goBack()'><div class='glyphicon glyphicon-arrow-left' style='float:left;margin-right:5px;'></div><h4 class='list-group-item-heading'>返回上一级</h4></div>")
+             
+             for (var i = 0 ; i <= datas.dept.length-1; i++) {
+                 //$(a).append("<li data-text="+datas.dept[i].Type+" class="+b+" data-num="+datas.dept[i].typeNum+" data-unid="+datas.dept[i].unid+"><div><span class='glyphicon glyphicon-th-list' style='margin-right:5px;float:left;'></span>"+datas.dept[i].Type+"<span class='glyphicon glyphicon-menu-right'></span></div></li>")
+                 $(a).append("<a href=\"deptList.html?unids="+datas.dept[i].typeNum+"&right_title="+datas.dept[i].Type+"\"><li data-text="+datas.dept[i].Type+" class="+b+" data-num="+datas.dept[i].typeNum+" data-unid="+datas.dept[i].unid+" style='font-size:1.1em;color:#4c4948;'><div><span class='glyphicon glyphicon-th-list' style='margin-right:5px;float:left;'></span>"+datas.dept[i].Type+"<span class='glyphicon glyphicon-menu-right'></span></div></li></a>")
+             }
+             for (var i = 0 ; i <= datas.users.length-1; i++) {
+                 //$(a).append("<div class='list-group-item hiddenChecked' checked='0' onclick='parent.addUser(this,\""+datas.users.ChineseName+"("+datas.users.ShortName+")"+"\")'><h4 class='list-group-item-heading'><span class='glyphicon glyphicon-user' style='margin-right:5px;float:left;'></span>"+datas.users[i].ChineseName+"</h4>"+'<span class="list-group-item-text  checkclass" style="float:right;margin-right:10px;color:blue;" ><span class="glyphicon glyphicon-ok"></span></span>'+"<p class='list-group-item-text'>"+datas.users[i].cellnum+"&nbsp;&nbsp;&nbsp;"+datas.users[i].etJobTitle+"</p></div>")
+                 $(a).append("<div class='list-group-item hiddenChecked' checked='0' onclick=\"parent.addUser(this,'"+datas.users[i].ChineseName+"("+datas.users[i].ShortName+")')\"><p class='list-group-item-heading'><span class='glyphicon glyphicon-user' style='margin-right:5px;float:left;font-size:1em;color:#0099ff;'></span><font font-size:1.1em;color:#4c4948;>"+datas.users[i].ChineseName+"</font></p>"+'<span class="list-group-item-text  checkclass" style="float:right;margin-right:10px;color:blue;" ><span class="glyphicon glyphicon-ok"></span></span>'+"<p class='list-group-item-text' style='font-size:0.8em;color:#4c4948;'>"+datas.users[i].cellnum+"&nbsp;&nbsp;&nbsp;"+datas.users[i].etJobTitle+"</p></div>")
+             }
+             
+            }
+        
+            </script>
+    </body>
+</html>

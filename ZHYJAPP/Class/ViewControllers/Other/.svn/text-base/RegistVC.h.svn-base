@@ -1,0 +1,13 @@
+//
+//  RegistVC.h
+//  JSW
+//
+//  Created by shuang wu on 16/8/11.
+//  Copyright © 2016年 shuang wu. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface RegistVC : UIViewController
+
+@end

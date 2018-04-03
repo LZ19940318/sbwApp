@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>无标题文档</title>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../combestres/bootstrap/css/bootstrap.min.css">
+    <script  src="../combestres/js/combest.js" ></script>
+    <script  src="../combestres/js/foot.js" ></script>
+    <style type="text/css">
+        #allmap{height:75%;width:100%;}
+        #r-result{width:100%; font-size:14px;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A63e90def3d0f5488ab9032056429a0d"></script>
+    <script >
+        function signInBack(){
+             window.signinBack.signinBack();
+        }
+       function right(){
+           document.getElementById("dateId").click();
+       }
+       function onchangeDate(v){
+         if(v.value!=""){
+            if(v.value!=null){
+               $("#showtimes").html(v.value);
+            }
+         }
+       }
+   </script>
+    <script>
+        start=1;
+        function getDatas(begin,b){
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+             loadStaut.style.display="block"
+            if(b){
+
+                    document.getElementById("content").appendChild(loadStaut);
+            }else{
+            }
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getSignDocList.xsp";//请求数据地址
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.ou/combest_portal.nsf";//url参数，数据来源数据库
+            var vw="CBVw_signinByUser";//url参数，数据来源视图
+            var items="cnName,signin_time,signNum,poi,address,remark,mysession";//请示的字段
+            //var thisStart=start;//第几条数据开始
+            var count=20;//读取数据条数
+            var cat=app.getAccount();//查询关键字
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+cat
+
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+        }
+        refresh();
+    </script>
+</head>
+
+<body style="" onload="getDatas(1,true)">
+<!-- 头部-->
+<div style="width:100%;height:45px;line-height:45px;background-color:#2e2e2e;position:absolute;z-index: 999999;">
+    <div  style="float:left;width:40%;margin-left:10px;">
+        <a href="#" onclick="signInBack()">
+            <!--<img src="combestres/images/back.png" style="width:24px;height:24px;margin-top:10px;"/>-->
+            <span class="glyphicon glyphicon-menu-left" style="color:#fff;height:45px;line-height:45px;"></span>
+        </a>
+    </div>
+
+    <div style="float:left;width:30%;">
+        <span style="font-size:1.2em;display:inline-block;height:45px;line-height:45px;color:#fff;">团队足迹</span>
+    </div>
+</div>
+<input id="dateId" type="date" onchange="onchangeDate(this);"  />
+<!--中间部分-->
+<div style="height:90%;width:100%;position:absolute;">
+    <!--地图-->
+    <div style="height:45%;width:100%;">
+        <!--地图显示-->
+        <div id="allmap" style="background-color:#E0E0E0">
+        </div>
+        <!--足迹分别-->
+        <a>
+            <div style="color:#4E6F84;font-weight:bold;z-index:99999;position:absolute;margin-right:10px;margin-top:-30px;right:0;">足迹分布 >
+            </div>
+        </a>
+
+        <!--日期显示-->
+        <div onclick="right();"  style="z-index:99999;position:absolute;width:120px;height:30px;top:45px;background:#fff;left:10px;border-radius:15px;" >
+            <img src="../combestres/images/datas.png" style="width:22px;height:22px;margin-left:10px;margin-top: 3px;"/>
+            <span id="showtimes" style="color:#000;padding-top:6px;display:inline-block;float:right;margin-right:13px;">
+                <script language="javascript">show_cur_times();</script>
+            </span>
+        </div>
+        <!--签到显示-->
+        <div   style="padding:10px 0px">
+            <a   style="text-decoration: none;display:inline-block;margin-left:20px;color:#37ACFF;" >
+                <!-- <div  style="margin-left:30px;width:50%;padding-top:10px;">-->
+                <span style="font-size:18px;font-weight:bold;height:30px;margin-left:16px;">0</span> <br/>
+                <span style="font-size:14px;margin-left:-7px;font-weight:800;">最新签到</span>
+                <!--    </div>-->
+            </a>
+        </div>
+    </div>
+
+
+    <div >
+        <!--替换内容-->
+        <div id="template" style="display:none" >
+            <a href="myFoot.html?unid={unid}" class="list-group-item" target="_blank">
+                <h4 class="list-group-item-heading">{cnName}</h4>
+                <h4 class="list-group-item-heading">{signin_time}，今日已签到{signNum}次</h4>
+                <h5 class="list-group-item-text">{poi},{address} </h5>
+                <h5 class="list-group-item-text">备注：{remark}</h5>
+                <h5 class="list-group-item-text">拜访对象：{mysession}</h5>
+            </a>
+        </div>
+        <div style="width:100%;dispaly:none;"  id="loadStaut">
+            <div style="text-align:center;margin-top:30px;">
+                <img src="../combestres/images/jxw.jpg" style="height:150px;"/>
+            </div>
+            <div style="text-align:center;" >
+                <span style="display:inline-block;color:#A4A4A4">你的每一份付出，都不会被遗忘，还不快签个到</span>
+            </div>
+        </div>
+        <div class="list-group subhead" id="content">
+
+        </div>
+    </div>
+
+</div>
+
+
+<!--底部-->
+<div class="navbar navbar-default navbar-fixed-bottom" style="box-shadow:0px -2px 5px rgba(0,0,0,0.3);background-color:#fff;">
+    <a href="signIn.html" style="text-decoration: none;">
+        <div  style="width:50%;text-align: center;padding-top:10px;">
+            <img src="../combestres/images/signInes.png" style="height:25px;"/> <br/>
+            <span style="color:#CFCFCF;font-size:14px;margin-left: -7px;">签到</span>
+
+        </div>
+    </a>
+    <a href="#" >
+        <div style="float: right;width:50%;text-align: center;margin-top:-45px;">
+            <img src="../combestres/images/foot.png" style="height:25px;"/> <br/>
+            <span style="color:#37ACFF;font-size:14px;">足迹</span>
+        </div>
+    </a>
+</div>
+
+<script>
+
+   //获取signIn.html中url传送过来的经纬度数据
+    var urls = location.search.substr(1);
+    var long=urls.split("&amp;")[0].split("=")[1];
+    var lat=urls.split("&amp;")[1].split("=")[1];
+
+    theLocation();
+	//用经纬度设置地图中心点
+	function theLocation(){
+        //百度地图API功能
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(116.331398,39.897445),15);
+        map.enableScrollWheelZoom(true);
+        map.clearOverlays();
+        var new_point = new BMap.Point(long,lat);
+        var marker = new BMap.Marker(new_point);  // 创建标注
+        map.addOverlay(marker);              // 将标注添加到地图中
+         //禁用地图拖拽
+        //map.disableDragging(true);
+        map.panTo(new_point);
+
+       }
+
+</script>
+<script type="text/javascript">
+        $(document).ready(function(){
+        $("#myTab a").click(function(){
+            $(this).css("color","#37ACFF").siblings().css("color","#000");
+        })
+        })
+    </script>
+</body>
+</html>

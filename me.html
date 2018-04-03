@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>智慧赢家</title>
+    <link href="combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="combestres/css/combest.css" rel="stylesheet">
+    <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="combestres/js/combest.js"></script>
+    <script>
+
+        function load(){
+            document.getElementById("userName").innerHTML=app.getUserName();
+            document.getElementById("account").innerHTML=app.getAccount();
+
+            showNewPhoto(app.getPhoto(app.getAccount()));
+        }
+        /**
+        *拍照后显示头像
+        */
+        function showNewPhoto(str){
+
+            if(str!=""){
+                document.getElementById("myPhoto").src=str;
+            }else{
+                document.getElementById("myPhoto").src="combestres/images/default.jpg";
+            }
+        }
+    </script>
+</head>
+
+<body onload="load()">
+<!--导航-->
+<div class="container-fluid">
+    <div class="list-group-item row" onclick="photo.takePhoto()">
+        <span class="col-xs-9"> 头像</span>
+        <span class="col-xs-3"><img id="myPhoto"  style="margin-right:6px" class="userimg" > </span>
+    </div>
+    <div class="list-group-item row">
+        <span class="col-xs-9">姓名</span>
+        <span class="col-xs-3" id="userName"></span>
+    </div>
+    <div class="list-group-item row" style="margin-bottom:10px">
+        <span class="col-xs-9">帐号</span>
+        <span class="col-xs-3" id="account"></span>
+    </div>
+    <a href="Modify_password.html" target="_black" class="list-group-item row" style="margin-bottom:10px">
+        <span class="col-xs-9">修改密码</span>
+        <span class="col-xs-3" id="Modify_password"></span>
+    </a>
+    <button type="submit" class="btn btn-info btn-block" onclick="app.logout()">退出</button>
+</div>
+</body>
+</html>

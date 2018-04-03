@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>足迹分布</title>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../combestres/bootstrap/css/bootstrap.min.css">
+    <script  src="../combestres/js/combest.js" ></script>
+    <script  src="../combestres/js/foot.js" ></script>
+    <style type="text/css">
+        #allmap{height:430px;width:100%;}
+        #r-result{width:100%; font-size:14px;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A63e90def3d0f5488ab9032056429a0d"></script>
+    <script >
+        function signInBack(){
+             window.signinBack.signinBack();
+        }
+
+       function onchangeDate(v){
+         if(v.value!=""){
+            if(v.value!=null){
+               $("#showtimes").html(v.value);
+            }
+         }
+       }
+   </script>
+    <script>
+        function load(){
+            var db="app.ou/combest_portal.nsf";
+            var vw="CBVw_signinByUser";
+            //var items="cnName,signNum,long,lat";//请示的字段
+            var cat=app.getAccount();//查询关键字
+            var script=document.createElement("script");
+            //script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getSignDocList.xsp?callback=open&db="+db+"&vw="+vw+"&items="+items+"&cat="+cat
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getSignLong.xsp?callback=open&db="+db+"&vw="+vw+"&cat="+cat
+
+            document.body.appendChild(script);
+
+        }
+
+    </script>
+</head>
+
+<body style="" onload="load()">
+<!-- 头部-->
+<div style="width:100%;height:45px;line-height:45px;background-color:#2e2e2e;z-index: 999999;position:fixed;
+top:0;">
+    <div  style="float:left;width:40%;margin-left:10px;">
+        <a href="signIn.html" id="backes" >
+            <!--<img src="combestres/images/back.png" style="width:24px;height:24px;margin-top:10px;"/>-->
+            <span class="glyphicon glyphicon-menu-left" style="color:#fff;height:45px;line-height:45px;"></span>
+        </a>
+    </div>
+
+    <div style="float:left;width:30%;">
+        <span style="font-size:1.2em;display:inline-block;height:45px;line-height:45px;color:#fff;">足迹分布</span>
+    </div>
+</div>
+<input id="dateId" type="date" onchange="onchangeDate(this);"  />
+<!--地图-->
+<div style="height:100%;width:100%;">
+    <!--地图显示-->
+    <div id="allmap" style="background-color:#E0E0E0;border-bottom:1px solid #DBDBDB;">
+    </div>
+    <!--足迹分别-->
+    <a  id="look">
+        <div style="color:#2e2e2e;z-index:99999;position:absolute;width:180px;height:30px;margin-right:10px;margin-top:-40px;right:0;background:#fff;border-radius:15px;">
+           <div style="margin-top:5px;">
+            <span  id="cnName" style="margin-left:20px;"></span>
+            <span >今日签到<span id="signNum" style="color:#37ACFF"></span>次</span>
+        	<span style="color:#FFA040" >查看</span>
+           </div>
+        </div>
+    </a>
+    <!--日期显示-->
+    <div onclick="right();"  style="z-index:99999;position:absolute;width:120px;height:30px;top:60px;background:#D7D7D7;left:10px;border-radius:15px;" >
+        <img src="../combestres/images/datas.png" style="width:22px;height:22px;margin-left:10px;margin-top: 3px;"/>
+            <span id="showtimes" style="color:#000;padding-top:6px;display:inline-block;float:right;margin-right:13px;">
+                <script language="javascript">show_cur_times();</script>
+            </span>
+    </div>
+    <div style="display:none">
+        <span id="signStr"></span>
+    </div>
+
+</div>
+
+<script>
+    setTimeout("theLocation()",3000);
+	//用经纬度设置地图中心点
+	function theLocation(){
+	    //百度地图API功能
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(116.331398,39.897445),15);
+        map.enableScrollWheelZoom(true);
+        map.clearOverlays();
+
+        //取服务器上所有经纬度数据
+	    var signStr=document.getElementById("signStr").innerHTML;
+	    //把逗号切掉取出各个值
+        var single_array=signStr.split(",");
+
+
+        var long="";
+        var lat="";
+        //循环遍历数组中的个数
+        for(var i=0;i<single_array.length;i++){
+            //单个经度*纬度
+            var single_ele=single_array[i];
+            //将每一组的经纬度切割开
+            var single_long=single_ele.split("*");
+            //获取每一组的经度和纬度
+            var long_a=single_long[0];
+            var lat_a=single_long[1];
+
+            var new_point = new BMap.Point(long_a,lat_a);   //确定经纬度
+            var marker = new BMap.Marker(new_point);  // 创建标注
+            map.addOverlay(marker);              // 将标注添加到地图中
+            map.panTo(new_point);
+        }
+         long=long_a;
+         lat=lat_a;
+
+        //将数据以url形式传送到myFoot.html
+       var myFoot_href="myFoot.html?long="+long+"&amp;lat="+lat;
+       $("#look").attr("href",myFoot_href);
+
+       }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="cn" onselectstart='return false'>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>文件中心</title>
+        <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+        <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+        <script src="../combestres/js/combest.js"></script>
+    </head>
+    <body>
+        
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header" style="text-align:center;">
+                    <a class="navbar-brand"  href="javascript:fanhui()" style="color:#ffffff">
+                        <span class="glyphicon glyphicon-menu-left"></span>
+                        返回
+                    </a>
+                    <!--span style="width:55%" class="navbar-brand">
+                        <input type="text" id="search" style="width:100%;position: relative;
+                        top: -6px;float:left;border:1px solid #000000;" placeholder="搜索"/>
+                    </span>
+                    <a class="navbar-brand" id="searchsub" href="javascript:searchsub()" style="float:right;color:#ffffff" target="_blank">搜索</a-->
+                </div>
+                
+            </div>
+        </nav>
+        <div style="margin-top:70px">
+            <span style="width:80%" class="navbar-brand">
+                <input type="text" id="search" style="width:100%;position: relative;
+                        top: -6px;float:left;border:1px solid #e2e2e2;" placeholder="搜索"/>
+            </span>
+            <a class="navbar-brand" id="searchsub" href="javascript:searchsub()" style="color:#000000;margin-right:5px" target="_blank">搜索</a>
+        </div>
+        <div id="conter"></div>
+    </body>
+    <script>
+        var $_GET = (function() {
+                var url = window.document.location.href.toString();
+                var u = url.split("?");
+                if (typeof(u[1]) == "string") {
+                u = u[1].split("&");
+                var get = {};
+                for (var i in u) {
+                var j = u[i].split("=");
+                get[j[0]] = j[1];
+            }
+                return get;
+            } else {
+               return {};
+            }
+        })();
+        if($_GET['key']!=undefined){
+            postdata($_GET['key'])
+        }
+        function postdata(key){
+            var post = app.postData("http://app.server_address/xtjtworkflow/combest_mopcontroller.nsf/CBXsp_arcSearch.xsp","key="+key)
+            eval(post)
+        }
+        function view(data){
+            var length = data.length;
+            for(var i = 0;i<=length;i++){
+                var html = "<a href='arcDoc.html?unid="+data[i].unid+"' class='list-group-item' target='_top'><span class='glyphicon glyphicon-file' style='margin-right:5px;float:left;;color:#AE8F00;font-size:1.2em'></span><font style='margin-left:10px;font-size:1.2em;color:#000000'>"+data[i].Subject+"</font></a>"
+                $("#conter").append(html)
+            
+            }
+        }
+    
+        function searchsub(){
+            var text = $("#search").val();
+            if(text==""){
+                return false;
+            }
+            location.href="arcSearch.html?key="+text
+        }
+    
+    </script>
+    <script style="text/javascript">
+        function fanhui(){
+        history.back(-1)
+        }
+    </script>
+</html>

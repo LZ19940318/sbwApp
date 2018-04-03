@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>生产计划订单</title>
+ 	
+ 	<link rel="stylesheet" type="text/css" href="../combestres/css/report/repoSty.css">
+ 	<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="../combestres/js/cnJs.js"></script>
+	<script src="../combestres/js/combest_report.js"></script>
+
+<style type="text/css">
+	
+.clearFixd:after{
+	content:"."; 
+	height: 0; 
+	visibility: hidden; 
+	clear:both; 
+	display:"block";
+}
+*{ margin:0; padding:0;}
+#main{
+	overflow: hidden; 
+	position: relative;
+}
+.content{
+	width:100%; 
+	/*margin-left: 112px;*/
+	padding:0;
+	height: 38px;
+	border-right: none !important;
+}
+</style>
+<script>
+		start=1;
+		function getDatas(begin,b){
+			//加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+               // document.getElementById("content").appendChild(loadStaut);
+                //loadStaut.style.display="block";
+            }else{}
+			var byTime = document.getElementById("time_tmp").value;
+			if(byTime==""){
+				byTime = "day";
+			}
+			//订单编号和客户名称的值
+			var  cusName_search = document.getElementById("cusName_tmp").value;
+            var  oderNum_search  = document.getElementById("oderNum_tmp").value;
+
+			var count=15;
+			var cat="";
+			var script=document.createElement("script");
+			var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getProPlanList.xsp";//请求数据地址
+			var callback="list";//回调函数
+			var param="tmp,content,0";
+			var db="app.ou/combest_produce.nsf";
+			var vw="";
+
+			var items="cusName,orderTime,deliverDate,unid";//请示的字段
+
+			//执行一个jsonp语句
+			script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+cat+"&byTime="+byTime+"&cusName_search="+cusName_search+"&oderNum_search="+oderNum_search;
+			script.type="text/javascript";
+			 if(b){
+                start+=count;
+            }
+
+			document.body.appendChild(script);
+
+		}
+		 refresh();
+
+		  //当前筛选的是年/月/日
+		 function redirect_Value(paramValue,type){
+			if(type=="timeType"){
+				document.getElementById("time_tmp").value=paramValue;
+			}else{}
+			document.getElementById("content").innerHTML="";
+			document.getElementById("cusName_tmp").value="";//清空搜索条件
+			document.getElementById("oderNum_tmp").value="";//清空搜索条件
+			start=1;
+			getDatas(1,true);
+		}
+
+	//用于客户名称、订单编号筛选
+	function search() {
+        var searchBox = document.getElementById("searchBox").value;
+        var temp = document.getElementById("client").innerHTML;
+        if(searchBox!=""){
+             if(temp=="客户名称"){
+                document.getElementById("cusName_tmp").value=searchBox;
+                 document.getElementById("oderNum_tmp").value="";
+             }else{
+                 document.getElementById("cusName_tmp").value="";
+                 document.getElementById("oderNum_tmp").value=searchBox;
+             }
+             $('#code').hide();
+             $('#goodcover').hide();
+             document.getElementById("content").innerHTML="";
+             start=1;
+             getDatas(1,true);
+        }
+    }
+	</script>
+</head>
+<body onload="getDatas(1,true)">
+<div class="container">
+	<input id="time_tmp" type="text"  style="display:none;" />
+	<input id="oderNum_tmp" type="text"  style="display:none;" />
+	<input id="cusName_tmp" type="text"  style="display:none;" />
+<div style="display:none;" id="tmp">
+		<div class="odetail">
+			<!-- 订单详情1 -->
+			<a href="cnArrangePro.html?documentId={unid}">
+				<ul>
+					<li>
+						<label>客户名称：</label>
+						<label style="float: right;">{cusName}</label>
+					</li>
+					<li>
+						<span>订单日期：</span>
+						<span style="float: right;">{orderTime}</span>
+					</li>
+					<li>
+						<span>交货日期：</span>
+						<span style="float: right;">{deliverDate}</span>
+					</li>
+				</ul>
+			</a>
+		</div>
+	<!-- 分割 -->
+	<div class="space"></div>
+	</div>
+
+	<!-- 头部 -->
+	<div class="sheader">
+		<a href="javascript:history.back(-1)"  style="float: left;margin-left: 7px;">
+			<img src="../combestres/images/back.png" />
+			返回
+		</a>
+		<span style="">
+			生产计划
+		</span>
+		<!-- <a href="#" style="float: right;margin-right: 10px;">
+			<img src="../combestres/images/more.png" />
+		</a> -->
+	</div>
+	<!-- over -->
+	<!-- 筛选 -->
+	<div class="filter">
+		<ul>
+			<li style="width: 49%;">
+			 <a href="#" class="sart" id="date">本月</a>
+			<span class="imgcont">
+			<img src="../combestres/images/sel.png" style=""/></span>
+			</li>
+<!-- 
+			<li>
+			<a href="#" class="sart" id="sale">内销</a>
+			<span class="imgcont">
+			<img src="../combestres/images/sel.png"></span> -->
+  <!-- 内销、外销 -->
+		  <!--   <div id="hidesale"></div> 
+		    <div style="position: fixed;z-index: 9999;width: 33%;top: 85px;">
+		     <div id="hidesalebox">
+		     <dl>
+		      <dd onclick="hide(2)">
+		        <a href="#" style="color: #ff8749;">内销</a>
+		        </dd>
+		        <dd onclick="hide(2)">
+		        <a href="#">外销</a>
+		        </dd>
+		        </dl>
+		    </div>
+		    </div> -->
+    <!-- over -->
+			</li>
+
+			<li style="width: 50%;">
+			<a href="#" class="sart" id="client">搜索</a>
+			<span class="imgcont">
+			<img src="../combestres/images/sel.png"></span>
+ <!-- 客户名称、订单编号 -->
+		    <div id="hideclient"></div> 
+		    <div style="position: fixed;z-index: 9999;width: 51%;top: 85px;">
+		     <div id="hideclientbox">
+		     <dl>
+		      <dd  onclick="checkBoxCusName('cusName')" id="cusName">
+		        <a href="#" style="color: #ff8749;">客户名称</a>
+		        </dd>
+		        <dd  onclick="checkBoxCusName('cusNum')" id="cusNum">
+		        <a href="#">订单编号</a>
+		        </dd>
+		        </dl>
+		    </div>
+		    </div>
+    <!-- over -->
+			</li>
+
+			<!-- <li>
+			<a href="#" class="sart" id="detail">详情列表
+  			<span class="imgcont">
+			<img src="../combestres/images/sel.png"></span></a> -->
+<!-- 详情列表、详情统计表 -->
+		   <!--  <div id="hidedetail"></div> 
+		    <div style="position: fixed;z-index: 9999;width: 28%;top: 85px;">
+		     <div id="hidedetailbox">
+		     <dl>
+		      <dd onclick="hide(4)">
+		        <a href="#" style="color: #ff8749;">详情列表</a>
+		        </dd>
+		        <dd onclick="hide(4)">
+		        <a href="#">统计表</a>
+		        </dd>
+		        </dl>
+		    </div>
+		    </div> -->
+    <!-- over -->
+			<!-- </li> -->
+		</ul>
+	</div>
+	<!-- over -->
+	 <!-- 本日、本周、本月 -->
+    <div id="hidebg"></div> 
+    <div style="position: fixed;z-index: 9999;width: 50%;top: 85px;">
+     <div id="hidebox">
+     <dl>
+      <dd onclick="hide(1)" >
+        <a href="#" onclick="redirect_Value('day','timeType');return false">本日</a>
+        </dd>
+        <dd onclick="hide(1)">
+        <a href="#" onclick="redirect_Value('week','timeType');return false">本周</a>
+        </dd>
+        <dd onclick="hide(1)">
+         <a href="#" style="color: #ff8749;" onclick="redirect_Value('month','timeType');return false">本月</a>
+        </dd>
+        </dl>
+    </div>
+    </div>
+    <!-- over -->
+   
+	<!-- 分割 -->
+	<div class="space"></div>
+	<!-- 订单详情2 -->
+	<div id="content">
+
+	</div>
+	<!-- over -->
+	<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+		加载中...
+	</a>
+</div>
+
+
+<!--  -->
+	 <div id="goodcover">
+        <div class="clpa">
+            <span class="tsearch" id="tsearch"></span>
+            <input type="text" id="searchBox" placeholder="请输入搜索条件：" />
+            <div class="butt">
+	            <button id="closebt">取消</button>
+	            <button style="margin-left: 20px;" id="searchBt" onclick="search()">搜索</button>
+            </div>
+        </div>
+
+    </div>
+<!--  -->
+</body>
+</html>

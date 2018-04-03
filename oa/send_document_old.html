@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <style>
+        .navbar>ul{
+            width:100%;
+            padding:0px;
+            padding-top:10px;
+        }
+        .navbar>ul>li{
+            list-style:none;
+            float:left;
+            padding-left:20px;
+            text-align:center;
+            vertical-align:text-top;
+            color: #585858;
+        }
+    </style>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getInfoDocument.xsp?callback=open&db=app.ou/combest_portal.nsf&items=cusAddNameCN,spName,effectiveTime,tital,infoContent&unid="+unid
+            document.body.appendChild(script);
+        }
+          //显示页签
+        function showTab(tab){
+            var tabs=["main","att"];
+            for(var i=0;i<tabs.length;i++){
+                $("#"+tabs[i]).css({"display":"none"});
+            }
+            $("#"+tab).css({"display":""});
+
+            //工具栏
+            if(tab=="att"){
+                 $("#showtoolbar").css({"display":"none"});
+            }else{
+                 $("#showtoolbar").css({"display":""});
+            }
+        }
+    </script>
+</head>
+<style type="text/css">
+    #conter{
+    padding-bottom:30px;
+    }
+    .displayinput{
+    display:;
+    }
+</style>
+<body onload="load()">
+<!-- 头部 -->
+<div class="sheader">
+    <a href="send_list.html"  style="float: left;margin-left: 7px;">
+        <img src="../combestres/images/back.png" />
+        返回
+    </a>
+</div>
+<!-- over -->
+<div style="margin-top:70px" id="main">
+    <h3 id="tital" style="text-align:center">标题</h3>
+        <span>
+            <span style="margin-left:20px;">发布人:
+                <span id="cusAddNameCN"></span>
+            </span>
+            <span style="float:right;margin-right:20px;">到期时间:
+                <span id="effectiveTime"></span>
+            </span>
+        </span>
+    <br/><br/>
+    <p id="infoContent">
+    </p>
+</div>
+<!--工具栏-->
+<div id="showtoolbar" class="navbar navbar-default navbar-fixed-bottom" style="box-shadow:none !important;border-top:1px solid #d1d1d1;">
+    <ul id="toolbar" style="font-size:0.9em;">
+        <li class="usertabs" data="att" onclick="showTab('att')">
+            <span class="glyphicon glyphicon-paperclip"></span>
+            <span id="textAtt">附件(0)</span>
+        </li>
+    </ul>
+</div>
+<!--附件-->
+<div class="container-fluid"  style="padding:2px;display:none" id="att">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header" style="color:#ffffff">
+            <a class="navbar-brand"   onclick="showTab('main');return false" id="backAtt" style="color:#ffffff" >
+                <span class="glyphicon glyphicon-menu-left" ></span> </a>
+            <span class="navbar-brand"  style="color:#ffffff">附件</span>
+        </div>
+    </nav>
+    <div class="container-fluid"  style="padding:2px;margin-top:50px;margin-bottom:55px">
+        <div style="width:100%;height:100%"  id="attContent" ></div>
+    </div>
+</div>
+</body>
+
+</html>

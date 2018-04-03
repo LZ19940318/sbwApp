@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width,initial-scale=1 user-scalable=0"/>
+	<title>应收款分析</title>
+	<link href="combestres/css/report/alyzSty.css" rel="stylesheet">
+	<script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="combestres/js/combest_report.js"></script>
+	<script src="combestres/js/highcharts.js"></script>
+	<script src="combestres/laydate/laydate.js"></script>
+
+	<style>
+		#show{transform:rotate(90deg);}
+		.clearFixd:after{
+			content:".";
+			height: 0;
+			visibility: hidden;
+			clear:both;
+			display:"block"
+		}
+		*{ margin:0; padding:0;}
+		#main{
+			overflow: hidden;
+			position: relative;
+		}
+		.content{
+			width:100%;
+			padding:0;
+
+		}
+/* #main{background: #f45643;} */
+</style>
+	<script>
+		window.onload=function(){
+			var key="";
+	 		tabInfo(key);
+		}
+		function tabInfo(key){
+			var script=document.createElement("script");
+			var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getIndexRamImg.xsp";//请求数据地址
+			var callback="editS";//回调函数
+			script.src=url+"?callback="+callback+"&key="+key;
+			script.type="text/javascript";
+			document.body.appendChild(script);
+		}
+
+		function submits(){
+			var key=$("#province1").val();
+			tabInfo(key);
+		}
+
+		function exectueUserdefined(){
+			chart();
+		}
+		var chart=function(){
+			var stage=eval("("+unescape(document.getElementById("new").value.replace(/\\/g,"%"))+")");
+			$(function () {
+				$('#container').highcharts({
+					chart: {
+						type: 'column'
+					},
+					title: {
+						text: ''
+					},
+					subtitle: {
+						text: ''
+					},
+					xAxis: {
+						categories: stage.categories,
+						crosshair: true
+					},
+					yAxis: {
+						min: 0,
+						title: {
+							text: '销售额占比分析'
+						}
+					},
+					credits:{
+						enabled:false // 禁用版权信息
+					},
+					tooltip: {
+						headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+						pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+						'<td style="padding:0"><b>￥{point.y:.1f}</b></td></tr>',
+						footerFormat: '</table>',
+						shared: true,
+						useHTML: true,
+						enabled:false
+					},
+					plotOptions: {
+						column: {
+							 dataLabels: {
+								enabled: true,
+								rotation: 0,
+								color: '#FFFFFF',
+								align: 'center',
+								format: '{point.y:.1f}', // one decimal
+								y: 10, // 10 pixels down from the top
+								style: {
+									fontSize: '11px',
+									fontFamily: 'Verdana, sans-serif'
+								}
+							},
+							pointPadding: 0.2,
+							borderWidth: 0
+						}
+					},
+					series: stage.series
+				});
+			});
+		}
+	</script>
+</head>
+<body>
+
+<div class="container" >
+	<div class="header" style="background-color:#2e2e2e;z-index:999;">
+		<a href="saletab.html"  class="left">
+			<img src="combestres/images/back.png" style="width:24px;height:24px;"/>
+			<!--返回-->
+		</a>
+		<span class="topName"></span>
+		<a href="#" class="right">
+			<img src="combestres/images/share.png" style="width:24px;height:24px;"/>
+		</a>
+	</div>
+	<!-- over -->
+	<div  id="show" style="margin-left:40px;">
+		<div class="timeDiv" style="display:none;">
+		<ul>
+			<li><span>按年份</span></li>
+			<li>
+				<span id="dateList1"></span>
+			</li>
+			<li>
+				<input type="button" id="submit" onclick="submits();" value="搜索"/>
+			</li>
+		</ul>
+	</div>
+		<div class="cont">
+			<div id="canvas">
+				<div id="container" style="min-width:480px;min-height:260px;cursor:pointer">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="display:none"><input id="new" name="new" value="" /></div>
+<script>
+var canvas = document.getElementById("canvas");
+var div=canvas.children[0];
+
+var startX,startY;
+
+function touchStart(event){
+	var touch=event.touches[0];
+	startX=touch.pageX;
+	startY=touch.pageY;
+}
+function touchMove(event){
+	var touch=event.touches[0];
+	timer = setInterval(function() {
+	renderTouches(touches);
+}, 1);
+
+var x = touch.pageX - startX;
+var y = touch.pageY - startY;
+
+ div.style.webkitTransform
+=canvas.style.msTransform
+=div.style.MozTransform
+= 'translate(0, ' +y + 'px)';
+
+</script>
+<script>
+;!function(){
+laydate({
+   elem: '#demo'
+})
+}();
+</script>
+<script>
+
+</script>
+
+
+</body>
+</html>

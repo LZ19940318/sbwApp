@@ -1,0 +1,38 @@
+.subhead{
+    padding:0;
+    padding-top:50px;
+}
+.posbottom{
+	width:100%;
+	position:absolute;
+	bottom:0px;
+	background:#ffffff;
+	padding-top:10px;
+	box-shadow: 0px -2px 5px rgba(0,0,0,0.3);
+}
+.body{
+    overflow:hidden;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+.container-fluid{
+    padding-left:0;
+    padding-right:0;
+}
+.userimg{
+    width:50px;
+    height:50px;
+}
+.cycle{
+    width:10px;
+    height:10px;
+    border-radius: 50%;
+    position:absolute;
+    background-color:red;
+    right:-10px;
+    top:-5px;
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="cn" onselectstart='return false'>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="http://hostname"></script>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+</head>
+<style type="text/css">
+        .search{
+        text-align: center;
+        background-color:#EDEDED;
+        height: 40px;
+        line-height:40px;
+        }
+        .search .input-group,.search input{
+        height: 35px;
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 2px;
+        font-size:1.1em
+        }
+    </style>
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header" style="text-align:center;background-color:#2e2e2e;">
+            <a class="navbar-brand"  onclick="android.closeAct()" style="font-size:1.2em;color:#fff">
+                <span class="glyphicon glyphicon-menu-left"></span>
+                返回
+            </a>
+        </div>
+
+    </div>
+</nav>
+<div style="height:50px">
+    <p>&nbsp;</p>
+</div>
+<div class="search" style="padding-top:5px;position:fixed;z-index:999;background-color:#fff">
+    <form class="bs-example bs-example-form" role="form">
+        <div class="input-group">
+            <input id="search" class="form-control" type="text" placeholder="搜索">
+            <a id="searchsub" href="javascript:searchsub()" class="input-group-addon"><span class="glyphicon glyphicon-search" style="line-height: 10px;"></span></a>
+        </div>
+    </form>
+</div>
+<div style="height:50px">
+    <p>&nbsp;</p>
+</div>
+<div id="conter"></div>
+
+
+</body>
+<script>
+       var $_GET = (function() {
+                var url = window.document.location.href.toString();
+                var u = url.split("?");
+                if (typeof(u[1]) == "string") {
+                u = u[1].split("&");
+                var get = {};
+                for (var i in u) {
+                var j = u[i].split("=");
+                get[j[0]] = j[1];
+            }
+                return get;
+            } else {
+               return {};
+            }
+        })();
+        if($_GET['key']!=undefined){
+            postdata($_GET['key'])
+        }
+        function postdata(key){
+			document.getElementById("search").value = decodeURI(key);
+            var post = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_userSearch.xsp","key="+key)
+            eval(post)
+        }
+        function view(data){
+            var length = data.length;
+            for(var i = 0;i<=length;i++){
+                var html = "<a href='messagelist-document.html?unid="+data[i].unid+"' class='list-group-item' style='font-size:1.1em;color:#4c4948;'><p class='list-group-item-heading'><span class='glyphicon glyphicon-user' style='margin-right:5px;float:left;font-size:1em;color:#0099ff;'></span><font font-size:1.1em;color:#4c4948;>"+data[i].ChineseName+"</font></p><p class='list-group-item-text' style='font-size:0.9em;color:#4c4948;'>"+data[i].deptFullName+"</p></a>"
+                $("#conter").append(html)
+
+            }
+        }
+
+        function searchsub(){
+            var text = $("#search").val();
+            if(text==""){
+                alert("搜索关键字不能为空！");
+                return false;
+            }
+            location.href="userSearch.html?key="+text
+        }
+
+    </script>
+<script style="text/javascript">
+        function fanhui(){
+        history.back(-1)
+        }
+    </script>
+</html>

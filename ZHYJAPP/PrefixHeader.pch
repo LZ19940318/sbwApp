@@ -1,0 +1,82 @@
+//
+//  PrefixHeader.pch
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/31.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
+
+
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+//#define testIP1 @"192.168.10.202"
+#define testIP1 @"113.240.251.10"
+#define testIP2 @"58.20.54.3"
+#define testIP3 @"183.214.86.166"
+
+#define REDPACKET_AVALABLE 1
+#define DEMO_CALL 1
+
+#ifdef __OBJC__
+//#import <UIKit/UIKit.h>
+//#import <Foundation/Foundation.h>
+
+#pragma mark ------------------ 环信
+#import "ChatDemoUIDefine.h"
+#import "EMAlertView.h"
+#import "TTGlobalUICommon.h"
+
+#import "EMSDKFull.h"
+#import "EaseUI.h"
+#import "ApplyViewController.h"
+#import "ChatDemoHelper.h"
+
+#import "AlipaySDK.h"
+#import "RedPacketUserConfig.h"
+#import "RedpacketOpenConst.h"
+//#define DEMO_CALL 1
+
+#import "ChineseString.h"
+
+
+
+#pragma mark ---------------- 宏
+
+#define MainWidth [UIScreen mainScreen].bounds.size.width
+#define MainHeight [UIScreen mainScreen].bounds.size.height
+
+
+
+#pragma mark ----------------- 扩展
+
+#import "UIWebView+JavaScriptAlert.h"
+#import "UIImage+UIimage.h"
+
+
+#import "DataManager.h"
+#import "NetworkManager.h"
+#import "MsgToolBox.h"
+#import "TabBarVC.h"
+
+
+
+
+#pragma mark ----------------- 三方
+
+#import "SVProgressHUD.h"
+
+#endif
+
+

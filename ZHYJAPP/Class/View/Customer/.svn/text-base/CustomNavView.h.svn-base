@@ -1,0 +1,20 @@
+//
+//  CustomNavView.h
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/27.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+typedef void(^ButtonTagBlock)(NSInteger buttonTag);
+
+
+@interface CustomNavView : UIView
+
+
+- (instancetype)initWithFrame:(CGRect)frame withButtonTag:(ButtonTagBlock)buttonTagBlock;
+
+
+@end

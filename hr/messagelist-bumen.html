@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        start=1;
+        function getDatas(begin,b){
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+
+            }
+            
+            // var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocList.xsp";//请求数据地址
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocProList.xsp?";//请求数据地址
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.ou/combest_hr.nsf";//url参数，数据来源数据库
+            var vw="CBVw_pmUserListByDeptNum";//url参数，数据来源视图
+            var vwDept="CBVw_deptListByParNum";
+            var cat="root";
+            var items="ShortName,ChineseName";//请示的字段
+            var itemsDept="typeNum,Type"
+            //var thisStart=start;//第几条数据开始
+            var count=20;//读取数据条数
+            //var cat="key1,key2"//查询关键字
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+cat+"&itemsDept"=itemsDept+"&vwDept"=vwDept;
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+
+        }
+        refresh();
+    </script>
+</head>
+<body onload="getDatas(1,true)">
+<!-- <div id="template" style="display:none" >
+    <a href="messagelist-documen.html?unid={unid}" class="list-group-item" target="_black">
+        <h4 class="list-group-item-heading">{ChineseName}</h4>
+        <p class="list-group-item-text">{cellnum}&nbsp;&nbsp;&nbsp;{etJobTitle}</p>
+    </a>
+</div> -->
+{ShortName}
+<div class="list-group" id="content">
+
+</div>
+<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+    加载中...
+</a>
+</body>
+</html>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>产品列表</title>
+ 	
+ 	<link rel="stylesheet" type="text/css" href="../combestres/css/report/repoSty.css">
+ 	<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="../combestres/js/cnJs.js"></script>
+	<script src="../combestres/js/combest_report.js"></script>
+<style type="text/css">
+	
+.clearFixd:after{
+	content:"."; 
+	height: 0; 
+	visibility: hidden; 
+	clear:both; 
+	display:"block";
+}
+*{ margin:0; padding:0;}
+#main{
+	overflow: hidden; 
+	position: relative;
+}
+.content{
+	width:100%; 
+	/*margin-left: 112px;*/
+	padding:0;
+	height: 38px;
+	border-right: none !important;
+}
+</style>
+	<script>
+		window.onload=function(){
+			var parentUnid=getQueryString("documentId");
+			var hrtagValue = document.getElementById("hrtag").href;
+			hrtagValue = hrtagValue+parentUnid;
+			document.getElementById("hrtag").href = hrtagValue;
+
+
+			getDatas(1,true);
+		}
+
+		start=1;
+		function getDatas(begin,b){
+			//链接带过来的unid
+ 	   		var unid=getQueryString("documentId");
+			//加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+
+            }
+
+			var count=15;
+			var cat="";
+			var script=document.createElement("script");
+			var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getProPlanList_sub.xsp";//请求数据地址
+			var callback="list";//回调函数
+			var param="tmp,content,0";
+			var db="combestbkc/combest_produce.nsf";
+			var vw="";
+
+			var items="description,needNum,unid";//请示的字段
+
+			//执行一个jsonp语句
+			script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+cat+"&mainUnid="+unid;
+			script.type="text/javascript";
+			 if(b){
+                start+=count;
+            }
+			document.body.appendChild(script);
+		}
+		 refresh();
+
+
+		 //获取参数
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null)
+				return decodeURIComponent(r[2]);
+			return null;
+		}
+
+
+	</script>
+</head>
+<body>
+<div style="display:none;" id="tmp" >
+	<div class="odetail">
+		<!-- 订单详情1 -->
+		<a href="cnArrangeDocument.html?documentId={unid}&parentUnid=" id="hrtag">
+			<ul>
+				<li>
+					<label>产品名称：</label>
+					<label style="float: right;">{description}</label>
+				</li>
+				<li>
+					<span>需生产数量：</span>
+					<span style="float: right;">{needNum}</span>
+				</li>
+
+			</ul>
+		</a>
+
+		<!-- 分割 -->
+		<div class="space"></div>
+	</div>
+</div>
+<div class="container">
+	<!-- 头部 -->
+	<div class="sheader">
+		<a href="javascript:history.back(-1)"  style="float: left;margin-left: 7px;">
+			<img src="../combestres/images/back.png" />
+			返回
+		</a>
+		<span style="">
+			订单产品列表
+		</span>
+		<!-- <a href="#" style="float: right;margin-right: 10px;">
+			<img src="../combestres/images/more.png" />
+		</a> -->
+	</div>
+	<!-- over -->
+	
+	<!-- 分割 -->
+	<div class="space" style="margin-top: 45px;"></div>
+	<div id="content">
+
+	</div>
+<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+	加载中...
+</a>
+</div>
+</body>
+</html>

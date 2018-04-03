@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link href="combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="combestres/css/combest.css" rel="stylesheet">
+
+        <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+        <script src="combestres/bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EXDEUNxM6kpY5RFGqfbBbbXG"></script>
+        <script src="combestres/js/combest.js"></script>
+        <style type="text/css">
+            body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+            button,a{
+                cursor:pointer;
+                text-decoration:none;
+                outline:none; 
+            }
+            a:focus{
+                outline:0;  
+            }
+            a:link,a:visited,a:hover,a:active{
+                 text-decoration:none;
+            }
+        </style>
+        
+        <title>打卡签到</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" style="margin-bottom: -12px;height:40px;line-height:40px;z-index:9999">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html" style="color:#000000">
+                        <span class="glyphicon glyphicon-menu-left">返回</span>
+                    </a>
+                    <a id="Sign" class="navbar-brand" href="#modal-id" style="float:right;color:#000000;" data-toggle="modal" >
+                        <span id="ok">签到</span>
+                    </a>
+                </div>
+                
+            </div>
+        </nav>
+        <div class="modal fade" id="modal-id" style="margin-top:50%">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">填写精确地址</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>定位地址：<span id="Precise"></span></p>
+                        <p>填写地址：<input id="Manual" type="text" class="form-control" /></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" id="position_sub" class="btn btn-primary">提交</button>
+                        <input type="button" name="" onclick="getLocation()" value="H5">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="allmap"></div>
+        <span id="map_name">
+            
+        </span>
+        <input type="button" value="地理位置" id="in_input"/>
+    </body>
+    <script type="text/javascript">
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");//地图的容器ID
+        var point = new BMap.Point(longitude,latitude);
+        map.centerAndZoom(point, 17);
+        var marker = new BMap.Marker(point);  // 创建标注
+        map.addOverlay(marker);               // 将标注添加到地图中
+        marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+    </script>
+    <script>
+
+        $("#Sign").click(function(){
+            var data = app.postData("http://api.map.baidu.com/geocoder/v2/","ak=EXDEUNxM6kpY5RFGqfbBbbXG&location="+latitude+","+longitude+"&output=json&callback=back");
+
+            if(data!=null){
+                back(eval("("+data+")"))
+            }
+        })
+        function back(data){
+            // $("#Precise").html(data.result.formatted_address+","+data.result.sematic_description)
+            $("#Precise").html(data.result.sematic_description)
+            
+        }
+        $("#position_sub").click(function(){
+            var Precise = $("#Precise").html()//自动定位
+            var Manual = $("#Manual").val();//手写位置
+            if(Manual==""){
+                alert("请填写当前位置")
+                return false;
+            }
+            var date = new Date();
+            var year = date.getFullYear();
+            var month = date.getMonth()+1;
+            var day = date.getDate();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            var visitTime = year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+            var url ="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_Sign.xsp";
+            var data ="longitude="+longitude+"&latitude="+latitude+"&Precise="+encodeURI(Precise)+"&Manual="+encodeURI(Manual)+"&visitTime="+visitTime;
+            var subdata = app.postData(url,data)
+            if(subdata!=null){
+                eval(subdata)
+            }
+        })
+        function modalback(){
+            $("#modal-id").modal('hide');
+            $("#Manual").html("")
+            
+        }
+    </script>
+</html>

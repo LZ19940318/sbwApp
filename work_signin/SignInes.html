@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<title>签到提交</title>
+    <link rel="stylesheet"  href="../combestres/css/SignInes.css"/>
+    <script  src="../combestres/js/SignInes.js" ></script>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../combestres/bootstrap/css/bootstrap.min.css">
+    <script>
+    load();
+    function load(){
+      showNewPhoto(app.getPhoto(app.getAccount()));
+    }
+    /**
+    *拍照后显示头像
+    */
+    function showNewPhoto(str){
+        if(str!=""){
+        document.getElementById("myPhoto").src=str;
+        }
+    }
+    </script>
+</head>
+
+<body style="background-color:#EEEDF2" onload="systemTime()" >
+<!-- 头部-->
+<div style="width:100%;height:45px;line-height:45px;background-color:#2e2e2e">
+    <div  style="float:left;width:40%;margin-left:10px;">
+        <a href="signIn.html" onclick="signInBack()">
+            <!--<img src="combestres/images/back.png" style="width:24px;height:24px;margin-top:10px;"/>-->
+            <span class="glyphicon glyphicon-menu-left" style="color:#fff;height:45px;line-height:45px;"></span>
+        </a>
+    </div>
+    <div style="float:left;width:30%;">
+        <span style="font-size:1.2em;display:inline-block;height:45px;line-height:45px;color:#fff;">签到</span>
+    </div>
+</div>
+<!--中间部分-->
+<div style="border-top:1px solid #DBDBDB;border-bottom:1px solid #DBDBDB;width:100%;padding:5px 1px 5px 10px;clear:both;height:100px;background-color:#fff;">
+    	<!--时间-->
+    	<div style="margin-left:6px;margin-top:10px;display: inline-block;width:80px;float:left">
+       		 <span class="glyphicon glyphicon-time" style="float:left;color:#999;padding-top:2px;"></span>			
+              <span style="color:#959595;margin-left:2px;float:left">签到时间:</span>
+
+        </div>
+        <div id="time" style=" font-size:15px;inline-block;width: 74%;margin-top: 10px;" ></div>
+        <!--地点-->
+        <div style="margin-left:4px;margin-top:10px;display: inline-block;width:80px;float:left">
+        	 <span class="glyphicon glyphicon-map-marker" style="float:left;color:#999;padding-top:2px;"></span>
+             <span style="color:#959595;margin-left:2px;float:left">签到地点:</span>
+
+        </div>
+        <div  id="address" style=" font-size:15px;display: inline-block;width: 74%;margin-top: 10px;" ></div>
+</div>
+<!--签到备注-->
+<div style="margin-top:15px;">
+	<div  style="background-color:#fff;height:150px;" >
+        <input  type="text" placeholder="请填写签到备注" style="border:none;margin-left:10px;margin-top:10px;font-size:15px;outline:none" id="remark"/>
+    </div>
+</div>
+<!--照相-->
+<div style="background-color:#fff; height:120px;width:100%;border-bottom:1px solid #DBDBDB;display:none;" onclick="photo.takePhoto()">
+	<img src="../combestres/images/photo.png" id="myPhoto" style="height:80px;margin-top:20px;margin-left:15px;"/>
+</div>
+<!--底部-->
+<div class="navbar navbar-default navbar-fixed-bottom" style="box-shadow: 0px -2px 5px rgba(0,0,0,0.3);background-color:#fff;height:50px;line-height:50px;text-align:center">
+	<a href="#" style="text-decoration:none;" onclick="sunmbit()">
+            <span style="color:#4040FF;font-size:18px;font-weight:400">提交</span>
+    </a>
+</div>
+<script>
+    //获取url传送过来的数据
+    var urls = location.search.substr(1);
+    var poi=urls.split("&amp;")[0].split("=")[1];   //地点poi
+    var ress=urls.split("&amp;")[1].split("=")[1];  //地点
+    var _session=urls.split("&amp;")[2].split("=")[1];//拜访对象
+     var long=urls.split("&amp;")[3].split("=")[1]; //经度
+      var lat=urls.split("&amp;")[4].split("=")[1]; //纬度
+    //将位置信息显示在页面上
+   document.getElementById("address").innerHTML=decodeURI(poi)+","+decodeURI(ress);
+
+    function sunmbit(){
+        var text_time=document.getElementById("time").innerHTML; //时间
+      //  var remark_text=document.getElementById("remark").value; //备注
+        //var text_remarkes=encodeURI(remark_text);  //备注编码
+        //var text_remark=encodeURI(text_remarkes);   //备注两次编码
+        
+        //var text_remark=encodeURI($("#remark").val());
+
+     //  var setPoi=encodeURI(poi);           //poi地址  decodeURI
+       //var setRess=encodeURI(ress);        //街道地址
+       //var set_session=encodeURI(_session);//拜访对象
+       
+       
+       
+       var remark_text=document.getElementById("remark").value; //备注
+       var text_remarkes=remark_text;  //备注编码
+       var text_remark=text_remarkes;   //备注两次编码
+       
+      // var text_remark=encodeURI($("#remark").val());
+       
+       var setPoi=poi;           //poi地址  decodeURI
+       var setRess=ress;        //街道地址
+       var set_session=_session;//拜访对象
+       
+       
+        //调用保存方法
+        getInfo(text_time,setPoi,setRess,set_session,text_remark,long,lat);
+        //alert("时间："+text_time+";地点："+decodeURI(poi)+","+decodeURI(ress)+";对象："+decodeURI(_session)+";备注:"+text_remark);
+
+    }
+
+    function getInfo(text_time,setPoi,setRess,set_session,text_remark,long,lat){
+         var cat="";
+         var db="app.ou/combest_portal.nsf";
+         var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_signin.xsp";//请求数据地址
+         var callback="subminInfo";//回调函数 提交成功与否
+         var param="";//回调函数的参数，
+        var items=text_time+","+setPoi+","+setRess+","+set_session+","+text_remark+","+long+","+lat;
+
+      //  var items=text_time+","+decodeURI(setPoi)+","+decodeURI(setRess)+","+decodeURI(set_session)+","+decodeURI(text_remark)+","+decodeURI(long)+","+decodeURI(lat);
+
+         //执行一个jsonp语句
+         var script=document.createElement("script");
+         script.src=url+"?callback="+callback+"&db="+db+"&param="+param+"&items="+items+"&cat="+cat;
+         
+         script.type="text/javascript";
+         document.body.appendChild(script);
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+    <title>智慧赢家</title>
+    <link href="../combestres/css/combest.css" rel="stylesheet">
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+    <link rel="stylesheet" href="../combestres/css/customer/jquery-ui.min.css" type="text/css">
+    <link href="../combestres/css/style.css" rel="stylesheet">
+
+    <!--<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>-->
+    <script src="http://hostname"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script src="../combestres/js/customer/jquery-ui.min.js"></script>
+    <script src="../combestres/js/jquery-1.8.3.min.js"></script>
+    <script src="../combestres/js/hammer.min.js"></script>
+    <script src="../combestres/js/slide2del.js"></script>
+    <script>
+        start=1;
+        function getDatas(begin,b){
+            
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+
+            }
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocListDescending.xsp";//请求数据地址
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.mail";//url参数，数据来源数据库
+            var vw="($Sent)";//url参数，数据来源视图
+            var items="Subject,@create,sendTo";//请示的字段
+            //var thisStart=start;//第几条数据开始
+            var count=20;//读取数据条数
+            var cat=app.getAccount();//查询关键字
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count//+"&cat="+cat
+
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+        }
+        refresh();
+          //左滑删除列表方法
+        function runDefinFun(){
+        	$(".session-box").slide2del({
+		        sItemClass: ".session-box",
+		        sDelBtnClass: ".del-btn",
+		        //删除事件
+		        delHandler: function (target) {
+		            var unid = target.find('.session-content').find('.unid').val();
+		            if(confirm("您确认删除邮件吗？")){
+                        target.remove();
+                        alert("成功删除");
+		            }else{
+		                return false;
+		            }
+		            var url = "http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_delDoc.xsp";
+		            var db = "app.mail";
+		            var script = document.createElement("script");
+		            script.src = url +"?unid="+ unid +"&db="+ db;
+		            script.type = "text/javascript";
+		            document.body.appendChild(script);//html不能写请求，所以需要加到script里，就像head里一样
+		        }
+		    });
+		    var itemHeight = $(".session-box").height();
+        	$(".del-btn").css("height",itemHeight+"px");
+        	$(".del-btn").css("line-height",itemHeight+"px");
+        }
+    </script>
+
+    <style type="text/css">
+        .session-box {
+        width: calc(100% + 80px);
+        overflow-x: auto;
+        position: relative;
+        border-bottom:1px solid #e1e1e1 !important;
+        }
+        .session-box .session-content {
+        background-color: #FFFFFF;
+        float: left;
+        width: calc(100% - 80px);
+        border:none !important;
+        }
+        .list-group-item{border:none !important;}
+        .session-box .del-btn {
+        width: 80px;
+        text-align: center;
+        background-color: #de0000;;
+        color: #FFFFFF;
+        font-size: 1.1em;
+        font-weight: normal;
+        float: left;
+        display:inline-block;
+        text-decoration:none;
+        }
+        .session-box .del-btn:hover{
+        text-decoration:none;
+        }
+    .session-box p{
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        font-size:1em;
+    }
+    .session-box span{
+        font-size:0.9em;
+        display:inline-block;
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .clear {
+    clear: both;
+    }
+    </style>
+
+</head>
+<body onload="getDatas(1,true)">
+
+<!--<nav class="navbar navbar-inverse navbar-fixed-top" id="sendNav">-->
+    <!--<div class="navbar-header" style="color:#ffffff">-->
+        <!--<a class="navbar-brand"  href="list.html" id="back" style="color:#ffffff" ><span class="glyphicon glyphicon-menu-left" ></span> </a>-->
+        <!--<span class="navbar-brand"   style="color:#ffffff;" >发件箱</span>-->
+        <!--<span class="navbar-brand" id="toAccount" style="color:#ffffff"></span>-->
+    <!--</div>-->
+<!--</nav>-->
+<div class="sheader">
+    <a onclick="android.closeAct()"  style="float: left;margin-left: 7px;">
+        <img src="../combestres/images/back.png" />
+        返回
+    </a>
+        <span>
+            发件箱
+        </span>
+</div>
+<!-- over -->
+<!--内容-->
+<div class="list-group subhead" id="content" style="margin-top:-5px; position: absolute;width: 100%;overflow-x:hidden;">
+
+</div>
+<div id="template" style="display:none" >
+    <div class="session-box" >
+        <div class="session-content" onclick="startWeb('{unid}')">
+            <a class="list-group-item" target="_blank">
+                <p class="list-group-item-heading">{Subject}<br>
+                    <small>
+                        <span class="list-group-item-text" style="width:100%;">日期:{@create} 收件人:{sendTo} </span>
+                    </small></p>
+            </a>
+            <input type="text" value={unid} class="unid" style="display:none;" />
+        </div>
+        <a href="javascript:;" class="del-btn">删除</a>
+        <div class="clear"></div>
+    </div>
+</div>
+<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+    加载中...
+</a>
+
+<script>
+    function startWeb(unid){
+        location.href="mail/send.html?unid="+unid
+    }
+</script>
+
+</body>
+</html>

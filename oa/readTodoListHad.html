@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="cn">
+    <head>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+                <title>智慧赢家</title>
+                <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+                    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+                        <link href="../combestres/css/combest.css" rel="stylesheet">
+                           <script src="http://hostname"></script>
+                           <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+                            <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+                            <script src="../combestres/js/combest.js"></script>
+                            <script>
+                                start=1;
+                                function getDatas(begin,b){
+                                    //加载中状态条
+                                    var loadStaut=document.getElementById("loadStaut");
+                                    if(b){
+                                        document.getElementById("content").appendChild(loadStaut);
+                                        loadStaut.style.display="block";
+                                    }else{
+                                        
+                                    }
+                                    
+                                    var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getReadDocList.xsp";//请求数据地址
+                                    var callback="list";//回调函数
+                                    var param="template,content,0";//回调函数的参数，
+                                    //var db="app.ou/combest_fw.nsf";//url参数，数据来源数据库
+                                    var db="app.ou/oa/combesttodo.nsf";
+                                    var vw="NeedToDo_ReadFileHad";//url参数，数据来源视图
+                                    var items="Subject,@create,SentUser,appdb";//请示的字段
+                                    //var thisStart=start;//第几条数据开始
+                                    var count=20;//读取数据条数
+                                    var cat=app.getAccount();//查询关键字
+                                    //执行一个jsonp语句
+                                    var script=document.createElement("script");
+                                    script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+cat
+                                    
+                                    script.type="text/javascript";
+                                    if(b){
+                                        start+=count;
+                                    }
+                                    document.body.appendChild(script);
+                                }
+                            refresh();
+                                </script>
+    </head>
+    <body onload="getDatas(1,true)">
+        
+        <div id="template" style="display:none" >
+            <a href="readDoc.html?unid={unid}&flag=1" class="list-group-item" target="_blank">
+                <p class="list-group-item-heading">{Subject}</br>
+                <small>通知时间:{@create}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通知人:{SentUser}</small>
+                </p>
+            </a>
+        </div>
+        <!--导航-->
+        <!-- 头部 -->
+        <div class="sheader">
+           
+            <a href="readTodoList.html"  style="float: left;margin-left: 7px;">
+                <img src="../combestres/images/back.png" />
+                返回
+            </a>
+            <span style="margin-left:0px;">
+                已读文件列表
+            </span>
+            <a onclick="android.closeAct()"  style="float: right;margin-right: 15px;">
+                首页
+            </a>
+        </div>
+        <!-- over -->
+        <!--内容-->
+        <div class="list-group subhead" id="content" style="margin-top:-5px;">
+            
+        </div>
+        <a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+            加载中...
+        </a>
+    </body>
+</html>

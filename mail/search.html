@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="cn" onselectstart='return false'>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <script src="http://hostname"></script>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+</head>
+<style type="text/css">
+        .search{
+        margin:0;
+        padding:0;
+        text-align: center;
+        background-color:#EDEDED;
+        }
+        .search .input-group,.search input{
+        height: 35px;
+        width: 95%;
+        margin: 0 auto;
+        padding-top: 2px;
+        font-size:1.1em
+        }
+        .showChecked>span{
+        display:inline-block;
+        }
+        .hiddenChecked>span{
+        display:none;
+        }
+    </style>
+<body>
+
+<!--<nav class="navbar navbar-default navbar-fixed-top">-->
+    <!--<div class="container">-->
+        <!--<div class="navbar-header" style="text-align:center;background-color:#2e2e2e;">-->
+            <!--<a class="navbar-brand"  href="javascript:history.back(-1)" style="font-size:1.2em;color:#fff">-->
+                <!--<span class="glyphicon glyphicon-menu-left"></span>-->
+                <!--返回-->
+            <!--</a>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</nav>-->
+<div class="search" style="position:fixed;z-index:999;background-color:#fff">
+    <div onclick='fanhui()' style='padding:10px 0px 0px 0px;margin-bottom:10px;'>
+        <div class='glyphicon glyphicon-arrow-left' style='float:left;margin-left:10px;margin-right:5px;'></div>
+        <h4 class='list-group-item-heading' style='float:left;'><b>返回上一级</b></h4>
+    </div>
+    <form class="bs-example bs-example-form" role="form">
+        <div class="input-group">
+            <input id="search" class="form-control" type="text" placeholder="搜索">
+            <a id="searchsub" href="javascript:searchsub()" class="input-group-addon"><span class="glyphicon glyphicon-search" style="line-height: 10px;"></span></a>
+        </div>
+    </form>
+</div>
+<div style="height:75px">
+    <p>&nbsp;</p>
+</div>
+<div id="conter"></div>
+
+
+</body>
+<script>
+       var $_GET = (function() {
+                var url = window.document.location.href.toString();
+                var u = url.split("?");
+                if (typeof(u[1]) == "string") {
+                u = u[1].split("&");
+                var get = {};
+                for (var i in u) {
+                var j = u[i].split("=");
+                get[j[0]] = j[1];
+            }
+                return get;
+            } else {
+               return {};
+            }
+        })();
+        if($_GET['key']!=undefined){
+            postdata($_GET['key'])
+        }
+        function postdata(key){
+			document.getElementById("search").value = decodeURI(key);
+            var post = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_userSearch.xsp","key="+key)
+            eval(post)
+        }
+
+
+       
+
+        function view(data){
+            
+            var length = data.length;
+            for(var i = 0;i<=length;i++){
+                var html = "<div class='list-group-item hiddenChecked' onclick='parent.parent.addUser(this,\""+data[i].ChineseName+"("+data[i].ShortName+")"+"\")'  checked='0' style='font-size:1.1em;color:#4c4948;'>"
+                +"<p class='list-group-item-heading'>"
+                +"<span class='glyphicon glyphicon-user' style='margin-right:5px;float:left;font-size:1em;color:#0099ff;'></span>"
+                +"<font font-size:1.1em;color:#4c4948;>"+data[i].ChineseName+"</font></p>"
+                +"<span class='list-group-item-text  checkclass' style='float:right;margin-right:10px;color:blue;'><span class='glyphicon glyphicon-ok'></span></span>"
+                +"<p class='list-group-item-text' style='font-size:0.9em;color:#4c4948;'>"+data[i].deptFullName+"</p></div>"
+                $("#conter").append(html)
+            }
+        }
+
+        function searchsub(){
+            var text = $("#search").val();
+            if(text==""){
+                alert("搜索关键字不能为空！");
+                return false;
+            }else{
+            location.href="search.html?key="+text;
+            }
+        }
+
+    </script>
+<script style="text/javascript">
+        function fanhui(){
+        history.back(-1)
+        }
+    </script>
+</html>

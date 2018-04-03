@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument.xsp?callback=edit&db=app.ou/combest_hr.nsf&items=ChineseName,Type,shortName,etJobTitle,InternetAddress,cellnum&unid="+unid
+            document.body.appendChild(script);
+        }
+
+    </script>
+</head>
+<style type="text/css">
+</style>
+<body onload="load()">
+<div class="container-fluid">
+    <div class="form-group">
+        <label for="ChineseName">姓名</label>
+        <input type="text" class="form-control" id="ChineseName" name="ChineseName" placeholder="姓名">
+    </div>
+    <div class="form-group">
+        <label for="account">帐号</label>
+        <input type="text" class="form-control" id="account" name="shortName" placeholder="帐号">
+    </div>
+    <button type="submit" class="btn btn-info btn-block" onclick="parent.location.href='../message/chat.html?account='+document.getElementById('account').value">发消息</button>
+</div>
+</body>
+</html>

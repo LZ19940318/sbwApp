@@ -1,0 +1,116 @@
+//
+//  ChooseDataView.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/25.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "ChooseDataView.h"
+
+
+#import "UUDatePicker.h"
+
+@interface ChooseDataView()
+
+@property(nonatomic ,strong)NSString *timeStr;
+
+@end
+
+@implementation ChooseDataView{
+    
+    GetTagBlock tempTagBlock;
+    GetTimeStrBlock tempTimeStrBlock;
+}
+
+- (NSString *)timeStr{
+    
+    if (!_timeStr) {
+        
+        // 初始化日期---如果用户没有选择时间，就返回当前的日期
+        
+        NSDate *currentDate = [NSDate date];//获取当前时间，日期
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+        _timeStr = [dateFormatter stringFromDate:currentDate];
+        
+    }
+    return _timeStr;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame withTagBlock:(GetTagBlock)tagBlock withTimeStr:(GetTimeStrBlock)timeStrBlock{
+    
+    tempTagBlock = [tagBlock copy];
+    tempTimeStrBlock = [timeStrBlock copy];
+    
+    
+    if (self = [super initWithFrame:frame]) {
+        
+        self.backgroundColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1];
+        
+        [self createView];
+    }
+    return self;
+    
+}
+
+
+
+- (void)createView{
+    
+   
+    tempTimeStrBlock(self.timeStr);
+    UIView *contentView = [[UIView alloc]initWithFrame:CGRectMake(0, MainHeight - 216 -44 - 44 - 24, MainWidth, 216 + 40)];
+    contentView.backgroundColor = [UIColor whiteColor];
+    [self addSubview:contentView];
+    
+    
+    
+    
+    // 取消按钮
+    UIButton *cancelButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    cancelButton.frame=CGRectMake(0, 10, 40, 10);
+    cancelButton.tag = 10;
+    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    [cancelButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [contentView addSubview:cancelButton];
+    
+    
+    
+    // 确定按钮
+    UIButton *sureButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    sureButton.frame=CGRectMake(MainWidth-5-40,10 , 40, 10);
+    [sureButton setTitle:@"确定" forState:UIControlStateNormal];
+    [sureButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    sureButton.tag=20;
+    [sureButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [contentView addSubview:sureButton];
+    
+    
+    
+    /**   选择时间 */
+    UUDatePicker *datePic = [[UUDatePicker alloc] initWithframe:CGRectMake(10, 50, MainWidth - 20, 180) PickerStyle:UUDateStyle_YearMonthDay didSelected:^(NSString *year, NSString *month, NSString *day, NSString *hour, NSString *minute, NSString *weekDay){
+        self.timeStr=[NSString stringWithFormat:@"%@-%@-%@",year,month,day];
+        
+        tempTimeStrBlock(self.timeStr);
+        
+    }];
+    [contentView addSubview:datePic];
+
+    
+    
+}
+
+- (void)buttonClick:(UIButton *)sender{
+    
+    [self removeFromSuperview];
+    
+    tempTagBlock(sender.tag);
+    
+    
+}
+
+@end

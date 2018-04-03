@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>签到</title>
+    <link rel="stylesheet"  href="../combestres/css/test-1.css"/>
+    <link rel="stylesheet" href="../combestres/bootstrap/css/bootstrap.min.css">
+    
+    <script src="http://hostname"></script>
+    <script  src="../combestres/js/test-1.js" ></script>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.min.js"></script>
+    <script  src="../combestres/js/combest.js" ></script>
+
+    <style type="text/css">
+        #allmap{height:144px;width:100%;}
+        #r-result{width:100%; font-size:14px;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=A63e90def3d0f5488ab9032056429a0d"></script>
+    <script >
+        function load(){
+            var db="app.ou/combest_portal.nsf";
+            var vw="CBVw_signinByUser";
+            var cat=app.getAccount();//查询关键字
+            var script=document.createElement("script");
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getSignNum.xsp?callback=open&db="+db+"&vw="+vw+"&items=signNum&cat="+cat
+            document.body.appendChild(script);
+        }
+
+        function signInBack(){
+             window.signinBack.signinBack();
+        }
+        //隐藏底部工具栏
+        window.bottom.bottomTool();
+
+    </script>
+
+
+</head>
+
+<body class="body"  onload="load()">
+
+<!-- 头部-->
+<div style="width:100%;height:45px;line-height:45px;background-color:#2e2e2e">
+    <div  style="float:left;width:40%;margin-left:10px;">
+        <!--<a href="javascript:history.back(-1)">-->
+        <a href="#" onclick="android.closeAct()">
+            <!--<img src="combestres/images/back.png" style="width:24px;height:24px;margin-top:10px;"/>-->
+            <span class="glyphicon glyphicon-menu-left" style="color:#fff;height:45px;line-height:45px;"></span>
+        </a>
+    </div>
+    <div style="float:left;width:30%;">
+        <span style="font-size:1.2em;display:inline-block;height:45px;line-height:45px;color:#fff;">签到</span>
+    </div>
+</div>
+<!--顶部-->
+<div class="head" >
+    <span class="glyphicon glyphicon-time" style="float: left;color: #999;padding-top: 2px;"></span>
+    <div id="showtimes" >
+        <script language="javascript">show_cur_times();</script>
+    </div>
+</div>
+<!--显示信息-->
+<div style="width:100%;height:40px;line-height:40px;font-size:17px;font-weight:bold;color:#000" id="location">
+</div>
+<div>
+    <!--地图-->
+    <div class="map">
+        <div id="allmap" style="background-color:#E0E0E0"></div>
+    </div>
+    <!--拜访对象-->
+    <div class="session">
+        <div  class="sessions">
+            <span>拜访对象</span>
+        </div>
+        <div  class="chooise" >
+            <input type="text" placeholder="请输入拜访对象" id="text_chooise"/>
+        </div>
+        <!--<div  class="chooise-right">-->
+        <!--<a > <img src="combestres/images/chooies.png" style="height:25px;margin-top: -12px;" /> </a>-->
+        <!--<span style="color:#37ACFF;float:right;font-size: 11px;margin-top: 13px;margin-right: -25px;" >选 择</span>-->
+        <!--</div>-->
+    </div>
+
+    <!--签到-->
+    <div class="signIn" style="padding-top:20px;">
+        <a href="#" style="text-decoration:none;" id="signin">
+            <div id="circle"  style=" width:130px; height:130px; background-color:#E0E0E0; border-radius:65px;text-align: center;margin:0 auto;">
+                <span  id="qiandao" style="height:100px; line-height:100px; display:block; color:#F0F0F0; text-align:center;font-size:18px;font-weight:400">签到</span>
+
+                <div style="height:50px;margin-top:-37px;" >
+                    <div id="time" style="color:#fff; font-size:20px" >00:00</div>
+                </div>
+
+                <div style="margin-top:25px;">
+                    <span style="font-weight:400;font-size:14px;color:#666" id="signNum">今日你还未签到</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!--底部-->
+    <!--box-shadow: 0px -1px 0px  #ccc;position: fixed;bottom: 0px;width: 100%;box-shadow:5px 5px 5px #ccc;-->
+    <div class="">
+        <div class="" style="box-shadow: 0px -2px 5px rgba(0,0,0,0.3);position: fixed;bottom: 0px;width: 100%;background-color:#fff;">
+            <a href="#" style="text-decoration:none;">
+                <div  class="qiandao">
+                    <img src="../combestres/images/signIn.png" style="height:25px;"/> <br/>
+                    <span style="color:#37ACFF;font-size:14px;margin-left: -7px;">签到</span>
+                </div>
+            </a>
+            <a href="#" id="foot_es" >
+                <div class="foot" >
+                    <img src="../combestres/images/footes.png" style="height:25px;"/> <br/>
+                    <span style="color:#CFCFCF;font-size:14px">足迹</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+<script >
+
+//加载完页面后开始定位
+    window.aap.dada();
+
+</script>
+<script >
+	//用经纬度设置地图中心点
+	var longs,lats,addresss,poiaddresss,alladdresss;
+	function theLocation(long,lat,address,poiaddress,alladdress){
+	    longs=long;
+	    lats=lat;
+	    addresss=address;
+	    poiaddresss=poiaddress;
+	    alladdresss=alladdress;
+        //百度地图API功能
+        var map = new BMap.Map("allmap");
+        map.centerAndZoom(new BMap.Point(116.331398,39.897445),17);
+        map.enableScrollWheelZoom(true);
+        map.clearOverlays();
+        var new_point = new BMap.Point(long,lat);
+        var marker = new BMap.Marker(new_point);  // 创建标注
+        map.addOverlay(marker);              // 将标注添加到地图中
+        map.disableDragging(true);           //禁用地图拖拽
+        map.panTo(new_point);
+
+         systemTime();  //时间功能
+
+         document.getElementById("circle").style.backgroundColor="#F6B45D";//签到图标获取定位后改变背景颜色
+         document.getElementById("qiandao").style.color="#F9D9A2";//签到图标中"签到"获取定位后改变颜色
+        //获取地理位置信息
+         document.getElementById("location").innerHTML = address+" "+poiaddress;
+
+       //将数据以url形式传送到SignInes.html
+       //var a_href="SignInes.html?poiaddress="+poiaddress+"&amp;alladdress="+alladdress+"&amp;text_session="+text_session;
+      // $("#signin").attr("href",a_href);
+
+        //将数据以url形式传送到foot.html
+       var foot_href="foot.html?long="+long+"&amp;lat="+lat;
+       $("#foot_es").attr("href",foot_href);
+       }
+
+     //将数据以url形式传送到SignInes.html
+     $("#signin").click(function (){
+        if(poiaddresss==null  || poiaddresss==""){
+            }else{
+               //取拜访对象数据
+                var text_session=document.getElementById("text_chooise").value;
+                //window.location.href="SignInes.html?poiaddress="+poiaddresss+"&amp;alladdress="+alladdresss+"&amp;text_session="+text_session;
+
+                  window.location.href="SignInes.html?poiaddress="+poiaddresss+"&amp;alladdress="+alladdresss+"&amp;text_session="+text_session+"&amp;longs="+longs+"&amp;lats="+lats;
+             }
+         })
+
+</script>
+
+</body>
+</html>

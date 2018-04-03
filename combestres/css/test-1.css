@@ -1,0 +1,75 @@
+
+.head{
+
+	border-bottom:1px solid #DBDBDB;
+	width:100%;
+	padding:5px 1px 5px 10px;
+	clear:both;
+	}
+#showtimes{
+	font-size:14px;
+	color:#999;
+	margin-left:20px;
+	}
+
+.map{
+	border-bottom:1px solid #DBDBDB;
+	width:100%;
+	height:145px;
+	}
+
+.session{
+	border-bottom:1px solid #DBDBDB;
+	width:100%;
+	height:50px;
+	line-height:50px;
+	}
+.sessions{
+	width:30%;
+	float:left;
+	}
+.session span{
+	margin-left:10px;
+	font-weight:bold;
+	}
+.chooise{
+	width:40%;
+	float:left;
+	}
+.session input{
+	height:49px;
+	border:none;
+	text-align: center;
+	width: 100%;
+	outline:none;
+	}
+.chooise-right{
+	width:39%;
+	float:left;
+	height:50px;
+	padding-right:3px;
+	}
+.chooise-right a{
+	float:right;
+	height:50px;
+	margin-top:17px;
+	}
+.signIn{
+	border-bottom:1px solid #DBDBDB;
+	width:100%;
+	height:250px;
+	background-color:#EEEDF2;
+	}
+.bottom{
+	}
+.qiandao{
+	width:50%;
+	text-align: center;
+	padding-top:10px;
+	}
+.foot{
+	float: right;
+	width:50%;
+	text-align: center;
+	margin-top:-45px;
+	}

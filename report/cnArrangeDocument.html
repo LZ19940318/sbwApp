@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>产品详情</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../combestres/css/report/repoSty.css">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest_report.js"></script>
+    <style type="text/css">
+        *{
+        font-family:微软雅黑;
+        }
+        #lodings{
+        position:fixed;
+        top:0px;
+        left:0px;
+        background:rgba(0, 0, 0, 0.3);
+        width:100%;
+        height:100%;
+        z-index:999999;
+        text-align:center;
+        }
+        #lodings>div{
+        width:100%;
+        height:100%;
+        position:relative;
+        }
+        #lodings>div>img{
+        width: 30%;
+        height: auto;
+        display: initial;
+        position: absolute;
+        margin: auto;
+        top: 40%;
+        left: 35%;
+        }
+        input.form-control:focus{outline:none !important;}
+        #conter{
+        padding-bottom:30px;
+        }
+</style>
+    <script>
+        function load(){
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocProduce.xsp";//请求数据地址
+			var callback="edit";//回调函数
+			var unid=getQueryString("documentId");
+
+			var db="app.ou/combest_produce.nsf";
+			var vw="";
+
+			var items="description,code,mark,stockNum,needNum,realNum,caseNum,dozen,piece,remarks";//请示的字段
+
+			//执行一个jsonp语句
+			var script=document.createElement("script");
+			script.src=url+"?callback="+callback+"&db="+db+"&vw="+vw+"&items="+items+"&unid="+unid;
+			script.type="text/javascript";
+
+			document.body.appendChild(script);
+        }
+
+       //获取参数
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null){
+			    return decodeURIComponent(r[2]);
+			}else{
+			    return null;
+			}
+		}
+        </script>
+</head>
+
+<body onload="load()">
+<!-- <nav class="navbar navbar-default navbar-fixed-top"> -->
+  <div class="container">
+  
+    <div class="navbar-header" style="text-align:center;height:45px;line-height:45px;background-color:#2e2e2e;">
+        <a href="javascript:history.back(-1)" style="color:#fff;float: left;margin-left: 7px;">
+            <img src="../combestres/images/back.png" style="width: 22px;height: 22px;" />
+            <span>返回</span>
+        </a>
+        <span style="color:#fff;font-size: 1.2em;margin-left: -15px;">产品详情</span>
+        
+        <a href="#" style="float:right;color:#fff;margin-right: 15px;font-size: 1em;">
+            <span  style="display:inline-block;" id="bianji">编辑</span>
+        </a>
+        <a href="#" style="float:right;color:#fff;margin-right: 15px;font-size: 1em;">
+            <span style="display: none;" id="ok">提交</span>
+        </a>
+    </div>
+  </div>
+<!-- </nav> -->
+<div class="container-fluid" style="position:relative;">
+    <fieldset id="conter">
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">产品名称</span>
+            <input type="text" disabled class="form-control required" name="description" placeholder="产品名称"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">产品代号</span>
+            <input type="text" disabled class="form-control required" name="code" placeholder="产品代号"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">产品底标</span>
+            <input type="text" disabled class="form-control required" name="mark" placeholder="产品底标"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">库存数量</span>
+            <input type="text" disabled class="form-control required" name="stockNum" placeholder="库存数量"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">需生产量</span>
+
+            <input id="needNum" type="text" disabled class="form-control required" name="needNum" placeholder="需生产数量"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">实际产量</span>
+
+            <input type="text" disabled class="form-control required" name="realNum" placeholder="实际产量"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+          <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">箱</span>
+            <input type="text" disabled class="form-control required" name="caseNum" placeholder="箱"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">打</span>
+            <input type="text" disabled class="form-control required" name="dozen" placeholder="打"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">件</span>
+            <input type="text" disabled class="form-control required" name="piece" placeholder="件"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+         <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:55px;line-height:55px;margin:0; ">
+           <!--  <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span class="labels" style="">备注</span>
+            <input type="text" disabled class="form-control required" name="remarks" placeholder="备注"
+                   style="float:right;width:73%;margin-top:10px;">
+        </div>
+    </fieldset>
+</div>
+<script type="text/javascript">
+  var unid=getQueryString("documentId");
+  $("#bianji").click(function(){
+      $(this).css({"display":"none"});
+      $("#ok").css({"display":"inline-block"});
+      $("#needNum").removeAttr("disabled");
+
+  });
+
+   $("#ok").click(function(){
+	     //需要生产量不能为空且正则验证
+		  var count =$("#needNum").val();
+		  if(count !=null && count !=""){
+				var regimg=/^[0-9]*[1-9][0-9]*$/;
+				if(!regimg.test(count)){
+					alert("请输入合法内容!");
+					return false;
+				}
+			}else{
+				 alert("需要生产量不能为空!");
+				 return false;
+			}
+        if(confirm("您确定要修改数据吗？")){
+            var posts=[
+                 encodeURI($("#needNum").val()),
+                 ]
+            var callback="backresult";
+
+            var urldata ="form=CBFrm_produceOrderAdd&db=app.ou/combest_produce.nsf&needNum="+posts[0]+"&unid="+unid+"&callback="+callback;
+
+            var oks = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDoc.xsp",urldata)
+             if(oks!=null){
+               eval(oks);
+             }
+        }else{
+            return false;
+        }
+
+     });
+
+       function backresult(oks){
+            if(oks.substring(0,5)=="false"){
+                 alert("保存错误");
+            }
+           if(oks.substring(0,4)=="true"){
+                alert("保存成功!");
+                var parentUnid=getQueryString("parentUnid");
+                 window.location.href="cnArrangePro.html?documentId="+parentUnid+""
+             }
+      }
+</script>
+</body>
+</html>

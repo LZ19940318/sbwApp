@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <style type="text/css">
+    body{
+        margin: 0;
+        padding: 0;
+        font-family: "微软雅黑";
+        color: #4c4948;
+    }
+    .container-fluid{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        margin-top: 51px;
+    }
+    .tit-message{
+        width: 100%;
+        padding: 10px 20px 10px 20px;
+        margin:0;
+        border-bottom: 1px solid #f1f1f1;
+        font-size: 1em;
+    }
+    .tit-message a{
+        display: inline-block;
+        float: left;
+        position:absolute;
+    }
+    .tit-message img{
+        width: 60px;
+        height: 60px;
+    }
+    .left{
+        margin-left: 75px;
+    }
+    .left-line{
+        padding: 0;
+        margin:0;
+        height: 20px;
+    }
+    .disform-control{
+        clear: both;
+        border:none;
+        background-color: #fff;
+        height:18px;
+        line-height: 18px;
+        margin-left: 10px;
+    }
+    .left span{
+        color: #999;
+    }
+
+    .space{
+        width: 100%;
+        height: 10px;
+        background-color: #f8f8f8;
+    }
+
+    .depart{
+        width: 100%;
+        padding: 10px 20px 10px 20px;
+        margin:0;
+    }
+    .depart .dep-line{
+        width: 100%;
+        height: 20px;
+    }
+    .depart img{
+        margin: 0;
+        padding-right: 6px;
+    }
+    .tel{
+        width: 100%;
+        padding: 10px 20px 10px 20px;
+        margin:0;
+        border-bottom:1px solid #f1f1f1;
+    }
+    .tel .tel-line{
+        width: 100%;
+        height: 20px;
+    }
+    .tel img{
+        margin: 0;
+        padding-right: 6px;
+    }
+    .butt{
+        padding: 10px 20px 0px 20px;
+        margin: 0;
+    }
+
+    </style>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument.xsp?callback=edit&db=app.ou/combest_hr.nsf&items=shortName,Type,ChineseName,etJobTitle,cellnum,OfficePhoneNumber,InternetAddress,ImUserName&unid="+unid
+            document.body.appendChild(script);
+        }
+
+          function getconfigData(){
+              var userName = document.getElementById("ImUserName").value;
+              window.erp.getShuJu(userName);
+        }
+        function getVideo(){
+              var userName = document.getElementById("ImUserName").value;
+              window.video.getVideoCall(userName);
+        }
+    </script>
+</head>
+<body onload="load()">
+<!-- 头部返回 -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header" style="background-color:#2e2e2e;">
+            <a class="navbar-brand" href="#"  onclick="getback()" style="font-size:1.2em;color:#fff;">
+                <span class="glyphicon glyphicon-menu-left" style="display:inline-block;margin-bottom:-2px;"></span>
+                返回
+            </a>
+            <a class="navbar-brand" href="javascript:viod(0)" style="float:right"> </a>
+        </div>
+
+    </div>
+</nav>
+<!-- 头部over -->
+
+<div class="container-fluid">
+    <form action="javascript:vido(0)" >
+        <fieldset id="conter">
+            <!-- 头像、姓名、职位、账户 -->
+            <div class="tit-message">
+                <a href="#">
+                    <img src="../combestres/images/1.jpg" />
+                </a>
+                <div class="left">
+                    <div class="left-line">
+                        <span for="etJobTitle">用户:</span>
+                        <input type="text" disabled="" class="disform-control" id="ChineseName" name="ChineseName">
+                    </div>
+                    <div class="left-line">
+                        <span for="etJobTitle">职务:</span>
+                        <input type="text" disabled="" class="disform-control" id="etJobTitle" name="etJobTitle">
+                    </div>
+                    <div class="left-line">
+                        <span for="shortName">账户:</span>
+                        <input type="text" disabled class="disform-control" id="shortName" name="shortName">
+                    </div>
+                </div>
+            </div>
+            <!-- over -->
+            <div class="space"></div>
+            <!-- 部门 -->
+            <div class="depart">
+                <div class="dep-line">
+                    <img src="../combestres/images/department.png" style="width:20px;height:16px;"/>
+                    <span for="Type">所在部门</span>
+                    <input type="text" disabled class="disform-control" id="Type" name="Type">
+                </div>
+            </div>
+            <!-- over  -->
+            <div class="space"></div>
+            <!-- 联系方式 -->
+            <div class="tel">
+                <div class="tel-line">
+                    <img src="../combestres/images/mphone.png" style="width:20px;height:16px;"/>
+                    <span for="cellnum">移动电话</span>
+                    <input type="select" disabled  class="disform-control" id="cellnum" name="cellnum">
+                </div>
+            </div>
+            <div class="tel">
+                <div class="tel-line">
+                    <img src="../combestres/images/jphone.png" style="width:20px;height:16px;"/>
+                    <span for="OfficePhoneNumber">办公电话</span>
+                    <input type="text" disabled class="disform-control" id="OfficePhoneNumber" name="OfficePhoneNumber">
+                </div>
+            </div>
+            <div class="tel">
+                <div class="tel-line">
+                    <img src="../combestres/images/mail.png" style="width:20px;height:16px;"/>
+                    <span for="InternetAddress">邮件地址</span>
+                    <input type="text" disabled class="disform-control" style="width:70%;" id="InternetAddress" name="InternetAddress">
+                </div>
+            </div>
+            <!-- 联系方式 -->
+            <div class="tel" style="display:none">
+                <div class="tel-line">
+                    <img src="../combestres/images/mphone.png" style="width:16px;height:16px;"/>
+                    <span for="ImUserName">环信账号</span>
+                    <input type="text" disabled class="disform-control" id="ImUserName" name="ImUserName">
+                </div>
+            </div>
+            <!-- over -->
+            <div class="space"></div>
+            <div class="butt">
+                <!--<button type="button" style="display: none;" id="ok" class="btn btn-danger btn-block">提交</button>-->
+                <a  style="display:inline-block;" id="bianji" class="btn btn-info btn-block" onclick="getconfigData()" >发消息</a>
+            </div>
+            <div class="butt">
+                <!--<button type="button" style="display: none;" class="btn btn-danger btn-block">提交</button>-->
+                <a  style="display:inline-block;border: 1px solid #f1f1f1;background-color: #f8f8f8;color: #4c4948;"  class="btn btn-info btn-block" onclick="getVideo()" id="videoId">视频聊天</a>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+    function getback(){
+        window.back.getBack();
+    }
+</script>
+</body>
+
+</html>

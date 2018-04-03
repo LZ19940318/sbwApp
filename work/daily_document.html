@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>工作日志文档</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+        
+    <script src="http://hostname"></script>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    
+    
+    
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/combest.css" rel="stylesheet">
+    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+            
+            
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <meta charset="utf-8">
+        <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDailyDoc.xsp?callback=editDaily&db=app.ou/combest_portal.nsf&items=isChecked,checkedTime,dayWorkContent,dayWorkProb,tomoWorkPlan&unid="+unid
+            document.body.appendChild(script);
+
+            kailLodings();
+        }
+        function check(){
+            var obj=document.getElementById("isChecked");
+            if (obj.checked==true) {
+                document.getElementById("isCheck").style.display="block";
+            }else{
+                document.getElementById("isCheck").style.display="none";
+            }
+        }
+    </script>
+</head>
+<style type="text/css">
+#conter{
+    padding-bottom:30px;
+}
+</style>
+<style type="text/css">
+        #lodings{
+            position:fixed;
+            top:0px;
+            left:0px;
+            background:rgba(0, 0, 0, 0.3);
+            width:100%;
+            height:100%;
+            z-index:999999;
+            text-align:center;
+        }
+        #lodings>div{
+            width:100%;
+            height:100%;
+            position:relative;
+        }
+        #lodings>div>img{
+            width: 30%;
+            height: auto;
+            display: initial;
+            position: absolute;
+            margin: auto;
+            top: 40%;
+            left: 35%;
+        }
+    </style>
+<body onload="load()">
+<div id="lodings">
+    <div><img src="combestres/images/loding.gif" alt=""></div>
+</div>
+
+
+<div class="sheader">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="daily_list.html" style="font-size:1.2em;color:#fff">
+            <span class="glyphicon glyphicon-menu-left"></span>
+            返回
+        </a>
+        <span class="navbar-brand" style="float:right;font-size:1.2em;color:#fff;">
+            <span style="display: none;" id="ok">提交</span>
+            <span  style="display:inline-block;" id="bianji">编辑</span>
+        </span>
+    </div>
+</div>
+
+<div class="container-fluid" style="margin-top:60px;padding:0px 20px 0px 20px;">
+    <!--<form action="javascript:void(0)" >-->
+    <fieldset id="conter">
+        <div class="form-group">
+            <label class="labels">是否补交</label>
+            <input type="checkbox" disabled id="isChecked" name="isChecked" onclick="check();" value="" style="margin-left:30px;">是
+        </div>
+        <div class="form-group" id="isCheck" style="display:none">
+            <label for="checkedTime" class="labels">补交时间</label>
+            <input type="date" disabled class="form-control" id="checkedTime" name="checkedTime" placeholder="补交时间">
+        </div>
+        <div class="form-group">
+            <label for="dayWorkContent" class="labels">今日工作内容</label><code>*</code>
+            <TEXTAREA type="text" disabled class="form-control" id="dayWorkContent" name="dayWorkContent" rows="5" placeholder="今日工作内容" need="今日工作内容"></TEXTAREA>
+        </div>
+        <div class="form-group">
+            <label for="dayWorkProb" class="labels">今日遗留问题</label>
+            <TEXTAREA type="text" disabled class="form-control" id="dayWorkProb" name="dayWorkProb" placeholder="今日遗留问题"></TEXTAREA>
+        </div>
+        <div class="form-group">
+            <label for="tomoWorkPlan" class="labels">明日工作计划</label><code>*</code>
+            <TEXTAREA type="text" disabled class="form-control" id="tomoWorkPlan" name="tomoWorkPlan" placeholder="明日工作计划" need="明日工作计划"></TEXTAREA>
+        </div>
+    </fieldset>
+    <!--</form>-->
+</div>
+<script type="text/javascript">
+ var url=location.href;
+var unids =url.indexOf("unid=");
+    if(unids=="-1"){
+        $(".form-group input,.form-group TEXTAREA").removeAttr("disabled");
+        $("#ok").css({"display":"inline-block"});
+        $("#bianji").css('display', 'none');
+    }
+    $("#bianji").click(function(){
+                       
+        $(".form-group input,.form-group TEXTAREA").removeAttr("disabled");
+        $(this).css({"display":"none"});
+        $("#ok").css({"display":"inline-block"})
+    })
+ $("#ok").click(function(){
+                
+        if(!checkRequrieds()){
+            return false;
+        }
+
+        var url=location.href;
+        var unid=url.substring(url.indexOf("unid=")+5);
+        var posts=[
+                encodeURI($("#checkedTime").val()),//补交时间
+                encodeURI($("#dayWorkContent").val()),//今日工作内容
+                encodeURI($("#dayWorkProb").val()),//今日遗留问题
+                encodeURI($("#tomoWorkPlan").val()),//明日工作计划
+                ]
+        /*
+        for (var i = 1; i < $(".required").length+1; i++) {
+                var a = Verification.text("div>.form-group:nth-child("+i+")>.required");
+                if(a==false){
+                    return false;
+                    break;
+                    }
+        }*/
+                 if(unids=="-1"){
+                    var urldata =  "form=CBFrm_workDay&db=app.ou/combest_portal.nsf&checkedTime="+posts[0]+"&dayWorkContent="+posts[1]+"&dayWorkProb="+posts[2]+"&tomoWorkPlan="+posts[3]+"&callback=back";
+                 }else {
+                    var urldata =  "form=CBFrm_workDay&db=app.ou/combest_portal.nsf&unid="+unid+"&&checkedTime="+posts[0]+"&dayWorkContent="+posts[1]+"&dayWorkProb="+posts[2]+"&tomoWorkPlan="+posts[3]+"&callback=back";
+                 }
+
+            var result=app.postData(
+                "http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDailyDoc.xsp",urldata
+            );
+            if(result!=null){
+                eval(result);
+            }
+        })
+    function back(){
+        alert("保存成功！");
+        window.location.href="daily_list.html"
+    }
+
+
+    function getdata1(){
+        
+        
+        
+        if(!checkRequrieds()){
+            return false;
+        }
+        
+        var url=location.href;
+        var unid=url.substring(url.indexOf("unid=")+5);
+        var posts=[
+                   encodeURI($("#checkedTime").val()),//补交时间
+                   encodeURI($("#dayWorkContent").val()),//今日工作内容
+                   encodeURI($("#dayWorkProb").val()),//今日遗留问题
+                   encodeURI($("#tomoWorkPlan").val()),//明日工作计划
+                   ]
+                   /*
+                    for (var i = 1; i < $(".required").length+1; i++) {
+                    var a = Verification.text("div>.form-group:nth-child("+i+")>.required");
+                    if(a==false){
+                    return false;
+                    break;
+                    }
+                    }*/
+                   if(unids=="-1"){
+                       var urldata =  "form=CBFrm_workDay&db=app.ou/combest_portal.nsf&checkedTime="+posts[0]+"&dayWorkContent="+posts[1]+"&dayWorkProb="+posts[2]+"&tomoWorkPlan="+posts[3]+"&callback=back";
+                   }else {
+                       var urldata =  "form=CBFrm_workDay&db=app.ou/combest_portal.nsf&unid="+unid+"&&checkedTime="+posts[0]+"&dayWorkContent="+posts[1]+"&dayWorkProb="+posts[2]+"&tomoWorkPlan="+posts[3]+"&callback=back";
+                   }
+                   
+                   var result=app.postData(
+                                           "http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDailyDoc.xsp",urldata
+                                           );
+                                           if(result!=null){
+                                               eval(result);
+                                           }
+                                           
+    }
+
+function editData(){
+        
+        $(".form-group input,.form-group TEXTAREA").removeAttr("disabled");
+        $(this).css({"display":"none"});
+        $("#ok").css({"display":"inline-block"})
+        
+    }
+</script>
+</body>
+</html>

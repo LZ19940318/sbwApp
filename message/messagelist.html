@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+	<title>智慧赢家</title>
+	<link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="../combestres/css/combest.css" rel="stylesheet">
+	<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="../combestres/bootstrap/js/bootstrap.js"></script>
+	<script src="../combestres/js/combest.js"></script>
+	<script>
+        function getMsgs(){
+			var str=app.getMessageList();
+			var json=eval("("+str+")");
+			list(json,"template","content",2);
+			setTimeout("getMsgs()",1000);
+        }
+
+    </script>
+</head>
+<body onload="getMsgs()">
+<div id="template" style="display:none" >
+	<a class="row list-group-item" href="chat.html?account={receiver}" target="_black">
+		<div class="col-xs-2">
+			<img src="{photo}" style="margin-right:6px" class="userimg" >
+			<div class="cycle" style="display:<% if({isRead}==1){'none'}else{'block'} %>"></div>
+		</div>
+		<div class="col-xs-10">
+			<h4 class="list-group-item-heading ">{receiver}</h4>
+			<span class="list-group-item-text">{msg} </span>
+			<span class="list-group-item-text" style="float:right">{time} </span>
+		</div>
+	</a>
+</div>
+<div class="container-fluid" id="content">
+
+</div>
+<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+	加载中...
+</a>
+</body>
+</html>

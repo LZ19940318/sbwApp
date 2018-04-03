@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="en" onselectstart='return false'>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
+    <title>我的设置</title>
+    <link rel="stylesheet" href="combestres/bootstrap/css/bootstrap.min.css">
+    <link href="combestres/css/work/work.css" rel="stylesheet">
+    <link href="combestres/css/work/myself.css" rel="stylesheet"/>
+    <script src="http://hostname"></script>
+    <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="combestres/bootstrap/js/bootstrap.min.js"></script>
+    <script src="combestres/js/combest.js"></script>
+    <script>
+
+
+ 
+ 
+             function load(){
+             
+             document.getElementById("userName").innerHTML=app.getUserName();
+             
+             document.getElementById("account").innerHTML=app.getAccount();
+             
+             document.getElementById("etJobTitle").innerHTML=app.getUserJob();
+             
+             document.getElementById("deptName").innerHTML=app.getDeptName();
+             
+             document.getElementById("mail").innerHTML=app.getMail();
+             
+             
+             showNewPhoto(app.getPhoto(app.getAccount()));
+             }
+             
+             
+
+
+
+       /* function load(){
+            var str = userInfo.getUserInfo();//取得Json字符串
+            var jsonObj = JSON.parse(str);//将Json字符串转为Json对象
+            var userName = jsonObj.userName;//用户名
+            var userJob = jsonObj.userJob;//职务
+            var deptName = jsonObj.deptName;//公司名
+            var InternetAddress = jsonObj.InternetAddress;//外网邮箱
+
+            document.getElementById("userName").innerHTML=userName;
+            document.getElementById("account").innerHTML=app.getAccount();
+            <!--document.getElementById("personSet").href="myset/personality.html?account="+app.getAccount();-->
+            document.getElementById("etJobTitle").innerHTML=userJob;
+            document.getElementById("deptName").innerHTML=deptName;
+            //document.getElementById("mail").innerHTML=app.getMail();
+            document.getElementById("mail").innerHTML=InternetAddress;
+            showNewPhoto(app.getPhoto(app.getAccount()));
+            var  account=app.getAccount();
+            //alert(account);
+        }*/
+        /**
+        *拍照后显示头像
+        */
+        function showNewPhoto(str){
+            if(str!="data:image/jpg;base64,"){
+                
+                
+                document.getElementById("myPhoto").src=str;
+            }else{
+                document.getElementById("myPhoto").src="combestres/images/default.jpg";
+            }
+        }
+        /**
+        *我的红包点击事件
+        */
+        function getconfigData(){
+             window.RedPacket.RedPacket();
+        }
+
+    </script>
+    <style>
+        .tit-message{
+        width: 100%;
+        padding: 10px 10px 10px 10px;
+        margin:0;
+        border-bottom: 1px solid #f1f1f1;
+        font-size: 1em;
+        }
+        .tit-message img{
+        width: 60px;
+        height: 60px;
+        }
+        .left{
+        margin-left: 75px;
+        }
+        .left-line{
+        padding: 0;
+        margin:0;
+        height: 20px;
+        }
+    </style>
+</head>
+
+<body onload="load()">
+<!--<div class="headssContent" style="background-color: #2e2e2e">-->
+    <!--&lt;!&ndash; 头部&ndash;&gt;-->
+    <!--<div class="headContent" style="">-->
+        <!--&lt;!&ndash;<a class="linkLeftSty" href="javascript:history.back(-1)" style="font-size:1.3em;color:#fff;float:left;line-height:35px;">&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="glyphicon glyphicon-menu-left"></span>&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;返回&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+        <!--<a class="linkLeftSty" href="myset.html">-->
+            <!--<img src="combestres/images/me.png" style="width:22px; height:22px;margin-top:1px"/>-->
+        <!--</a>-->
+        <!--<span class="tital"-->
+              <!--style="font-size:1.2em;display:inline-block;height:45px;line-height:40px;color:#fff;">我的设置11</span>-->
+        <!--<a class="linkRightSty" href="#" style="margin-right:15px;visibility:hidden;">-->
+            <!--<img src="combestres/images/more.png" style="width:25px; height:25px;margin-top:-4px;"/>-->
+        <!--</a>-->
+    <!--</div>-->
+<!--</div>-->
+<div class="container" style="position:absolute;margin-top:5px;width:100%">
+    <div class="tit-message">
+        <div onclick="photo.takePhoto()"
+             style="float:left;display:inline-block;width:60px;height:60px;position:absolute;">
+            <img id="myPhoto"/>
+        </div>
+        <div class="left">
+            <div class="left-line">
+                <span id="userName"></span>
+                <span class="blueBagage" style="margin-left:3px;margin-top:-2px;position:absolute;"
+                      id="etJobTitle"> </span>
+            </div>
+            <div class="left-line">
+                部门：<span id="deptName"></span>&nbsp;&nbsp;&nbsp;&nbsp;账号：<span id="account"></span>
+            </div>
+            <div class="left-line" style="color: #A9A9A9;">
+                邮箱：<span id="mail"></span>
+            </div>
+        </div>
+    </div>
+    <!-- 介绍-->
+    <!--<div class="intro"  style="height:80px">-->
+    <!--<div onclick="photo.takePhoto()" style="width:50px;height:50px;float:left;margin-left:10px;">-->
+    <!--<img id="myPhoto"  style="width:50px;height:50px;" />-->
+    <!--</div>-->
+    <!--<a class="linkSty" href="#">-->
+    <!--<div class="left">-->
+    <!--<span id="userName"></span>&nbsp;&nbsp;-&#45;&#45;<span id="deptName"></span>-->
+    <!--<span class="blueBagage" style="margin-left:3px;margin-top:-2px;position:absolute;" id="etJobTitle"> </span>-->
+    <!--<p style="color: #A9A9A9;"><span id="account"></span>&nbsp;&nbsp;&nbsp;&nbsp;邮箱地址：<span id="mail"></span></p>-->
+    <!--</div>-->
+    <!--<span class="glyphicon glyphicon-menu-right" style="float:right; margin-top:10px;color: #A9A9A9;"></span>-->
+    <!--</a>-->
+    <!--</div>-->
+    <div class="grayDiv"></div>
+    <!--
+    <div class="manageContent">
+        <ul>
+
+            <li>
+                <a href="#" onclick="getconfigData()">
+                    <img class="imgSty" src="combestres/images/person/person_1.png"/>
+                    <p class="wordSty">我的红包</p>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img class="imgSty" src="combestres/images/person/person_2.png"/>
+                    <p class="wordSty">微名片</p>
+                </a>
+            </li>
+            <li style="border:0px;">
+                <a href="#">
+                    <img class="imgSty" src="combestres/images/person/person_3.png"/>
+                    <p class="wordSty">在线客服</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="grayDiv"></div>
+-->
+    <div class="ulDiv">
+        <ul class="ulSty">
+            <li>
+                <a id="personSet" onclick="openUrl(1)">
+                    <span class="leftSpan"><img src="combestres/images/person/team.png"
+                                                style="width:20px;height:20px;margin-top:2px;"/></span>
+                    <span class="rightSpan">个性设置</span>
+                </a>
+            </li>
+            <li>
+                <a onclick="openUrl(2)" target="_blank">
+                    <span class="leftSpan"><img src="combestres/images/person/recgnizes.png"
+                                                style="width:20px;height:20px;margin-top:2px;"/></span>
+                    <span class="rightSpan">修改密码</span>
+                    <span id="Modify_password"></span>
+                </a>
+            </li>
+            <li>
+                <div onclick="app.logout()">
+                    <span class="leftSpan"><img src="combestres/images/person/exit.png"
+                                                style="width:20px;height:20px;margin-top:2px;"/></span>
+                    <span class="rightSpan">退出系统</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!--<div class="grayDiv"></div>-->
+    <!--<div class="ulDiv">-->
+    <!--<ul class="ulSty">-->
+    <!--<li>-->
+    <!--<a href="#">-->
+    <!--<span class="leftSpan"><img src="combestres/images/person/derection.png" style="width:20px;height:20px;margin-top:4px;"/></span>-->
+    <!--<span class="rightSpan">我的收藏</span>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="#">-->
+    <!--<span class="leftSpan"><img src="combestres/images/person/newdepart.png" style="width:20px;height:20px;margin-top:2px;"/></span>-->
+    <!--<span class="rightSpan">例行设置</span>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="#">-->
+    <!--<span class="leftSpan"><img src="combestres/images/person/service.png" style="width:20px;height:20px;margin-top:2px;"/></span>-->
+    <!--<span class="rightSpan">有奖推荐</span>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a href="#">-->
+    <!--<span class="leftSpan"><img src="combestres/images/person/ondoor.png" style="width:20px;height:20px;margin-top:2px;"/></span>-->
+    <!--<span class="rightSpan">上门服务</span>-->
+    <!--</a>-->
+    <!--</li>-->
+
+    <!--</ul>-->
+    <!--</div>-->
+</div>
+<script>
+    function openUrl(index){
+        if(index == 1){
+            
+            
+            location.href="myset/personality.html?account="+app.getAccount();
+            
+        }else if(index == 2){
+            
+            location.href="Modify_password.html";
+            
+        }
+    }
+</script>
+</body>
+</html>

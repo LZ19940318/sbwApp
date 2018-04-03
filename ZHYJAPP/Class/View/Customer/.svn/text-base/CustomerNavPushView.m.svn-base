@@ -1,0 +1,79 @@
+//
+//  CustomerNavPushView.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/27.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "CustomerNavPushView.h"
+
+@implementation CustomerNavPushView{
+    
+    ButtonTagBlock tempButtonTagBlock;
+}
+
+
+
+- (instancetype)initWithFrame:(CGRect)frame With:(ButtonTagBlock)aBlock{
+    
+    tempButtonTagBlock = [aBlock copy];
+    if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor colorWithRed:255.0/255 green:255.0/255 blue:255.0/255 alpha:0.3];
+        
+        [self createView];
+    }
+    
+    return self;
+}
+
+
+- (void)createView{
+    
+    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 10, self.frame.size.width, 88 + 20)];
+    titleView.backgroundColor = [UIColor colorWithRed:237.0/255 green:237.0/255 blue:237.0/255 alpha:1];
+    
+    CGFloat buttonWidth = self.frame.size.width / 5;
+    CGFloat buttonHight = 40;
+    CGFloat buttonY = 0;
+    NSInteger number = 7;
+    NSArray *buttonTitle = @[@"统计",@"售后",@"库存",@"分销",@"订单",@"合同",@"拜访",@"对手",@"星座",@"地图"];
+    for (int i = 0 ; i < 2; i++) {
+        for (int j = 0 ; j < 5; j++) {
+            
+            UIControl *button = [[UIControl alloc]initWithFrame:CGRectMake(j * buttonWidth, buttonY, buttonWidth, buttonHight)];
+            button.tag = 30;
+            UIImageView *buttonImage = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 22, 22)];
+            buttonImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"img_%zd.png",number]];
+            UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(buttonImage.frame), 5,buttonWidth - 32 , 34)];
+            titleLabel.text = buttonTitle[number - 7];
+            titleLabel.textColor = [UIColor colorWithRed:94.0/255 green:94.0/255 blue:94.0/255 alpha:1];
+            titleLabel.font = [UIFont systemFontOfSize:14];
+            
+            
+            [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [button addSubview:titleLabel];
+
+            [button addSubview:buttonImage];
+
+            [titleView addSubview:button];
+            number ++;
+            
+            
+        }
+        buttonY += buttonHight;
+    }
+    
+    [self addSubview:titleView];
+}
+
+- (void)buttonClick:(UIButton *)sender{
+    tempButtonTagBlock(sender.tag);
+    
+    [self removeFromSuperview];
+    
+    
+}
+
+
+@end

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" onselectstart='return false'>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>工作</title>
+    <link rel="stylesheet" href="combestres/bootstrap/css/bootstrap.min.css">
+    <link href="combestres/css/style.css" rel="stylesheet">
+    <link href="combestres/css/work/work.css" rel="stylesheet">
+    <script src="http://hostname"></script>
+    <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="combestres/bootstrap/js/bootstrap.min.js"></script>
+    <script src="combestres/js/combest.js"></script>
+    <style>
+        .numStyle{
+            color: #ffffff;
+            display:inline-block;
+            width:18px;
+            height:18px;
+            border-radius:50%;
+            background-color:#EE524D;
+            position:absolute;
+            z-index:999;
+            margin-left:-10px;
+            font-size:1em;
+        }
+    </style>
+    <script>
+        function load(){
+            var cat=app.getAccount();//查询关键字
+            var script=document.createElement("script");
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getTodoNum.xsp?callback=open&&items=todoNum,planNum,payNum,readNum,totalNum&cat="+cat
+            document.body.appendChild(script);
+        }
+    </script>
+</head>
+<body onload="load()">
+<!-- 头部-->
+<!--<div class="headssContent" style="position:fixed;z-index:999;background:#2e2e2e;">-->
+    <!--<div class="headContent" style="">-->
+        <!--<a class="linkLeftSty" href="myset.html">-->
+            <!--<img src="combestres/images/me.png" style="width:22px; height:22px;margin-top:1px"/>-->
+        <!--</a>-->
+        <!--<span class="tital" style="font-size:1.2em;display:inline-block;height:45px;line-height:40px;color:#fff;">我的工作</span>-->
+        <!--<a class="linkRightSty" href="#" style="margin-right:10px;">-->
+            <!--<img src="combestres/images/more.png" style="width:22px; height:22px;margin-top:-3px;"/>-->
+        <!--</a>-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="container" style="padding-top:1px">
+    <!-- 出勤与审批-->
+    <div class="manageContent" >
+        <ul>
+            <li>
+                <a href="oa/todo.html">
+                    <span class="manageNum" id="totalNum" style="color: #fe0000;line-height: 25px;font-size: 1.3em;">0</span>
+                    <p class="wordSty">待审批</p>
+                </a>
+            </li>
+            <li>
+                <!--<a href="oa/selNewDoc.html">-->
+                <a href="oa/newDoc.html?unid=B2C1D2303CF98E0C4825811F001FA515&wfpath=combestbkc/oa/combest_jtqxj.nsf&flowName=集团请销假管理"  >
+                    <span class="manageNum"><img class="icons" src="combestres/images/work/newwf.png" style="width:26px;height:26px;" /></span>
+                    <p class="wordSty">请销假</p>
+                </a>
+            </li>
+            <li>
+                <a href="work_signin/signIn.html" >
+                    <span class="manageNum"><img class="icons" src="combestres/images/work/clock.png" style="width:30px;height:26px;margin-left:-2px;margin-top:-2px;" /></span>
+                    <p class="wordSty">签到</p>
+                </a>
+            </li>
+            <li style="border:0px;">
+                <a href="work/daily_list.html">
+                    <span class="manageNum"><img class="icons" src="combestres/images/work/calandar.png" style="width:27px;height:26px;margin-left:-2px;margin-top:-2px;"/></span>
+                    <p class="wordSty">日志</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 我的工作-->
+    <div class="workContent">
+        <div class="workHeader">
+            <p class="labelP">我的工作</p>
+        </div>
+        <div class="workMain">
+            <ul >
+                <li>
+                    <a href="#"  onclick="openUrl(1)" target="_blank">
+                            <span>
+                            	<img class="imgSty" src="combestres/images/work/shp_01.png" style="width:40px;height:40px;"/>
+                            </span>
+                            <p class="wordSty">审批</p>
+                    </a>
+                    <span class="numStyle" id="todoNum" style="margin-left:-5px;">0</span>
+                </li>
+                <li>
+                    <a href="#" onclick="openUrl(2)" target="_blank" >
+                             <span>
+                                <img class="imgSty" src="combestres/images/work/work_plan.png" style="width:40px;height:40px;"/>
+                            </span>
+                             <p class="wordSty">资金计划</p>
+                    </a>
+                    <span class="numStyle" id="planNum">0</span>
+                </li>
+                <li>
+                    <a href="#" onclick="openUrl(3)"  target="_blank" >
+                             <span>
+                                <img class="imgSty" src="combestres/images/work/work_pay.png" style="width:40px;height:40px;"/>
+                            </span>
+                             <p class="wordSty">付款申请</p>
+                    </a>
+                    <span class="numStyle" id="payNum">0</span>
+                </li>
+                <li>
+                    <a href="#" onclick="openUrl(4)" target="_blank">
+                            <span>
+                            	<img class="imgSty" src="combestres/images/work/work_3.png" style="width:40px;height:40px;"/>
+                            </span>
+                        <p class="wordSty">公告</p>
+                    </a>
+                </li>
+                <!--<li>-->
+                    <!--<a href="customer.html"  target="_blank">-->
+                            <!--<span>-->
+                            	<!--<img class="imgSty" src="combestres/images/work/jx_01.png" style="width:40px;height:40px;"/>-->
+                            <!--</span>-->
+                        <!--<p class="wordSty">客户</p>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <li>
+                    <a href="#"  onclick="openUrl(5)" target="_blank">
+                           <span>
+                            	<img class="imgSty" src="combestres/images/work/work_5.png" style="width:40px;height:40px;"/>
+                            </span>
+                           <p class="wordSty">待阅文件</p>
+                    </a>
+                    <span class="numStyle" id="readNum">0</span>
+                </li>
+                <li>
+                    <a href="#" onclick="openUrl(6)" target="_blank">
+                            <span>
+                            	<img class="imgSty" src="combestres/images/work/work_4.png" style="width:40px;height:40px;"/>
+                            </span>
+                        <p class="wordSty">文件中心</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="openUrl(7)" target="_blank">
+                            <span>
+                            	<img class="imgSty" src="combestres/images/work/rl_01.png" style="width:40px;height:40px;"/>
+                            </span>
+                        <p class="wordSty">万年历</p>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" onclick="alert('升级中，敬请期待！');">
+                             <span>
+                            	<img class="imgSty" src="combestres/images/work/work_12.png" style="width:40px;height:40px;"/>
+                            </span>
+                        <p class="wordSty">更多</p>
+                    </a>
+                </li>
+                <!--<li>-->
+                    <!--<a href="#">-->
+                            <!--<span>-->
+                            	<!--<img class="imgSty" src="combestres/images/work/work_5.png" style="width:40px;height:40px;"/>-->
+                            <!--</span>-->
+                        <!--<p class="wordSty">会议</p>-->
+                    <!--</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+
+     <!--我的应用-->
+    <div class="hyContent">
+        <div class="workHeader">
+            <p class="labelP">我的应用</p>
+        </div>
+        <div class="workMain">
+            <ul>
+                <li>
+                    <a href="https://touch.qunar.com/h5/flight/">
+                             <span>
+                                <img class="imgSty" src="combestres/images/work/work_13.png" style="width:40px;height:40px;"/>
+                            </span>
+                        <p class="wordSty">订机票</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://touch.qunar.com/hotel/">
+                             <span>
+                                <img class="imgSty" src="combestres/images/work/work_14.png" style="width:40px;height:40px;"/>
+                            </span>
+                        <p class="wordSty">订酒店</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://common.diditaxi.com.cn/general/webEntry?wx=true#/">
+                             <span>
+                                <img class="imgSty" src="combestres/images/work/work_15.png" style="width:40px;height:40px;"/>
+                            </span>
+                        <p class="wordSty">打车</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    function openUrl(index){
+        
+        app.subClick()
+        
+        if(index == 1){
+            location.href = "oa/todo.html";
+        }else if(index == 2){
+            location.href = "todo/plan_list.html";
+        }else if(index == 3){
+            location.href = "todo/pay_list.html";
+        }else if(index == 4){
+            location.href = "oa/send_list.html";
+        }else if(index == 5){
+            location.href = "oa/readTodoList.html";
+        }else if(index == 6){
+            location.href = "..arc/arc.html";
+        }else if(index == 7){
+            location.href = "work/calendar.html";
+        }
+        
+        
+       
+    }
+</script>
+</body>
+</html>

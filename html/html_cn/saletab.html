@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<!--报表主页    -->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>销售报表</title>
+
+	<link href="combestres/css/report/alyzSty.css" rel="stylesheet">
+	<script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="combestres/js/combest_report.js"></script>
+
+	<script>
+	window.onload=function(){
+		productImgFunction();
+	}
+
+
+	function productImgFunction(){
+	    var script=document.createElement("script");
+	    var db="app.ou/combest_produce.nsf";//url参数，数据来源数据库
+	    var vw="CBVw_salesOrderSale_M";//url参数，数据来源视图
+	    var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocSalet.xsp";//请求数据地址
+	    var callback="editS";//回调函数
+	   	//新建
+	    var items="totalOrder,hadProduce,notHadProduce,totalPrice,exportSales,domesticSale";//请示的字段,总订单，状态，未排期，总金额，外销，内销，
+		script.src=url+"?callback="+callback+"&db="+db+"&items="+items+"&vw="+vw;
+	    document.body.appendChild(script);
+	    load();
+	}
+
+
+	$(document).ready(function(){
+		$(".fade").click(function(){
+			$(".togg").fadeToggle();
+		});
+	});
+
+
+	function load(){
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getOrderTotalDoc.xsp";//请求数据地址
+			var callback="edit";//回调函数
+
+			var db="app.ou/combest_produce.nsf";
+			var vw="";
+
+			var items="nxTotalNum,noSchedule,totalOrder,scheduling";//请示的字段
+
+			//执行一个jsonp语句
+			var script=document.createElement("script");
+			script.src=url+"?callback="+callback+"&db="+db+"&vw="+vw+"&items="+items;
+			script.type="text/javascript";
+
+			document.body.appendChild(script);
+        }
+	</script>
+
+	<style type="text/css">
+		.sheader > a:nth-child(2){
+		color: #ff6400;
+		/*<!--border-bottom: 1px solid #ff6400;-->*/
+		}
+		h3{margin:0;padding:0;display:inline-block;}
+	
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- 头部 -->
+	<div class="sheader">
+		<a href="myset.html">
+			<img src="combestres/images/me.png" style="width:22px; height:22px;margin-top:5px;" />
+		</a>
+		<a href="#" >
+			销售报表
+		</a>
+		<a href="dproduct-tab.html">
+			制泥日报
+		</a>
+		<a href="product-count.html">
+		成瓷分析
+		</a>
+		<a href="#" class="fade">
+			<img src="combestres/images/more.png" style="width:22px; height:22px;margin-top:5px;" />
+		</a>
+		<div class="togg">
+			<a href="cnArrange.html" style="border-bottom: 1px solid #f1f1f1;">生产计划</a>
+			<a href="cnShipment.html" style="">出货计划</a>
+		</div>
+	</div>
+	   
+		<!-- over -->
+		<div class="scont">
+			<!-- 分割 -->
+			<div class="space"></div>
+			<div class="sorder" onclick="onTab(1);">
+				<div class="stit">
+					<a href="#">
+						<!--<img src="combestres/images/sale.png" style="vertical-align: middle;width:23px;height:23px;" />-->
+						<label>销售订单</label>
+						<!--<img src="combestres/images/right.png" style="float: right;margin-top:8px;width:20px;height:20px;"/>-->
+					</a>
+				</div>
+				<table class="otable">
+					<tr style="">
+						<td>外销已排期：<span name="scheduling"></span></td>
+						<td style="color:#ff8749;font-size:1.4em;"><label name="totalOrder"></label></td>
+					</tr>
+					<tr style="">
+						<td>外销未排期：<span name="noSchedule"></span></td>
+						<td style="">今日总订单</td>
+					</tr>
+					<tr style="">
+						<td>内销总数量：<span name="nxTotalNum"></span></td>
+						<td style=""></td>
+					</tr>
+				</table>
+			</div>
+			<!-- 分割 -->
+			<div class="space"></div>
+
+			<div class="sreceipt"  onclick="onTab(2);">
+				<div class="stit">
+					<a href="#">
+						<!--<img src="combestres/images/pay.png" style="width:22px;height:22px;vertical-align: middle;" />-->
+						<label>应收款</label>
+						<!--<img src="combestres/images/right.png" style="float: right;margin-top:8px;width:20px;height:20px;"/>-->
+					</a>
+				</div>
+				<table class="rtable" style="">
+					<tr>
+						<td>外销：<span name="exportSales"></span></td>
+						<td style="color: #35A7FB;font-size:1.4em;"><label name="totalPrice"></label></td>
+					</tr>
+					<tr style="">
+						<td>内销：<span name="domesticSale"></span></td>
+						<td style="">月收款总金额</td>
+					</tr>
+
+				</table>
+			</div>
+			<!-- 分割 -->
+			<div class="space"></div>
+
+
+		</div>
+
+		<!-- over -->
+	</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>热点客户文档</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument.xsp?callback=edit&db=app.ou/combest_crm.nsf&items=cusName,cusAddress,cusAddName,catchTime,cusProperty,cusType,officeTelephone,buyRequeied&unid="+unid
+            document.body.appendChild(script);
+            kailLodings();
+        }
+    </script>
+</head>
+<style type="text/css">
+#conter{
+    padding-bottom:30px;
+}
+</style>
+<body onload="load()">
+<style type="text/css">
+    *{
+        font-family:微软雅黑;
+    }
+        #lodings{
+            position:fixed;
+            top:0px;
+            left:0px;
+            background:rgba(0, 0, 0, 0.3);
+            width:100%;
+            height:100%;
+            z-index:999999;
+            text-align:center;
+        }
+        #lodings>div{
+            width:100%;
+            height:100%;
+            position:relative;
+        }
+        #lodings>div>img{
+            width: 30%;
+            height: auto;
+            display: initial;
+            position: absolute;
+            margin: auto;
+            top: 40%;
+            left: 35%;
+        }
+    input.form-control:focus{outline:none !important;}
+    </style>
+<div id="lodings">
+    <div><img src="combestres/images/loding.gif" alt=""></div>
+</div>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header" style="text-align:center;height:45px;line-height:50px;background-color:#2e2e2e;">
+        <a class="navbar-brand" href="Hot_customer.html" style="color:#fff;font-size:1.1em;">
+            <span class="glyphicon glyphicon-menu-left"style="font-size:1.3em;" ></span>
+            <span style="position: absolute;display: inline-block;margin-top: -23px;margin-left: 10px;">返回</span>
+        </a>
+        <span style="font-size:1.2em;color:#fff;">新增客户</span>
+       <!--  <span style="color:#fff;background-color:#FE0000;display:inline-block;padding:0;margin:0;height:13px;line-height:13px;border-radius:6px;font-size:0.8em;padding:0px 2px 0px 2px;position:absolute;margin-top:15px;margin-left:5px;">new</span> -->
+        <a class="navbar-brand" href="#" style="float:right;font-size:1.1em;color:#fff;">
+            <span style="display: none;" id="ok">提交</span>
+            <span  style="display:inline-block;" id="bianji">编辑</span>    
+        </a>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid" style="position:relative;top:50px;">
+    <form action="http://{app.server_address}/{app.ou}/combest_crm.nsf/CBXsp_save.xsp" >
+    <fieldset id="conter">
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm1.png" style="margin-top:-2px;width:25px;height:25px;" > -->
+            <span for="cusName" class="labels" style="">客户名称</span>
+            <input type="text" disabled class="form-control required" id="cusName" name="cusName" placeholder="客户名称"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm2.png" style="margin-top:-2px;;width:25px;height:25px;" > -->
+            <span for="cusAddress" class="labels">地址</span>
+            <input type="text" disabled class="form-control required" id="cusAddress" name="cusAddress" placeholder="客户地址"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm3.png" style="margin-top:-2px;;width:25px;height:25px;" > -->
+            <span for="cusAddName" class="labels">发布人</span>
+            <input type="text" disabled class="form-control required" id="cusAddName" name="cusAddName" placeholder="发布人"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm4.png" style="margin-top:-2px;;width:25px;height:25px;" > -->
+            <span for="catchTime" class="labels">时间</span>
+            <input type="date" disabled class="form-control required" id="catchTime" name="catchTime" placeholder="时间"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm5.png" style="margin-top:-2px;;width:25px;height:25px;" > -->
+            <span for="cusProperty" class="labels">客户性质</span>
+            <input type="select" disabled  class="form-control required" id="cusProperty" name="cusProperty" placeholder="客户性质"
+                   style="float:right;width:73%;margin-top:15px;">
+            <!-- <select name="" disabled class="form-control required" id="cusPropertys">
+                <option value="普通">普通</option>
+                <option value="重要">重要</option>
+                <option value="失败">失败</option>
+                <option value="休眠">休眠</option>
+            </select> -->
+        </div>
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm6.png" style="margin-top:-2px;;width:25px;height:25px;" > -->
+            <span for="cusType" class="labels">客户类型</span>
+            <input type="text" disabled class="form-control required" id="cusType" name="cusType" placeholder="客户类型"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm7.png" style="margin-top:-2px;;width:25px;height:25px;" > -->
+            <span for="officeTelephone" class="labels">办公电话</span>
+            <input type="text" disabled class="form-control required" id="officeTelephone" name="officeTelephone" types="tel" placeholder="办公电话" value=""
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group" style="border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0; ">
+            <!-- <img src="../combestres/images/customer/crm8.png" style="margin-top:-2px;;width:25px;height:25px;" > -->
+            <span for="buyRequeied" class="labels">购买需求</span>
+            <input type="text" disabled class="form-control required" id="buyRequeied" name="buyRequeied" placeholder="购买需求"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        
+    </fieldset>
+</form>
+</div>
+<script type="text/javascript">
+ var url=location.href;
+var unids =url.indexOf("unid=")
+        if(unids=="-1"){
+            $(".form-group input,.form-group select").removeAttr("disabled")
+            $("#cusAddName").attr("disabled","true")
+            $("#cusAddName").val(app.getUserName())
+            $("#ok").css({"display":"inline-block"})
+            $("#bianji").css('display', 'none');    
+        }
+    $("#bianji").click(function(){
+        $(".form-group input,.form-group select").removeAttr("disabled")
+        $("#cusAddName").attr("disabled","true")
+        $(this).css({"display":"none"});
+        $("#ok").css({"display":"inline-block"})
+    })
+    $("#ok").click(function(){
+        var unid=url.substring(url.indexOf("unid=")+5);
+        var posts=[
+                encodeURI($("#cusName").val()),
+                encodeURI($("#cusAddress").val()),
+                encodeURI($("#cusAddName").val()),
+                encodeURI($("#catchTime").val()),
+                encodeURI($("#cusProperty").val()),
+                encodeURI($("#cusType").val()),
+                encodeURI($("#officeTelephone").val()),
+                encodeURI($("#buyRequeied").val()),
+                ]
+        for (var i = 1; i < $(".required").length+1; i++) {
+                var a = Verification.text("fieldset>.form-group:nth-child("+i+")>.required");
+                if(a==false){
+                    return false;
+                    break;
+                    }
+                }
+        
+        if(unids=="-1"){
+            var urldata =  "form=CBFrm_cusFile&db=app.ou/combest_crm.nsf&cusName="+posts[0]+"&cusAddress="+posts[1]+"&cusAddName="+posts[2]+"&catchTime="+posts[3]+"&cusProperty="+posts[4]+"&cusType="+posts[5]+"&officeTelephone="+posts[6]+"&buyRequeied="+posts[7]+"&hotCus=0";
+        }else {
+            var urldata =  "form=CBFrm_cusFile&db=app.ou/combest_crm.nsf&unid="+unid+"&cusName="+posts[0]+"&cusAddress="+posts[1]+"&cusAddName="+posts[2]+"&catchTime="+posts[3]+"&cusProperty="+posts[4]+"&cusType="+posts[5]+"&officeTelephone="+posts[6]+"&buyRequeied="+posts[7]+"&hotCus=0";
+        }
+        
+        var oks = app.postData(
+                "http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDoc.xsp",urldata
+               )
+        if(oks.substring(0,5)==="false"){
+                alert("错误");
+            }
+        if(oks.substring(0,4)==="true"){
+                window.location.href="Hot_customer.html"
+            }
+        })
+
+</script>
+</body>
+<script>
+    lodings()
+</script>
+</html>

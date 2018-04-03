@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>username</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/combest.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <style>
+        .navbar>ul{
+            width:100%;
+            padding:0px;
+            padding-top:10px;
+        }
+        .navbar>ul>li{
+            list-style:none;
+            float:left;
+            width:33%;
+            text-align:center;
+            vertical-align:text-top;
+            color: #585858;
+        }
+        .navbar{
+            box-shadow: 0px -2px 5px rgba(0,0,0,0.3);
+        }
+        #approve{
+            position:absolute;
+            top:0px;
+            z-index:999;
+            height:100%;
+        }
+    </style>
+    <script>
+         function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var unid=url.substring(url.indexOf("unid=")+5);
+            if(unid.indexOf("&")>0){
+                unid=unid.substring(0,unid.indexOf("&"))
+            }
+            script.src="http://app.server_address/app.ou/oa/combest_fw.nsf/CBXsp_getDocument.xsp?unid="+unid+"&callback=showForm";
+            document.body.appendChild(script);//自定义表单
+         }
+
+        //显示页签
+        function showTab(tab){
+            var tabs=["main","sub","att","yjatt","record"];
+            if(tab!="mainBody"){
+                for(var i=0;i<tabs.length;i++){
+                    $("#"+tabs[i]).css({"display":"none"});
+                }
+                $("#"+tab).css({"display":""});
+            }else{
+                var mainBody=$("#mainBodyHref").val();
+                if(mainBody!=""){
+                   // window.open(mainBody);
+                    location.href=mainBody;
+                }
+
+            }
+        }
+    </script>
+</head>
+<body onload="load()" >
+<!--隐藏内容-->
+<div style="display:none">
+    <input id="mainBodyHref" />
+</div>
+<!--内容-->
+<div class="container-fluid"  style="padding:2px;padding-bottom:55px" id="main">
+    <!--导航-->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header" style="color:#ffffff">
+            <a class="navbar-brand"  href="fwHadTodoList.html" id="back" style="color:#ffffff" ><span class="glyphicon glyphicon-menu-left" ></span> </a>
+            <span class="navbar-brand" id="title" style="color:#ffffff">查看文件</span>
+        </div>
+    </nav>
+    <div class="container-fluid"  style="padding:2px;margin-top:50px;margin-bottom:55px">
+        <div style="width:100%;height:100%"  id="content" ></div>
+    </div>
+    <!--审批工具栏-->
+    <div class="navbar navbar-default navbar-fixed-bottom" style="box-shadow:none !important;border-top:1px solid #d1d1d1">
+        <ul id="toolbar">
+
+            <li class="usertabs" data="office" onclick="showTab('mainBody')">
+                <p class="glyphicon glyphicon-menu-hamburger"></p>
+                <p id="textMainBody">正文</p>
+            </li>
+            <li class="usertabs" data="att" onclick="showTab('att')" >
+                <p class="glyphicon glyphicon-paperclip"></p>
+                <p id="textAtt">附件</p>
+            </li>
+            <!--li class="usertabs" data="record" onclick="showTab('record')" >
+                <p class="glyphicon glyphicon-film"></p>
+                <p>流转记录</p>
+            </li-->
+        </ul>
+    </div>
+</div>
+<!--提交-->
+<div class="container-fluid"  style="padding:2px;display:none" id="sub">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <a class="navbar-brand"  href="#" id="backSub" style="color:#ffffff"  onclick="showTab('main');return false" >
+            <span class="glyphicon glyphicon-menu-left"></span>
+            返回
+        </a>
+        <a class="navbar-brand" href="#" style="float:right;color:#ffffff" onclick="submitWorkFlow();return false;">
+            <span  id="ok">提交</span>
+        </a>
+
+    </nav>
+    <div class="container-fluid"  style="padding:2px;margin-top:50px;margin-bottom:55px">
+        <div style="width:100%;height:100%"  id="divSuggestion"  >
+            <div class="form-group">
+                <label for="suggestion">填写意见</label>
+                <textarea id="suggestion" class="form-control" ></textarea>
+            </div>
+        </div>
+        <div style="width:100%;height:100%"   >
+            <div class="form-group">
+                <label >选择环节</label>
+                <div id="divSelNode">
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;height:100%"   >
+            <div class="form-group">
+                <label >选择人员</label>
+                <div id="divSelUser"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--附件-->
+<div class="container-fluid"  style="padding:2px;;display:none" id="att">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header" style="color:#ffffff">
+
+            <a class="navbar-brand"   onclick="showTab('main');return false" id="backAtt" style="color:#ffffff" ><span class="glyphicon glyphicon-menu-left" ></span> </a>
+            <span class="navbar-brand"  style="color:#ffffff">附件</span>
+        </div>
+    </nav>
+    <div class="container-fluid"  style="padding:2px;margin-top:50px;margin-bottom:55px">
+        <div style="width:100%;height:100%"  id="attContent" ></div>
+    </div>
+</div>
+<!--流转记录-->
+<div class="container-fluid"  style="padding:2px;display:none" id="record">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header" style="color:#ffffff">
+
+            <a class="navbar-brand"   onclick="showTab('main');return false" id="backRecord" style="color:#ffffff" ><span class="glyphicon glyphicon-menu-left" ></span> </a>
+            <span class="navbar-brand"  style="color:#ffffff">流转记录</span>
+        </div>
+    </nav>
+    <div class="container-fluid"  style="padding:2px;margin-top:50px;margin-bottom:55px">
+        <div style="width:100%;height:100%"   ></div>
+    </div>
+</div>
+<script>
+
+</script>
+</body>
+</html>

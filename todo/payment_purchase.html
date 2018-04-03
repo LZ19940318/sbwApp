@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+	<title>采购类付款申请</title>
+   <link rel="stylesheet" type="text/css" href="../combestres/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../combestres/css/approve.css">
+	 <script src="http://hostname"></script>
+    <script type="text/javascript" src="../combestres/js/jquery-1.11.2.min.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+	<script type="text/javascript">
+		/********************关闭搜索弹层***********************/
+		$(document).ready(function(){ 
+		  	$('.clo').click(function () {
+                $('#code').hide();
+                $('#goodcover').hide();
+                $('.opac').hide();
+                 document.body.style.overflow = "auto"; //关闭弹层，页面滚动
+            });
+        });       
+/***********************弹层位置*************************/    
+        jQuery.fn.center = function (loaded) {
+            var obj = this;
+            $('.opac').css('height',parseInt($(window).height())+parseInt($(window).scrollTop()));
+            // 水平
+            body_width = parseInt($(window).width());
+            block_width = parseInt(obj.width());
+            left_position = parseInt((body_width / 2) - (block_width / 2) + $(window).scrollLeft());
+            if (body_width < block_width) {
+                left_position = 0 + $(window).scrollLeft();
+            }
+            $('.clpa').css('margin-left',left_position);
+            // 垂直
+             body_height = parseInt($(window).height());
+             block_height = parseInt(obj.height());
+			 top_position = parseInt((body_height / 2) - (block_height / 2) + $(window).scrollTop())-100;
+             if (body_height < block_height) {
+                top_position = 0 + $(window).scrollTop();
+             }
+              $('.clpa').css('margin-top',top_position);
+        }
+
+/****************弹层*********************/
+function checkBox(){
+	$('.clpa').center();
+	$('#goodcover').show();
+	$('.opac').show();
+	$('.clpa').fadeIn();
+	document.body.style.overflow = "hidden";   //弹出窗口后，页面禁止滚动
+}
+/******************获取单选********************/
+function getRadioVal(){
+	var temp=document.getElementsByName("sprdo");
+	for (var i = 0; i<temp.length; i++) {
+		if (temp[i].checked) {
+		 	if (temp[i].value == "0") {
+		 		$("#appro").css("display","");
+		 		$("#disappro").css("display","none");
+		 	}else{
+		 		$("#appro").css("display","none");
+		 		$("#disappro").css("display","");
+		 	}
+	 	}
+	 } 
+}
+	</script>
+    <script>
+     start=1;
+    function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var mainUnid=getQueryString("mainUnid");
+            var todounid=getQueryString("todounid");
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument_cost.xsp?callback=editTemplate&db=app.ou/combest_data.nsf&items=payment_Request_Num,request_Date,ou,transactor_Name,department_Name,vendor_Name,bank_Account_Num,bank_Branch_Number,bank_Account_Name,currency_Code,budget_Item_Name,budget_Amount,pr_Ou_Name,vendor_Site_Code,status_Disp,payment_Period_Name,comments,cny,cnCNY,amount&unid="+mainUnid;
+            document.body.appendChild(script);
+
+            getDatas(1,true);
+    }
+    </script>
+    <script>
+
+    function getDatas(begin,b){
+ 		var plainId=getQueryString("plainId");
+   		 //加载中状态条
+        var loadStaut=document.getElementById("loadStaut");
+        if(b){
+            document.getElementById("showlog").appendChild(loadStaut);
+            loadStaut.style.display="block";
+        }else{
+        }
+
+        var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocList.xsp";//请求数据地址
+        var callback="list";//回调函数
+        var param="template,app,0";//回调函数的参数，
+        var db="app.ou/combest_data.nsf";//url参数，数据来源数据库
+        var vw="CBVw_payment_reg_lines";//url参数，数据来源视图
+        var items="antecedent_Debt_Flag_Disp,is_Prepayment_Flag_Disp,currency_Code,payment_Amount,amount_Cny,comments,po_Num,po_Contract_Num,project_Num,contract_Amount,invoice_Amount,amount_Paid,percent";//请示的字段
+        //var thisStart=start;//第几条数据开始
+        var count=20;//读取数据条数
+        //var cat="key1,key2"//查询关键字
+        //执行一个jsonp语句
+        var script=document.createElement("script");
+        script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+plainId;
+        script.type="text/javascript";
+        if(b){
+            start+=count;
+        }
+        document.body.appendChild(script);
+
+    }
+    refresh();
+    </script>
+</head>
+<body onload="load()">
+<div style="display:none;">
+	<table  id="template">
+		<tbody>
+		<tr>
+			<td>{antecedent_Debt_Flag_Disp}</td>
+			<td>{is_Prepayment_Flag_Disp}</td>
+			<td>{currency_Code}</td>
+			<td>{payment_Amount}</td>
+			<td>{amount_Cny}</td>
+			<td>{comments}</td>
+			<td>{po_Num}</td>
+			<td>{po_Contract_Num}</td>
+			<td>{project_Num}</td>
+			<td>{contract_Amount}</td>
+			<td>{invoice_Amount}</td>
+			<td>{amount_Paid}</td>
+			<td>{percent}</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+	<!-- 头部 -->
+	<div class="header">
+        <a class="left" href="pay_list.html">
+            <span class="glyphicon glyphicon-menu-left" style="display:inline-block;margin-bottom:-2px;"></span>
+            返回
+        </a>
+		<span>采购类付款申请</span>
+		<a class="right" onclick="checkBox()">审批</a>
+	</div>
+	<!-- 头部over -->
+	<!-- 固定字段 -->
+	<div class="mainHead">
+		<!-- 标题 -->
+		<!--<div class="labelHead" style="border-bottom: 1px solid #f1f1f1;">-->
+			<!--付款申请信息-->
+		<!--</div>-->
+		<div class="fcontent">
+			<span>付款申请单号：</span><span id="payment_Request_Num" name="payment_Request_Num"></span>
+		</div>
+		<div class="fcontent">
+			<span>付款申请日期：</span><span id="request_Date" name="request_Date"></span>
+		</div>
+		<div class="fcontent">
+			<span>公司/所属OU：</span><span  id="ou" name="ou"></span>
+		</div>
+		<div class="fcontent">
+			<span>经办人：</span><span id="transactor_Name" name="transactor_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>经办部门：</span><span id="department_Name" name="department_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>收款单位：</span><span id="vendor_Name" name="vendor_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>收款银行账号：</span><span id="bank_Account_Num" name="bank_Account_Num"></span>
+		</div>
+		<div class="fcontent">
+			<span>银行联行号：</span><span id="bank_Branch_Number" name="bank_Branch_Number"></span>
+		</div>
+		<div class="fcontent">
+			<span>收款开户银行：</span><span id="bank_Account_Name" name="bank_Account_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>币种：</span><span id="currency_Code" name="currency_Code"></span>
+		</div>
+		<div class="fcontent">
+			<span>预算项目：</span><span id="budget_Item_Name" name="budget_Item_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>预算金额：</span><span id="budget_Amount" name="budget_Amount"></span>
+		</div>
+		<div class="fcontent">
+			<span>实际采购单位：</span><span id="pr_Ou_Name" name="pr_Ou_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>供应商地点：</span><span id="vendor_Site_Code" name="vendor_Site_Code"></span>
+		</div>
+		<div class="fcontent">
+			<span>状态：</span><span id="status_Disp" name="status_Disp"></span>
+		</div>
+		<div class="fcontent">
+			<span>付款期间：</span><span id="payment_Period_Name" name="payment_Period_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>请款说明：</span><span id="comments" name="comments"></span>
+	   </div>
+	</div>
+	<!-- 固定字段over -->
+	<!-- 分割 -->
+	<div class="space"></div>
+	<!-- 表格字段 -->
+
+	<!--<div class="labelHead">-->
+			<!--付款申请详细-->
+	<!--</div>-->
+	<div class="table-responsive">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+                        <th>是否前期欠款</th>
+                        <th>是否预付款</th>
+                        <th>币种</th>
+                        <th>请款金额（原币）</th>
+                        <th>请款金额（人民币）</th>
+                        <th>备注（说明事项）</th>
+                        <th>采购订单</th>
+                        <th>采购合同号</th>
+                        <th>项目号</th>
+                        <th>合同金额</th>
+                        <th>报销金额</th>
+                        <th>已付金额</th>
+                        <th>累计付款比例</th>
+                    </tr>
+                </thead>
+                <tbody id="app">
+
+				</tbody>
+		</table>
+
+	</div>
+<div class="space"></div>
+<!--费用合计-->
+<div>
+	<div class="labelHead" style="border-bottom: 1px solid #f1f1f1;">
+		费用合计
+	</div>
+	<div class="fcontent">
+		<span>请款金额(人民币大写)：</span><span id="cnCNY" name="cnCNY"></span>
+	</div>
+	<div class="fcontent">
+		<span>请款金额：</span><span id="cny" name="cny"></span>
+	</div>
+	<div class="fcontent">
+		<span>外币请款金额：</span><span id="amount" name="amount"></span>
+	</div>
+</div>
+<!--费用合计over-->
+<div id="showlog">
+	<a style="display:none;text-align:center" id="loadStaut">
+		加载中...
+	</a>
+</div>
+	<!-- 表格字段over -->
+	<!-- 弹出层 -->
+	<div id="goodcover">
+	<div class="opac"></div><!--遮罩层-->
+	<div class="clpa">
+		<div class="tit"><span class="col clo">关闭</span></div>
+		<div class="radi"><span>审核意见：</span>
+		<span style="display:inline-block; margin-right:30px;"><input name="sprdo" type="radio" value="0" onchange="getRadioVal()" checked="checked"/>同意</span>
+		<input name="sprdo" type="radio" value="1" onchange="getRadioVal()"/>驳回
+		</div>
+		<div class="apro clearfix"><span style="float: left;">详细意见：</span>
+			<!-- 审批同意意见 -->
+		    <textarea  id="appro" rows="4" placeholder="请输入同意审批意见："></textarea>
+			<!-- 审批不同意意见 -->
+			<textarea  id="disappro"  rows="4" placeholder="请输入不同意审批意见：" style="display: none"></textarea>
+		</div>
+
+		<div class="btnCont">
+			<button class="clo">取消</button>
+			<input type="button" id="ok" value="确认"/>
+		</div>
+	</div>
+</div>
+		<script>
+
+
+		$("#ok").click(function () {
+		<!--****************审核意见不为空判断*****************-->
+		<!--var suggestState = param.get("suggestState"); //审批状态（0：同意  1：不同意）-->
+		<!--var suggestion = param.get("suggestion");   //意见-->
+		<!--var todoUnid = param.get("todoUnid");      //待办Id-->
+		<!--var unid = param.get("mainUnid").value;   //主文档Id-->
+
+		var temp=document.getElementsByName("sprdo");
+		var appro=$("#appro").val();
+		var disappro=$("#disappro").val();
+
+		 var unid=getQueryString("mainUnid");
+         var todounid=getQueryString("todounid");
+
+		for (var i = 0; i<temp.length; i++) {
+			if(temp[i].checked){
+			var suggestState=temp[i].value;
+				if(temp[i].value =="0"||temp[i].value == 0){
+					<!--if(appro == null || appro == ""){-->
+						<!--alert("审核意见不能为空");return false;-->
+					<!--}else{-->
+						var suggestion=$("#appro").val();
+					<!--}-->
+				}else{
+					<!--if(disappro == null || disappro == ""){-->
+						<!--alert("审核意见不能为空");return false;-->
+					<!--}else{-->
+						var suggestion=$("#disappro").val();
+					<!--}-->
+				}
+			}
+		}
+
+		 <!--if(confirm("您确定要修改数据吗？")){-->
+            var posts=[
+                 encodeURI(suggestState),
+                 encodeURI(suggestion),
+                 encodeURI(todounid),
+                 encodeURI(unid)
+                 ]
+				var callback="backresult";
+				var urldata ="db=app.ou/combest_data.nsf&suggestState="+posts[0]+"&suggestion="+posts[1]+"&todounid="+posts[2]+"&unid="+posts[3]+"&callback="+callback;
+				var oks = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDocByApprove.xsp",urldata)
+				 if(oks!=null){
+				   eval(oks);
+				 }
+			<!--}else{-->
+				<!--return false;-->
+			<!--}-->
+		});
+	 function backresult(oks){
+	 		alert(oks);
+			window.location.href="pay_list.html";
+            <!--if(oks.substring(0,5)=="false"){-->
+                 <!--alert("保存错误");-->
+            <!--}-->
+           <!--if(oks.substring(0,4)=="true"){-->
+                <!--alert("保存成功!");-->
+               <!--// var parentUnid=getQueryString("parentUnid");-->
+                 <!--window.location.href="plan_list.html";-->
+             <!--}-->
+      }
+		</script>
+</body>
+</html>

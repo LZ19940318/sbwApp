@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib
+END
+RedpacketLib.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib/RedpacketLib.h
+END
+YZHRedpacketBridge.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib/YZHRedpacketBridge.h
+END
+RedpacketOpenConst.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib/RedpacketOpenConst.h
+END
+YZHRedpacketBridgeProtocol.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib/YZHRedpacketBridgeProtocol.h
+END
+RedpacketViewControl.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib/RedpacketViewControl.h
+END
+RedpacketErrorCode.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib/RedpacketErrorCode.h
+END
+RedpacketMessageModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/RedacketSDK/RedpacketStaticLib/RedpacketMessageModel.h
+END

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    
+    
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/combest.css" rel="stylesheet">
+    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+        
+                
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <meta charset="utf-8">
+    
+    
+    
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getArcDocument.xsp?callback=open&db=app.ou/oa/combestarc.nsf&items=addName,FileClassNo,create,subject,ngdw,mainBody,atts&unid="+unid
+            document.body.appendChild(script);
+        }
+
+    </script>
+</head>
+<style type="text/css">
+    #conter{
+    padding-bottom:30px;
+    }
+    .displayinput{
+    display:;
+    }
+    .navbar>ul{
+    width:100%;
+    padding:0px;
+    padding-top:10px;
+    }
+    .navbar>ul>li{
+    list-style:none;
+    float:left;
+    width:33%;
+    text-align:center;
+    vertical-align:text-top;
+    color: #585858;
+    }
+    .navbar{
+    box-shadow: 0px -2px 5px rgba(0,0,0,0.3);
+    }
+    #approve{
+    position:absolute;
+    top:0px;
+    z-index:999;
+    height:100%;
+    }
+</style>
+<body onload="load()">
+<div class="container-fluid" style="text-align:left;">
+    <!--导航-->
+  
+
+    <div class="sheader">
+        <div class="navbar-header">
+            <a class="navbar-brand"  href="javascript:fanhui()" style="color:#ffffff">
+                <span class="glyphicon glyphicon-menu-left"></span>
+                返回
+            </a>
+            <span class="navbar-brand"  style="float:right;color:#ffffff">查看文件</span>
+        </div>
+    </div>
+    
+    
+    <div style="margin-top:70px">
+        <h4 id="subject">标题</h4>
+        <div style="height:10px;">&nbsp;</div>
+        <div style="font-size:1.1em">
+            文&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：
+            <span id="FileClassNo"></span>
+        </div>
+        <div style="height:10px;">&nbsp;</div>
+        <div style="font-size:1.1em">
+            归档时间：
+            <span id="create"></span>
+        </div>
+
+        <div style="height:30px;">&nbsp;</div>
+        <div style="font-size:1.1em">
+            正文列表：
+            <br/><br/>
+            <p id="mainBody" style="margin-left:5px">
+            </p>
+        </div>
+        <div style="height:50px;">&nbsp;</div>
+        <div style="font-size:1.1em">
+            附件列表：
+            <br/><br/>
+            <p id="atts" style="margin-left:5px">
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+<script style="text/javascript">
+function fanhui(){
+history.back(-1)
+}
+</script>
+</html>

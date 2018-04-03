@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+		<title>制泥日报</title>
+
+		<link rel="stylesheet" type="text/css" href="combestres/css/report/repoSty.css">
+      <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+		<script src="combestres/js/cnJs.js"></script>
+		<script src="combestres/js/combest_report.js"></script>
+		<script src="laydate/laydate.js"></script>
+		<script>
+      window.onload=function(){
+         var key="";
+         var keyVal="";
+         tabInfo(key,keyVal);
+      }
+      function tabInfo(key,keyVal){
+         var urls = location.search.substr(1);
+            urls = urls.split('=')[1];
+
+         var vw="";
+         var db="";
+         if(urls=="jq"){
+            vw="CBVw_analysis_jq_date";
+            db="app.ou/combest_portal.nsf";//url参数，数据来源数据库
+            // var items="no,pm,jhsl,sl1,sl2,sl3,sl4,zs";
+              var items="pm,jhsl,sl1,sl2,sl3,sl4,zs";
+            //var chName=",品名,计划数量,数量1,数量2,数量3,数量4,总数";
+         }else if(urls=="jl"){
+            vw="CBVw_analysis_jl_D";
+            db="app.ou/combest_portal.nsf";//url参数，数据来源数据库
+            // var items="no,pm,type,weight,weightcar,sl,zs";
+            var items="pm,type,weight,weightcar,sl,zs";
+            //var chName=",品名,泥团规格,单团泥重,每车重载量,数量(车),总重量/Kg";
+         }else if(urls=="nt"){
+            vw="CBVw_analysis_lld_D";
+            db="app.ou/combest_portal.nsf";//url参数，数据来源数据库
+            // var items="no,pm,type,dw,qlsl,slsl,llr";
+            var items="pm,type,dw,qlsl,slsl,llr";
+            // var chName=",品名,泥团规格,单位,请领数量,实领数量,领料人";
+         }else if(urls=="cx"){
+            vw="CBVw_analysis_cxcj_D";
+            db="app.ou/combest_portal.nsf";//url参数，数据来源数据库
+            var items="bz,scpz,pm,type,brjnlh,brjnlhs,brcpscs,brcpscss,brypscs,brypscss,brymlh,brymlhs,cjfzr";
+            //var chName=",班组,生产品种,精泥品名,泥团规格,本日精泥领耗,累计精泥领耗,本日粗坯生产数,累计粗坯生产数,本日釉坯生产数,累计釉坯生产数,本日印模领耗,累计印模领耗,车间负责人";
+         }else{
+            vw="CBVw_analysis_jq_date";
+            db="combestbkc/combest_portal.nsf";//url参数，数据来源数据库
+            var items="pm,jhsl,sl1,sl2,sl3,sl4,zs";
+         }
+			if(key!="" ){
+        		$("#canvas_tab").html("");
+       		}
+         var keyValue=keyVal;
+         var begin=1;
+         var cat=key;
+         var url="http://192.168.10.202/combestbkc/combest_mopcontroller.nsf/CBXsp_getDocAllInfos.xsp";//请求数据地址
+         var callback="lists";//回调函数
+         var param="divTmp,canvas_tab,0";//回调函数的参数，
+
+         //执行一个jsonp语句
+         var script=document.createElement("script");
+         script.src=url+"?callback="+callback+"&urls="+urls+"&param="+param+"&db="+db+"&items="+items+"&start="+begin+"&vw="+vw+"&cat="+cat+"&keyValue="+keyValue;
+         script.type="text/javascript";
+         document.body.appendChild(script);
+      //alert(url+"?callback="+callback+"&urls="+urls+"&param="+param+"&db="+db+"&items="+items+"&start="+begin+"&vw="+vw+"&cat="+cat+"&keyValue="+keyValue)
+        // if(key!="" || keyVal!=""){
+          //$("#alyztab").html("");
+      // }
+   }
+
+   function exectueUserdefined(){
+      var urls = location.search.substr(1);
+         urls=urls.split('=')[1];
+      if(urls=="jq"){
+         $(".topName").html("进球分析");
+         var i=1;
+         while($("#td_1_"+i).html()!="" && $("#td_1_"+i).html()!=null){
+
+            var td_3=$("#td_3_"+i).html();
+               if(td_3=="" || td_3==null)td_3=0;
+            var td_4=$("#td_4_"+i).html();
+               if(td_4=="" || td_4==null)td_4=0;
+            var td_5=$("#td_5_"+i).html();
+               if(td_5=="" || td_5==null)td_5=0;
+            var td_6=$("#td_6_"+i).html();
+               if(td_6=="" || td_6==null)td_6=0;
+
+            var cound=parseInt(td_3)+parseInt(td_4)+parseInt(td_5)+parseInt(td_6);
+            $("#td_7_"+i).html(cound);
+            i++;
+         }
+      }else if(urls=="jl"){
+         $(".topName").html("精练分析");
+         var i=1;
+         while($("#td_1_"+i).html()!="" && $("#td_1_"+i).html()!=null){
+            var td_3=$("#td_3_"+i).html();
+               if(td_3=="" || td_3==null)td_3=0;
+            var td_4=$("#td_4_"+i).html();
+               if(td_4=="" || td_4==null)td_4=0;
+            var td_5=$("#td_5_"+i).html();
+               if(td_5=="" || td_5==null)td_5=0;
+            var cound=parseFloat(td_3)*parseInt(td_4)*parseInt(td_5);
+            $("#td_6_"+i).html(cound.toFixed(2));
+            i++;
+         }
+      }else if(urls=="nt"){
+      $(".topName").html("泥条领料分析");
+      }else if(urls=="cx"){
+      $(".topName").html("成型车间分析");
+      }else{
+      $(".topName").html("");
+      }
+   }
+   function post_a(){
+      var keyVal=$("#postVal").val();
+      var key=$("#dateId").val();
+
+      if(keyVal!="" && keyVal !=null){
+         tabInfo(key,keyVal);
+         $("#postVal").val("");
+      }
+   }
+
+   function right(){
+      document.getElementById("dateId").click();
+   }
+   function onchangeDate(v){
+      if(v.value!="" && v.value!=null){
+         document.getElementById("time").innerHTML=v.value;
+         var key=v.value
+         var keyVal="";
+         tabInfo(key,keyVal);
+      }
+   }
+
+   </script>
+
+
+		<style type="text/css">
+
+			.clearFixd:after{
+			content:".";
+			height: 0;
+			visibility: hidden;
+			clear:both;
+			display:"block";
+			}
+			*{ margin:0; padding:0;}
+			#main{
+			overflow: hidden;
+			position: relative;
+			}
+			.content{
+			width:100%;
+			/*margin-left: 112px;*/
+			padding:0;
+			height: 38px;
+			border-right: none !important;
+			}
+		</style>
+		<script>
+      $(function(){
+         var top = $(window).scrollTop();
+         var left = $(window).scrollLeft();
+         $(window).scroll(function(){
+            if(top!=$(window).scrollTop()){
+               $(".firstcol").attr("class","firstcolLeft");
+            }
+            if(left!=$(window).scrollLeft()){
+               $(".firstcolLeft").attr("class","firstcol");
+            }
+         })
+      })
+
+   </script>
+	</head>
+<body>
+<div style="display:none" id="divTmp">
+	{tdHTML}
+</div>
+<div class="container">
+	<!-- 头部 -->
+	<div class="sheader">
+		<a href="dproduct-tab.html"  style="float: left;margin-left: 7px;">
+			<img src="combestres/images/back.png" />
+			返回
+		</a>
+      <span class="topName" style="display:inline-block;margin:0 auto;margin-left: -15px;">
+         <!-- 出货单列表 -->
+      </span>
+		<span id="time" style="margin-left:10px;"></span>
+		<a href="#" onclick="right();" class="right"  style="float:right;margin-right: 10px;">
+			<img src="combestres/images/date.png" style="width:22px;height:22px;"/>
+		</a>
+	</div>
+	<!-- over -->
+	<!-- 筛选 -->
+	<!-- <div class="filter">
+		<ul>
+			<li>
+				<a href="#" class="sart" id="date">本日</a>
+         <span class="imgcont">
+         <img src="combestres/images/sel.png" style=""/></span>
+			</li>
+
+			<li>
+				<a href="#" class="sart" id="sale">内销</a>
+         <span class="imgcont">
+         <img src="combestres/images/sel.png"></span> -->
+				<!-- 内销、外销 -->
+			<!-- 	<div id="hidesale"></div>
+				<div style="position: fixed;z-index: 9999;width: 33%;top: 85px;">
+					<div id="hidesalebox">
+						<dl>
+							<dd onclick="hide(2)">
+								<a href="#" style="color: #ff8749;">内销</a>
+							</dd>
+							<dd onclick="hide(2)">
+								<a href="#">外销</a>
+							</dd>
+						</dl>
+					</div>
+				</div> -->
+				<!-- over -->
+			<!-- </li>
+
+			<li>
+				<a href="#" class="sart" id="client">客户名称</a>
+         <span class="imgcont">
+         <img src="combestres/images/sel.png"></span>-->
+				<!-- 客户名称、订单编号 -->
+				<!-- <div id="hideclient"></div>
+				<div style="position: fixed;z-index: 9999;width: 34%;top: 85px;">
+					<div id="hideclientbox">
+						<dl>
+							<dd  onclick="hide(3)">
+								<a href="#" style="color: #ff8749;">客户名称</a>
+							</dd>
+							<dd  onclick="hide(3)">
+								<a href="#">订单编号</a>
+							</dd>
+						</dl>
+					</div>
+				</div> --> 
+				<!-- over -->
+			<!-- </li> -->
+
+			<!-- <li>
+				<a href="#" class="sart" id="detail">详情列表
+         <span class="imgcont">
+         <img src="combestres/images/sel.png"></span></a> -->
+				<!-- 详情列表、详情统计表 -->
+				<!-- <div id="hidedetail"></div>
+				<div style="position: fixed;z-index: 9999;width: 28%;top: 85px;">
+					<div id="hidedetailbox">
+						<dl>
+							<dd onclick="hide(4)">
+								<a href="#" style="color: #ff8749;">详情列表</a>
+							</dd>
+							<dd onclick="hide(4)">
+								<a href="#">统计表</a>
+							</dd>
+						</dl>
+					</div>
+				</div> -->
+				<!-- over -->
+			<!-- </li> -->
+		<!-- </ul>
+	</div> -->
+	<!-- over -->
+	<!-- 本日、本周、本月 -->
+	<!-- <div id="hidebg"></div>
+	<div style="position: fixed;z-index: 9999;width: 33%;top: 85px;">
+		<div id="hidebox">
+			<dl>
+				<dd onclick="hide(1)" >
+					<a href="#" style="color: #ff8749;">本日</a>
+				</dd>
+				<dd onclick="hide(1)">
+					<a href="#" >本周</a>
+				</dd>
+				<dd onclick="hide(1)">
+					<a href="#">本月</a>
+				</dd>
+			</dl>
+		</div>
+	</div> -->
+	<!-- over -->
+	<div style="float:left;margin-top:-30px">
+		<input style="width:1px;height:1px" type="date" id="dateId" onchange="onchangeDate(this);"/>
+	</div>
+	<div style="display:none">
+		<ul>
+			<li><span>按日期</span></li>
+			<li>
+				<input id="onedates" onClick="laydate()" style="width:90px" value="" />
+			</li>
+			<li>
+				<input id="demos" value="" style="width:90px">
+			</li>
+			<li>
+				<input type="button" id="submit" onclick="submits();" value="搜索"/>
+			</li>
+		</ul>
+	</div>
+	<div id="canvas" style="margin-top: 44px;">
+		<!-- <table class="alyztab"> -->
+		<table class="alyztab"  id="canvas_tab">
+
+		</table>
+	</div>
+
+
+</div>
+</div>
+<script>
+var canvas = document.getElementById("canvas");
+var div=canvas.children[0];
+var startX,startY;
+
+function touchStart(event){
+   var touch=event.touches[0];
+   startX=touch.pageX;
+   startY=touch.pageY;
+}
+function touchMove(event){
+   var touch=event.touches[0];
+   timer = setInterval(function() {
+   renderTouches(touches);
+}, 1);
+
+var x = touch.pageX - startX;
+var y = touch.pageY - startY;
+
+}
+</script>
+
+<script>
+;!function(){
+laydate({
+   elem: '#demo'
+})
+}();
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+//
+//  QuickView.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/29.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "QuickView.h"
+
+
+@implementation QuickView{
+    QuickTypeBlock tempQuickTypeBlock;
+    
+}
+
+
+- (instancetype)initWithFrame:(CGRect)frame withQuickType:(QuickTypeBlock)aBlock{
+    
+    tempQuickTypeBlock = [aBlock copy];
+    if (self = [super initWithFrame:frame]) {
+        
+    }
+    return self;
+}
+- (void)createView{
+    
+    CGFloat width = (self.frame.size.width - 50) / 4;
+    CGFloat hight = 44;
+    CGFloat y = 10;
+    NSInteger tag = 100;
+//    NSInteger num = arc4random_uniform(20);
+    
+    for (int j = 0; j < (self.num / 4) + 1; j++) {
+        
+        for (int i = 0; i < 4; i ++) {
+            
+            
+            UIControl *control = [[UIControl alloc]initWithFrame:CGRectMake( i * (width + 10) + 10 , y, width, hight)];
+            control.tag = tag ++ ;
+            control.backgroundColor = [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:1];
+            [control addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+            [self addSubview:control];
+        }
+        y += hight + 10;
+    }
+    
+}
+
+- (void)click:(UIControl *)sender{
+    
+    tempQuickTypeBlock(sender.tag);
+    
+}
+
+- (void)setNum:(NSInteger)num{
+    _num = num;
+    
+    [self createView];
+
+    
+}
+
+@end

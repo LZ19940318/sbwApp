@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+	<title>资金计划审批</title>
+   <link rel="stylesheet" type="text/css" href="../combestres/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../combestres/css/approve.css">
+	 <script src="http://hostname"></script>
+    <script type="text/javascript" src="../combestres/js/jquery-1.11.2.min.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+	<script type="text/javascript">
+		/********************关闭搜索弹层***********************/
+		$(document).ready(function(){ 
+		  	$('.clo').click(function () {
+                $('#code').hide();
+                $('#goodcover').hide();
+                $('.opac').hide();
+                 document.body.style.overflow = "auto"; //关闭弹层，页面滚动
+            });
+        });       
+/***********************弹层位置*************************/    
+        jQuery.fn.center = function (loaded) {
+            var obj = this;
+            $('.opac').css('height',parseInt($(window).height())+parseInt($(window).scrollTop()));
+            // 水平
+            body_width = parseInt($(window).width());
+            block_width = parseInt(obj.width());
+            left_position = parseInt((body_width / 2) - (block_width / 2) + $(window).scrollLeft());
+            if (body_width < block_width) {
+                left_position = 0 + $(window).scrollLeft();
+            }
+            $('.clpa').css('margin-left',left_position);
+            // 垂直
+             body_height = parseInt($(window).height());
+             block_height = parseInt(obj.height());
+			 top_position = parseInt((body_height / 2) - (block_height / 2) + $(window).scrollTop())-100;
+             if (body_height < block_height) {
+                top_position = 0 + $(window).scrollTop();
+             }
+              $('.clpa').css('margin-top',top_position);
+        }
+/****************弹层*********************/
+            function checkBox(){
+                $('.clpa').center();
+                $('#goodcover').show();
+                $('.opac').show();
+                $('.clpa').fadeIn();
+                document.body.style.overflow = "hidden";   //弹出窗口后，页面禁止滚动
+            }
+/******************获取单选********************/
+function getRadioVal(){
+	var temp=document.getElementsByName("sprdo");
+	for (var i = 0; i<temp.length; i++) {
+		if (temp[i].checked) {
+		 	if (temp[i].value == "0") {
+		 		$("#appro").css("display","");
+		 		$("#disappro").css("display","none");
+		 	}else{
+		 		$("#appro").css("display","none");
+		 		$("#disappro").css("display","");
+		 	}
+	 	}
+	 } 
+}
+	</script>
+    <script>
+     start=1;
+    function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var mainUnid=getQueryString("mainUnid");
+            var todounid=getQueryString("todounid");
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument.xsp?callback=editTemplate&db=app.ou/combest_data.nsf&items=department_Name,ou,fund_Plan_Name,payment_Period_Name,total_Amount,status_Disp,comments&unid="+mainUnid;
+            document.body.appendChild(script);
+
+            getDatas(1,true);
+    }
+    </script>
+    <script>
+
+    function getDatas(begin,b){
+ 		var plainId=getQueryString("plainId");
+   		 //加载中状态条
+        var loadStaut=document.getElementById("loadStaut");
+        if(b){
+            document.getElementById("showlog").appendChild(loadStaut);
+            loadStaut.style.display="block";
+        }else{
+        }
+        var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocList.xsp";//请求数据地址
+        var callback="list";//回调函数
+        var param="template,app,0";//回调函数的参数，
+        var db="app.ou/combest_data.nsf";//url参数，数据来源数据库
+        var vw="CBVw_fundPlan_lines";//url参数，数据来源视图
+        var items="payment_Period_Name,budget_Big_Category,budget_Mid_Category,budget_Item_Name,department_Name,pr_Ou_Name,vendor_Name,vendor_site_code,spec_Project_Num,spec_Project_Name,contract_Num,contract_Name,antecedent_Debt,currency_Code,invoice_Amount,prepayment_Amount,payment_Amount,amount_CNY";//请示的字段
+        //var thisStart=start;//第几条数据开始
+        var count=20;//读取数据条数
+        //var cat="key1,key2"//查询关键字
+        //执行一个jsonp语句
+        var script=document.createElement("script");
+        script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+plainId;
+        script.type="text/javascript";
+        if(b){
+            start+=count;
+        }
+        document.body.appendChild(script);
+
+    }
+    refresh();
+    </script>
+</head>
+<body onload="load()">
+<div style="display:none;">
+	<table  id="template">
+		<tbody>
+		<tr>
+			<td>{payment_Period_Name}</td>
+			<td>{budget_Big_Category}</td>
+			<td>{budget_Mid_Category}</td>
+			<td>{budget_Item_Name}</td>
+			<td>{department_Name}</td>
+			<td>{pr_Ou_Name}</td>
+			<td>{vendor_Name}</td>
+			<td>{vendor_site_code}</td>
+			<td>{spec_Project_Num}</td>
+			<td>{spec_Project_Name}</td>
+			<td>{contract_Num}</td>
+			<td>{contract_Name}</td>
+			<td>{antecedent_Debt}</td>
+			<td>{currency_Code}</td>
+			<td>{invoice_Amount}</td>
+			<td>{prepayment_Amount}</td>
+			<td>{payment_Amount}</td>
+			<td>{amount_CNY}</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+	<!-- 头部 -->
+	<div class="header">
+        <a class="left" href="plan_list.html">
+            <span class="glyphicon glyphicon-menu-left" style="display:inline-block;margin-bottom:-2px;"></span>
+            返回
+        </a>
+		<span>资金计划审批</span>
+		<a class="right" onclick="checkBox()">审批</a>
+	</div>
+	<!-- 头部over -->
+	<!-- 固定字段 -->
+	<div class="mainHead">
+		<!-- 标题 -->
+		<!--<div class="labelHead" style="border-bottom: 1px solid #f1f1f1;">-->
+			<!--资金计划信息-->
+		<!--</div>-->
+		<div class="fcontent">
+			<span>资金计划名称：</span><span id="fund_Plan_Name" name="fund_Plan_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>部门：</span><span id="department_Name" name="department_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>公司/所属OU：</span><span  id="ou" name="ou"></span>
+		</div>
+		<div class="fcontent">
+			<span>付款期间：</span><span id="payment_Period_Name" name="payment_Period_Name"></span>
+		</div>
+		<div class="fcontent">
+			<span>付款总额（人民币）：</span><span id="total_Amount" name="total_Amount"></span>
+		</div>
+		<div class="fcontent">
+			<span>状态：</span><span id="status_Disp" name="status_Disp"></span>
+		</div>
+		<span class="fcontent">
+			<span>说明：</span>
+			<span id="comments" name="comments"></span>
+		<!-- <div style="clear: both;"></div> -->
+	</div>
+	<!-- 固定字段over -->
+	<!-- 分割 -->
+	<div class="space"></div>
+	<!-- 表格字段 -->
+
+	<!--<div class="labelHead">-->
+			<!--资金计划详细-->
+	<!--</div>-->
+	<div class="table-responsive">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+                        <th>预算期间</th>
+                        <th>预算大类</th>
+                        <th>预算中类</th>
+                        <th>预算项目</th>
+                        <th>部门</th>
+                        <th>实际采购单位</th>
+                        <th>供应商</th>
+                        <th>供应商地点</th>
+                        <th>项目编号</th>
+                        <th>项目名称</th>
+                        <th>合同编号</th>
+                        <th>合同名称</th>
+                        <th>前期欠款</th>
+                        <th>币种</th>
+                        <th>应付款</th>
+                        <th>预付款</th>
+                        <th>支付总额</th>
+                        <th>请款金额</th>
+                    </tr>
+                </thead>
+                <tbody id="app">
+
+				</tbody>
+		</table>
+
+	</div>
+	<div id="showlog">
+		<a style="display:none;text-align:center" id="loadStaut">
+			加载中...
+		</a>
+	</div>
+
+	<!-- 表格字段over -->
+	<!-- 弹出层 -->
+	<div id="goodcover">
+	<div class="opac"></div><!--遮罩层-->
+	<div class="clpa">
+		<div class="tit"><span class="col clo">关闭</span></div>
+		<div class="radi"><span>审核意见：</span>
+		<span style="display:inline-block; margin-right:30px;"><input name="sprdo" type="radio" value="0" onchange="getRadioVal()" checked="checked"/>同意</span>
+		<input name="sprdo" type="radio" value="1" onchange="getRadioVal()"/>驳回
+		</div>
+		<div class="apro clearfix"><span style="float: left;">详细意见：</span>
+			<!-- 审批同意意见 -->
+		    <textarea  id="appro" rows="4" placeholder="请输入同意审批意见："></textarea>
+			<!-- 审批不同意意见 -->
+			<textarea  id="disappro"  rows="4" placeholder="请输入不同意审批意见：" style="display: none"></textarea>
+		</div>
+
+		<div class="btnCont">
+			<button class="clo">取消</button>
+			<input type="button" id="ok" value="确认"/>
+		</div>
+	</div>
+</div>
+		<script>
+
+
+		$("#ok").click(function () {
+		<!--****************审核意见不为空判断*****************-->
+		<!--var suggestState = param.get("suggestState"); //审批状态（0：同意  1：不同意）-->
+		<!--var suggestion = param.get("suggestion");   //意见-->
+		<!--var todoUnid = param.get("todoUnid");      //待办Id-->
+		<!--var unid = param.get("mainUnid").value;   //主文档Id-->
+
+		var temp=document.getElementsByName("sprdo");
+		var appro=$("#appro").val();
+		var disappro=$("#disappro").val();
+
+		 var unid=getQueryString("mainUnid");
+         var todounid=getQueryString("todounid");
+
+		for (var i = 0; i<temp.length; i++) {
+			if(temp[i].checked){
+			var suggestState=temp[i].value;
+				if(temp[i].value =="0"||temp[i].value == 0){
+					<!--if(appro == null || appro == ""){-->
+						<!--alert("审核意见不能为空");return false;-->
+					<!--}else{-->
+						var suggestion=$("#appro").val();
+					<!--}-->
+				}else{
+					<!--if(disappro == null || disappro == ""){-->
+						<!--alert("审核意见不能为空");return false;-->
+					<!--}else{-->
+						var suggestion=$("#disappro").val();
+					<!--}-->
+				}
+			}
+		}
+
+		 <!--if(confirm("您确定要修改数据吗？")){-->
+            var posts=[
+                 encodeURI(suggestState),
+                 encodeURI(suggestion),
+                 encodeURI(todounid),
+                 encodeURI(unid)
+                 ]
+				var callback="backresult";
+				var urldata ="db=app.ou/combest_data.nsf&suggestState="+posts[0]+"&suggestion="+posts[1]+"&todounid="+posts[2]+"&unid="+posts[3]+"&callback="+callback;
+				var oks = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDocByApprove.xsp",urldata)
+				 if(oks!=null){
+				   eval(oks);
+				 }
+			<!--}else{-->
+				<!--return false;-->
+			<!--}-->
+		});
+	 function backresult(oks){
+	  		alert(oks);
+			window.location.href="plan_list.html";
+            <!--if(oks.substring(0,5)=="false"){-->
+                 <!--alert("保存错误");-->
+            <!--}-->
+           <!--if(oks.substring(0,4)=="true"){-->
+                <!--alert("保存成功!");-->
+               <!--// var parentUnid=getQueryString("parentUnid");-->
+                 <!--window.location.href="plan_list.html";-->
+             <!--}-->
+      }
+		</script>
+</body>
+</html>

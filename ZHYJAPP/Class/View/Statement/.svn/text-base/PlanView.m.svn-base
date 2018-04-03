@@ -1,0 +1,58 @@
+//
+//  PlanView.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/21.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "PlanView.h"
+
+@implementation PlanView{
+    
+    BackButtonTagBlock tempButtloTagBlock;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame withButtonTag:(BackButtonTagBlock)buttonTagBlock{
+    
+    tempButtloTagBlock = [buttonTagBlock copy];
+    
+    if (self = [super initWithFrame:frame]) {
+        [self createView];
+        self.backgroundColor = [UIColor whiteColor];
+    }
+    return self;
+}
+
+- (void)createView{
+    
+    // 生产计划
+    UIButton *produceButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 40)];
+    produceButton.tag = 21;
+    [produceButton setTitle:@"生产计划" forState:UIControlStateNormal];
+    [produceButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    produceButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    produceButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    [produceButton addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:produceButton];
+    
+    
+    // 出售计划
+    UIButton *saleButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 40, self.frame.size.width, 30)];
+    saleButton.tag = 22;
+    [saleButton setTitle:@"出售计划" forState:UIControlStateNormal];
+    [saleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    saleButton.titleLabel.font = [UIFont systemFontOfSize:16];
+    saleButton.contentHorizontalAlignment =UIControlContentHorizontalAlignmentCenter;
+    [saleButton addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:saleButton]; 
+    
+}
+- (void)click:(UIButton *)sender{
+    tempButtloTagBlock(sender.tag);
+
+    [self removeFromSuperview];
+
+}
+
+@end

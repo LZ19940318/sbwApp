@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>个性设置</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+     <script src="http://hostname"></script>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+            var account=url.substring(url.indexOf("account=")+8);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getPersonDocument.xsp?callback=edit&db=app.ou/combest_hr.nsf&items=ChineseName,shortName,Type,etJobTitle,cellnum,OfficePhoneNumber&account="+account
+            document.body.appendChild(script);
+           // kailLodings();
+        }
+    </script>
+</head>
+<style type="text/css">
+#conter{
+    padding-bottom:30px;
+}
+    *{
+    font-family:微软雅黑;
+    }
+    #lodings{
+    position:fixed;
+    top:0px;
+    left:0px;
+    background:rgba(0, 0, 0, 0.3);
+    width:100%;
+    height:100%;
+    z-index:999999;
+    text-align:center;
+    }
+    #lodings>div{
+    width:100%;
+    height:100%;
+    position:relative;
+    }
+    #lodings>div>img{
+    width: 30%;
+    height: auto;
+    display: initial;
+    position: absolute;
+    margin: auto;
+    top: 40%;
+    left: 35%;
+    }
+    .form-group{
+        border-bottom:1px solid #f1f1f1;height:65px;line-height:65px;margin:0;
+    }
+</style>
+<body onload="load()">
+<!--头部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header" style="text-align:center;height:45px;line-height:50px;background-color:#2e2e2e;">
+        
+         <a class="navbar-brand" onclick="android.closeAct()" style="color:#fff;font-size:1.1em;">
+            <span class="glyphicon glyphicon-menu-left"style="font-size:1.3em;" ></span>
+            <span style="position: absolute;display: inline-block;margin-top: -23px;margin-left: 10px;">返回</span>
+        </a>
+        <span style="font-size:1.2em;color:#fff">个性设置</span>
+       <span class="navbar-brand" style="float:right;font-size:1.1em;color:#fff;">
+            <span style="display: none;" id="ok" >提交</span>
+         <span  style="display:inline-block;" id="bianji" onclick="bianji()">编辑</span>
+        </span>
+    </div>
+  </div>
+</nav>
+<!--头部 over-->
+<div class="container-fluid" style="position:relative;top:60px;">
+    <div style="display:none"><input id="unid" name="unid" /></div>
+    <fieldset id="conter">
+        <div class="form-group" style="">
+            <span for="ChineseName" class="labels">用户名</span>
+            <input type="text" disabled class="form-control required" id="ChineseName" name="ChineseName" placeholder="用户名"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+
+        <div class="form-group">
+            <span for="Type" class="labels">所在部门</span>
+            <input type="text" disabled class="form-control required" id="Type" name="Type" placeholder="所在部门"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group">
+            <span for="etJobTitle" class="labels">职务</span>
+            <input type="text" disabled="" class="form-control required" id="etJobTitle" name="etJobTitle" placeholder="职务"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group phone">
+            <span for="cellnum" class="labels">移动电话</span>
+            <input type="text" disabled class="form-control required" id="cellnum" name="cellnum" placeholder="移动电话"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+        <div class="form-group phone">
+           <span for="OfficePhoneNumber" class="labels">办公电话</span>
+            <input type="text" disabled="" class="form-control required" id="OfficePhoneNumber" name="OfficePhoneNumber" placeholder="办公电话"
+                   style="float:right;width:73%;margin-top:15px;">
+        </div>
+    </fieldset>
+</div>
+
+<script type="text/javascript">
+
+      $("#ok").click(
+                     function () {
+     var ChineseName = document.getElementById("ChineseName").value; //用户名
+     var Type = document.getElementById("Type").value;              //部门
+     var etJobTitle = document.getElementById("etJobTitle").value; //职务
+     var cellnum = document.getElementById("cellnum").value;      //移动电话
+     var OfficePhoneNumber = document.getElementById("OfficePhoneNumber").value; //办公电话
+     var unid = document.getElementById("unid").value;
+
+     if(ChineseName.length>8){
+        alert("用户名长度不超过八个字符，请重新输入！");
+        return false;
+    }else{
+     if(confirm("您确定要修改数据吗？")){
+        var posts=[
+                encodeURI(ChineseName),
+                encodeURI(Type),
+                encodeURI(etJobTitle),
+                encodeURI(cellnum),
+                encodeURI(OfficePhoneNumber),
+                encodeURI(unid)
+        ]
+                var callback="backresult";
+				var urldata ="db=app.ou/combest_hr.nsf&ChineseName="+posts[0]+"&Type="+posts[1]+"&etJobTitle="+posts[2]+"&cellnum="+posts[3]+"&OfficePhoneNumber="+posts[4]+"&unid="+posts[5]+"&callback="+callback;
+
+         var oks = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDoc.xsp",urldata);
+      
+            if(oks!=null){
+               eval(oks);
+             }
+     }else{
+        return false;
+     }
+
+     }
+  });
+     function backresult(oks){
+       var ChineseName = $("#ChineseName").val(); //用户名
+       var Type = $("#Type").val();              //部门
+       var etJobTitle = $("#etJobTitle").val(); //职务
+
+        if(oks.substring(0,5)=="false"){
+             alert("保存错误");
+        }
+       if(oks.substring(0,4)=="true"){
+            alert("保存成功!");
+             //window.location.href="../myset.html?ChineseName="+ChineseName+"&Type="+Type+"&etJobTitle="+etJobTitle;
+            window.location.href="../myset.html";
+          //  userInfo.getUserInfo();  //重新获取修改后的当前用户名、职位和部门
+         }
+      }
+  function back(){
+            window.location.href="../myset.html"
+  }
+</script>
+
+<script type="text/javascript">
+/***点击编辑按钮,页面输入框可编辑，且编辑按钮隐藏，提交按钮出现***/
+
+
+          function editData(){
+                $(".phone input").removeAttr("disabled");
+                $("#bianji").css({"display":"none"});
+                $("#ok").css({"display":"inline-block"});
+            }
+
+
+            function getdata1(){
+                
+                var ChineseName = document.getElementById("ChineseName").value; //用户名
+                var Type = document.getElementById("Type").value;              //部门
+                var etJobTitle = document.getElementById("etJobTitle").value; //职务
+                var cellnum = document.getElementById("cellnum").value;      //移动电话
+                var OfficePhoneNumber = document.getElementById("OfficePhoneNumber").value; //办公电话
+                var unid = document.getElementById("unid").value;
+                
+                if(ChineseName.length>8){
+                    alert("用户名长度不超过八个字符，请重新输入！");
+                    return false;
+                }else{
+                    if(confirm("您确定要修改数据吗？")){
+                        var posts=[
+                                   encodeURI(ChineseName),
+                                   encodeURI(Type),
+                                   encodeURI(etJobTitle),
+                                   encodeURI(cellnum),
+                                   encodeURI(OfficePhoneNumber),
+                                   encodeURI(unid)
+                                   ]
+                                   var callback="backresult";
+                                   var urldata ="db=app.ou/combest_hr.nsf&ChineseName="+posts[0]+"&Type="+posts[1]+"&etJobTitle="+posts[2]+"&cellnum="+posts[3]+"&OfficePhoneNumber="+posts[4]+"&unid="+posts[5]+"&callback="+callback;
+                                   
+                                   var oks = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDoc.xsp",urldata);
+                                   if(oks!=null){
+                                       eval(oks);
+                                   }
+                    }else{
+                        return false;
+                    }
+                    
+                }
+                
+            }
+
+</script>
+</body>
+
+</html>

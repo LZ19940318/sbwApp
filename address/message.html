@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+	<title>智慧赢家</title>
+	<link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="../combestres/css/combest.css" rel="stylesheet">
+	<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="../combestres/bootstrap/js/bootstrap.js"></script>
+	<script src="../combestres/js/combest.js"></script>
+	<script>
+		function sendMsg(){
+			var account="admin";
+
+			var msg=document.getElementById("inMsg").value;
+
+			app.sendMsgSingle(account,msg)
+		}
+	</script>
+</head>
+<body >
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+				<span style="color:#ffffff">人名</span>
+		</div>
+		<div class="ކnav navbar-navކnavbar-right" role="navigation">
+				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+		</div>
+	</div>
+</div>
+<div class="posbottom container-fluid">
+	<div class="row">
+		<textarea id="inMsg" name="inMsg" class="col-md-10"></textarea>
+		<button name="subMsg" id="sendMsg"  class="btn btn-primary col-md-2" onclick="sendMsg()">发送</button>
+	</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+//
+//  ZHYJLocalCache.m
+//  ZHYJAPP
+//
+//  Created by admin on 16/4/27.
+//  Copyright © 2016年 admin. All rights reserved.
+//
+
+#import "ZHYJLocalCache.h"
+#import "AFNetworking.h"
+
+@interface ZHYJLocalCache() <NSURLSessionDelegate>
+{
+    NSMutableDictionary *cachedResponses;
+    NSURLSessionDataTask *tasks;
+    NSCachedURLResponse *cachedResponse;
+}
+@end
+
+@implementation ZHYJLocalCache
+
+//- (instancetype)initWithMemoryCapacity:(NSUInteger)memoryCapacity diskCapacity:(NSUInteger)diskCapacity diskPath:(NSString *)path
+//{
+//    self = [super initWithMemoryCapacity:memoryCapacity diskCapacity:diskCapacity diskPath:path];
+//    
+//    if ( self != nil )
+//    {
+//        cachedResponses = [[NSMutableDictionary alloc] init];
+//    }
+//    return self;
+//}
+
+
+//- (NSCachedURLResponse *)cachedResponseForRequest:(NSURLRequest *)request
+//{
+//    //
+//    // Get the path for the request
+//    //
+////    cachedResponses = [[NSMutableDictionary alloc] init];
+//    NSString *pathString = [[request URL] absoluteString];
+////    NSLog(@"--pathString--:%@", pathString);
+//    //判断截取的url是否需要做处理
+//    if ([pathString rangeOfString:@".xsp"].location == NSNotFound) {
+//        return [super cachedResponseForRequest:request];
+//    }else if([pathString rangeOfString:@"CBXsp_getUserMsg.xsp"].location != NSNotFound){
+//        return [super cachedResponseForRequest:request];
+//    }else if ([pathString rangeOfString:@"hasRequestedPathString"].location != NSNotFound){
+//        return [super cachedResponseForRequest:request];
+//    }else{
+//        pathString = [pathString stringByReplacingOccurrencesOfString:@"app.server_address" withString:[DataManager sharedDataManager].hostString];
+//        pathString = [pathString stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+//        //标记url，防止发送请求时无限循环
+//        pathString = [pathString stringByAppendingString:@"&hasRequestedPathString=1"];
+//        
+////        NSLog(@"00%@", pathString);
+//        
+////        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:[DataManager sharedDataManager].BaseURLString]];
+////        manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+////        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+////        [manager POST:pathString parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//                ////获取文本类型
+//////            NSLog(@"mimeType: %@", task.response.MIMEType);
+//////            NSData *data = [NSData dataWithData:responseObject];
+//////            NSURLResponse *response = [NSURLResponse alloc] initWithURL:[request URL] MIMEType:mimeType expectedContentLength:data.length textEncodingName:<#(nullable NSString *)#>];
+////            //cachedResponse = responseObject;
+//////            NSLog(@"cachedResponse %@", cachedResponse);
+////
+////        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+////            NSLog(@"error: %@", error.localizedDescription);
+////        }];
+//     
+//        
+////        NSURL *url = [NSURL URLWithString:@"http://www.baidu.com"];
+////        NSURLRequest *request1 = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:1];
+////        NSHTTPURLResponse *response = nil;
+////
+////        [NSURLConnection sendSynchronousRequest:request1 returningResponse:&response error:nil];
+////        NSLog(@"response类型：%@", response.MIMEType);
+//    }
+//    
+//    // 从缓存字典里取一个NSCachedURLResponse对象存储
+////    __block NSCachedURLResponse *cachedResponse = [cachedResponses objectForKey:pathString];
+//    
+////    NSURL *url = [request URL];
+////    NSURLResponse *response = [[NSURLResponse alloc] initWithURL:url MIMEType:@"html/plain" expectedContentLength:1 textEncodingName:nil];
+////    
+////    NSCachedURLResponse *cacheResponse = [[NSCachedURLResponse alloc] initWithResponse:response data:[NSData dataWithBytes:" " length:1]];
+////    [super storeCachedResponse:cacheResponse forRequest:request];
+////    return [super cachedResponseForRequest:request];
+//
+//    
+//    if (cachedResponse)
+//    {
+////        NSLog(@"返回的数据：%@", cachedResponse);
+//        //如果从缓存字典里成功取到就直接返回。
+//        //return cachedResponse;
+//    }else{
+////        NSURLSession.sharedSession().dataTaskWithRequest(request).resume()
+//        [[[NSURLSession sharedSession] dataTaskWithRequest:request] resume];
+//        cachedResponse = [super cachedResponseForRequest:request];
+//        if (cachedResponse) {
+//            [cachedResponses setObject:cachedResponse forKey:pathString];
+//        }
+//    }
+//    return cachedResponse;
+//}
+
+//清除缓存
+- (void)removeCachedResponseForRequest:(NSURLRequest *)request
+{
+    NSString *pathString = [[request URL] path];
+    if ([cachedResponses objectForKey:pathString])
+    {
+        [cachedResponses removeObjectForKey:pathString];
+    }else
+    {
+        [super removeCachedResponseForRequest:request];
+    }
+}
+
+
+
+
+
+
+
+
+@end
+
+

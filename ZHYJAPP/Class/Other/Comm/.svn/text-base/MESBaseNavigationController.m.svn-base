@@ -1,0 +1,43 @@
+//
+//  MESBaseNavigationController.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/27.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "MESBaseNavigationController.h"
+
+@interface MESBaseNavigationController ()
+
+@end
+
+@implementation MESBaseNavigationController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+  
+    
+     //修改标题字体颜色
+    
+    [self.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:[UIFont systemFontOfSize:18],
+       NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+
+    // 设置导航栏的颜色
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:50.0/255 green:50.0/255 blue:50.0/255 alpha:1]];
+    
+    // 是否设置透明
+    [[UINavigationBar appearance] setTranslucent:NO];
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+
+@end

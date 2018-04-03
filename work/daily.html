@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>日历</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script src="../combestres/calendar/zzsc.js"></script>
+</head>
+<style>
+*{margin:0;padding:0;list-style:none;border:none;}
+body{background:#fff;width:100%;}
+select{font-size: 12pt;height: 25px;line-height: 25px;width: 80px; color:#373636;background-color:#fff;}
+/*.content{border:3px solid #ddd;width:405px;margin:100px auto;}*/
+.content{margin:20px auto;padding:0;width:100%;}
+.datetable{border-top:1px solid #ccc;border-left:1px solid #ccc;background:#fff;margin:0 auto;}
+.datetable td{border-bottom:1px solid #ccc;border-right:1px solid #ccc;text-align:center;}
+.datetable thead{background:#006600;}
+.datetable thead td{padding:10px 5px;font:normal 12px/normal 'microsoft yahei';color:#fff;text-align:center;}
+.datetable thead td span{padding:0 5px;font-size:12pt;}
+.datetable tbody td{padding:5px 3px;font-size:12px;}
+</style>
+</head>
+<body onload="initial();">
+<form name="CLD" class="content">
+
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="datetable" align="center">
+            <thead>
+            <tr>
+                <td colSpan=7><span>公历</span>
+                    <select name="SY" onchange="changeCld();">
+                        <script>
+            for(i=1900;i<2050;i++) document.write('<option>'+i);
+        </script>
+                    </select><span>年</span>
+                    <select name="SM" onchange="changeCld();">
+                        <script>
+            for(i=1;i<13;i++) document.write('<option>'+i);
+        </script>
+                    </select><span>月</span>
+                    </font><span id="GZ"></span>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr style="background:#eee;">
+                <td width="54">日</td>
+                <td width="54">一</td>
+                <td width="54">二</td>
+                <td width="54">三</td>
+                <td width="54">四</td>
+                <td width="54">五</td>
+                <td width="54">六</td>
+            </tr>
+            <script>
+    var gNum;
+    for(i=0;i<6;i++) {
+       document.write('<tr align="center">');
+       for(j=0;j<7;j++) {
+          gNum = i*7+j;
+          document.write('<td id="GD' + gNum +'"><font id="SD' + gNum +'" size=2 face="Arial Black"');
+          if(j == 0) document.write('color="red"');
+          if(j == 6) document.write('color="#000080"');
+          document.write('></font><br/><font id="LD' + gNum + '" size=2 style="font-size:9pt"></font></td>');
+       }
+       document.write('</tr>');
+    }
+   </script>
+            </tbody>
+        </table>
+
+
+</form>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>跟进记录文档</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument.xsp?callback=edit&db=app.ou/combest_crm.nsf&items=cusName,contacter,followMan,gjTime,communicate,belongProcess,cusJdmb,cusGjRecorder,cusAddName&unid="+unid
+            document.body.appendChild(script);
+            kailLodings();
+        }
+    </script>
+</head>
+<style type="text/css">
+#conter{
+    padding-bottom:30px;
+}
+</style>
+<body onload="load()">
+<style type="text/css">
+        #lodings{
+            position:fixed;
+            top:0px;
+            left:0px;
+            background:rgba(0, 0, 0, 0.3);
+            width:100%;
+            height:100%;
+            z-index:999999;
+            text-align:center;
+        }
+        #lodings>div{
+            width:100%;
+            height:100%;
+            position:relative;
+        }
+        #lodings>div>img{
+            width: 30%;
+            height: auto;
+            display: initial;
+            position: absolute;
+            margin: auto;
+            top: 40%;
+            left: 35%;
+        }
+    </style>
+<div id="lodings">
+    <div><img src="combestres/images/loding.gif" alt=""></div>
+</div>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header" style="background-color:#2e2e2e">
+        <a class="navbar-brand" href="javascript:history.back(-1)" style="font-size:1.1em;color:#fff">
+            <span class="glyphicon glyphicon-menu-left"style="font-size:1.3em;" ></span>
+            <span style="position: absolute;display: inline-block;margin-top: -23px;margin-left: 20px;">返回</span>
+        </a>
+        <a class="navbar-brand" href="#" style="float:right;font-size:1.2em;color:#fff;display:none">
+            <span style="display: none;" id="ok">提交</span>
+            <span  style="display:inline-block;" id="bianji">编辑</span>    
+        </a>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid" style="position:relative;top:60px;">
+    <form action="http://{app.server_address}/{app.ou}/combest_crm.nsf/CBXsp_save.xsp" >
+    <fieldset id="conter">
+        <div class="form-group">
+            <label for="cusName" class="labels">客户名称</label>
+            <input type="text" disabled class="form-control required" id="cusName" name="cusName" placeholder="客户名称">
+        </div>
+
+        <div class="form-group">
+            <label for="contacter" class="labels">联系人</label>
+            <input type="text" disabled class="form-control required" id="contacter" name="contacter" placeholder="联系人">
+        </div>
+        <div class="form-group">
+            <label for="followMan" class="labels">跟进人</label>
+            <input type="text" disabled class="form-control required" id="followMan" name="followMan" placeholder="跟进人">
+        </div>
+        <div class="form-group">
+            <label for="gjTime" class="labels">跟进时间</label>
+            <input type="tate" disabled class="form-control required" id="gjTime" name="gjTime" placeholder="跟进时间">
+        </div>
+        <div class="form-group">
+            <label for="communicate" class="labels">联系方式</label>
+            <input type="select" disabled  class="form-control required" id="communicate" name="communicate" placeholder="联系方式" >
+            <!-- <select name="" disabled class="form-control required" id="cusPropertys">
+                <option value="普通">普通</option>
+                <option value="重要">重要</option>
+                <option value="失败">失败</option>
+                <option value="休眠">休眠</option>
+            </select> -->
+        </div>
+        <div class="form-group">
+            <label for="belongProcess" class="labels">所属阶段</label>
+            <input type="text" disabled class="form-control required" id="belongProcess" name="belongProcess" placeholder="所属阶段">
+        </div>
+        <div class="form-group">
+            <label for="cusJdmb" class="labels">阶段目标</label>
+            <input type="text" disabled class="form-control required" id="cusJdmb" name="cusJdmb"  placeholder="阶段目标">
+        </div>
+        <div class="form-group">
+            <label for="cusGjRecorder" class="labels">跟进记录</label>
+            <input type="text" disabled class="form-control required" id="cusGjRecorder" name="cusGjRecorder" placeholder="跟进记录">
+        </div>
+        
+    </fieldset>
+</form>
+</div>
+<script type="text/javascript">
+ var url=location.href;
+var unids =url.indexOf("unid=")
+        if(unids=="-1"){
+            $(".form-group input,.form-group select").removeAttr("disabled")
+            $("#cusAddName").attr("disabled","true")
+            $("#cusAddName").val(app.getUserName())
+            $("#ok").css({"display":"inline-block"})
+            $("#bianji").css('display', 'none');    
+        }
+    $("#bianji").click(function(){
+        $(".form-group input,.form-group select").removeAttr("disabled")
+        $("#cusAddName").attr("disabled","true")
+        $(this).css({"display":"none"});
+        $("#ok").css({"display":"inline-block"})
+    })
+    $("#ok").click(function(){
+        var unid=url.substring(url.indexOf("unid=")+5);
+        var posts=[
+                encodeURI($("#cusName").val()),
+                encodeURI($("#contacter").val()),
+                encodeURI($("#followMan").val()),
+                encodeURI($("#gjTime").val()),
+                encodeURI($("#communicate").val()),
+                encodeURI($("#belongProcess").val()),
+                encodeURI($("#cusJdmb").val()),
+                encodeURI($("#cusGjRecorder").val()),
+                ]
+        for (var i = 1; i < $(".required").length+1; i++) {
+                var a = Verification.text("fieldset>.form-group:nth-child("+i+")>.required");
+                if(a==false){
+                    return false;
+                    break;
+                    }
+                }
+        
+        if(unids=="-1"){
+            var urldata =  "form=CBFrm_catchManager&db=app.ou/combest_crm.nsf&cusName="+posts[0]+"contacter="+posts[1]+"followMan="+posts[2]+"gjTime="+posts[3]+"communicate="+posts[4]+"belongProcess="+posts[5]+"cusJdmb="+posts[6]+"cusGjRecorder="+posts[7]+"&hotCus=0&callback=back";
+        }else {
+            var urldata =  "form=CBFrm_catchManager&db=app.ou/combest_crm.nsf&unid="+unid+"&cusName="+posts[0]+"contacter="+posts[1]+"followMan="+posts[2]+"gjTime="+posts[3]+"communicate="+posts[4]+"belongProcess="+posts[5]+"cusJdmb="+posts[6]+"cusGjRecorder="+posts[7]+"&hotCus=0&callback=back";
+        }
+        
+        var oks = app.postData(
+                "http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDoc.xsp",urldata
+               )
+        if(oks.substring(0,5)==="false"){
+                alert("错误");
+            }
+        if(oks.substring(0,4)==="true"){
+                window.location.href="catchFile.html"
+            }
+        })
+
+</script>
+</body>
+<script type="text/javascript">
+    lodings();
+    function fanhui(){
+        history.back(-1)
+    }
+</script>
+</html>

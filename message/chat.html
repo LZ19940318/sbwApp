@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>username</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+	<title>智慧赢家</title>
+	<link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="../combestres/css/combest.css" rel="stylesheet">
+	<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="../combestres/bootstrap/js/bootstrap.js"></script>
+	<script src="../combestres/js/combest.js"></script>
+    <style type="text/css">
+    body{
+    	min-width: 250px;
+		overflow-y:hidden;
+		overflow-x:hidden;
+    }
+	#context{
+		height: 99%;
+		width:100%;
+		overflow-y: scroll;
+		overflow-x:hidden;
+		position: absolute;
+		background: #dddddd;
+	}
+	#contrller{
+
+		position: absolute;
+		bottom:0px;
+		left:0px;
+		background: #ffffff;
+		box-shadow:0px -3px 1px rgba(0,0,0,0.1);
+	}
+
+
+	.userimg{
+		width:50px;
+		height:auto;
+		overflow:hidden;
+		border-radius: 50%;
+	}
+		#text{
+
+			margin-left: 5px;
+			border:none;
+			border-bottom:2px solid #e2e2e2;
+			height:34px;
+			margin-right:5px;
+			font-size:20px;
+		}
+
+	.user-context-left{
+		border:1px solid #f6f6f6;
+		background: #ffffff;
+		box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+		border-radius:5px;
+		padding:10px;
+	}
+	.user-context-right{
+			padding:10px;
+			border:1px solid rgba(51,204,102,0.5);
+			background: rgba(51,204,102,0.5);
+			box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+			border-radius:5px;
+
+		}
+		.user-context-right p{
+			position:relative;
+
+		}
+	.user-context-left:after{
+		    content: "";
+		    display: block;
+		    width: 0px;
+		    height: 0px;
+		    border-top: 5px solid transparent;
+		    border-right: 10px solid #ffffff;
+			border-bottom: 5px solid transparent;
+		    position: absolute;
+		    top: 20px;
+    		left: -9px;
+	}
+	.user-context-right:after{
+
+		    content: "";
+		    display: block;
+		    width: 0px;
+		    height: 0px;
+		    border-top: 5px solid transparent;
+		    border-left: 10px solid rgba(51,204,102,0.5);
+		    border-bottom: 5px solid transparent;
+		    position: absolute;
+		    top: 20px;
+    		right: -9px;
+	}
+	.usertime{
+		text-align: center;
+	}
+	.col-xs-2{
+		padding-left:2px;
+		padding-right:2px;
+		}
+    </style>
+
+	<script>
+
+		var url=location.href;
+	 	sendTo=url.substring(url.indexOf("account=")+8);
+		var myPhoto=app.getPhoto(app.getAccount());
+
+		//发送消息
+		function sendMsg(){
+			if(document.getElementById("text").value==""){
+				return;
+			}
+			var myMsgTemp=document.getElementById("myChatTemplate").innerHTML;
+			var msg=document.getElementById("text").value;
+
+			var now=new Date();
+			var day=now.getDate();
+			var hour=now.getHours();
+			var minute=now.getMinutes();
+
+			var second=now.getSeconds();
+			var newMyMsg=myMsgTemp.replace("{time}",hour+":"+minute+":"+second).replace("{msg}",msg).replace("{photo}",myPhoto);
+
+			document.getElementById("context").innerHTML+=newMyMsg;
+			document.getElementById("context").scrollTop = document.getElementById("context").scrollHeight;
+			document.getElementById("text").value="";
+			app.sendMsgSingle(sendTo,msg);
+		}
+		var myAccount=app.getAccount();
+		var onlyNew=false;
+		//获得消息
+		function getMsg(){
+			var otherMsgTemp=document.getElementById("otherChatTemplate").innerHTML;
+			var myMsgTemp=document.getElementById("myChatTemplate").innerHTML;
+			var message=app.queryChat(myAccount,sendTo,onlyNew);
+			onlyNew=true;
+			var json=eval("("+message+")");
+			var arr=json.list;
+			var newMsg="";
+			for(var i=0;i<arr.length;i++){
+				obj=arr[i];
+				var sender=obj.sender;
+				var receiver=obj.receiver;
+				var msg=obj.msg;
+				var time=obj.time;
+				if(sender==myAccount){
+					newMsg+=myMsgTemp.replace("{time}",time).replace("{msg}",msg).replace("{photo}",myPhoto);
+				}else{
+					newMsg+=otherMsgTemp.replace("{time}",time).replace("{msg}",msg).replace("{photo}",obj.photo);
+				}
+
+			}
+			if(newMsg!=""){
+				document.getElementById("context").innerHTML+=newMsg;
+				document.getElementById("context").scrollTop = document.getElementById("context").scrollHeight;
+			}
+			setTimeout("getMsg()",1000);
+		}
+
+	</script>
+</head>
+<body onload="document.getElementById('toAccount').innerHTML='与'+sendTo+'聊天中';getMsg()">
+<!--模板-->
+	<div id="otherChatTemplate" style="display:none">
+		<div clas="row" >
+			<p class="col-xs-12 usertime">{time}</p>
+			<div class="col-xs-2" align="right" >
+				<img src="{photo}" style="margin-right:6px" class="userimg" >
+			</div>
+			<div class="col-xs-8 user-context-left">
+				<p>{msg}</p>
+			</div>
+		</div>
+	</div>
+	<div id="myChatTemplate" style="display:none">
+		<div clas="row" >
+			<p class="col-xs-12 usertime">{time}</p>
+			<div class="col-xs-2"></div>
+
+			<div class="col-xs-8 user-context-right">
+				<p>
+					{msg}
+				</p>
+			</div>
+			<div class="col-xs-2">
+				<img src="{photo}"  style="margin-left:6px" class="userimg">
+			</div>
+		</div>
+	</div>
+<!--导航-->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-header" style="color:#ffffff">
+
+			<a class="navbar-brand"  href="../index.html" id="back" style="color:#ffffff" ><span class="glyphicon glyphicon-menu-left" ></span> </a>
+			<span class="navbar-brand" id="toAccount" style="color:#ffffff"></span>
+		</div>
+	</nav>
+<!--内容-->
+	<div class="container-fluid" id="context" style="padding:2px;padding-top:50px;padding-bottom:55px">
+	</div>
+<!--聊天输入框-->
+	<div class="navbar navbar-default navbar-fixed-bottom" style="height:40px">
+		<div class="container-fluid" style="height:40px">
+			<div  class="row" style="padding:5px;">
+				<textarea id="text" class="col-xs-9" ></textarea>
+				<button type="button" id="sub" class="btn btn-primary col-xs-2" onclick="sendMsg()">发送</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

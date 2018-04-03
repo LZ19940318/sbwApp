@@ -1,0 +1,155 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers
+END
+PFConfig.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFConfig.h
+END
+PFQuery.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFQuery.h
+END
+PFObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFObject.h
+END
+PFCloud.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFCloud.h
+END
+PFAnonymousUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFAnonymousUtils.h
+END
+PFPurchase.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFPurchase.h
+END
+PFConstants.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFConstants.h
+END
+PFRelation.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFRelation.h
+END
+PFSubclassing.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFSubclassing.h
+END
+PFUser.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFUser.h
+END
+PFFile.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFFile.h
+END
+PFPush.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFPush.h
+END
+PFProduct.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFProduct.h
+END
+PFObject+Subclass.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFObject+Subclass.h
+END
+PFSession.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFSession.h
+END
+PFTwitterUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFTwitterUtils.h
+END
+PFGeoPoint.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFGeoPoint.h
+END
+Parse.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/Parse.h
+END
+PFAnalytics.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFAnalytics.h
+END
+PFNullability.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFNullability.h
+END
+PFNetworkActivityIndicatorManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFNetworkActivityIndicatorManager.h
+END
+PFACL.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFACL.h
+END
+PFInstallation.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFInstallation.h
+END
+PFRole.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PFRole.h
+END
+PF_Twitter.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/3rdparty/Parse/Parse.framework/Headers/PF_Twitter.h
+END

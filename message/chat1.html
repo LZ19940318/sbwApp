@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>username</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+	<title>智慧赢家</title>
+	<link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+	<link href="../combestres/css/combest.css" rel="stylesheet">
+	<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="../combestres/bootstrap/js/bootstrap.js"></script>
+	<script src="../combestres/js/combest.js"></script>
+    <style type="text/css">
+    body{
+    	min-width: 250px;
+    }
+	.nabs{
+		width:100%;
+		background: #000000;
+		height:5%;
+		text-align: center;
+		font-size:13pt;
+		padding:5px 0px;
+		color:#ffffff;
+		box-shadow:0px 3px 5px rgba(255,255,255,0.1);
+	}
+	.nabs a{
+		float: left;
+		margin-left: 10px;
+		text-align: center;
+		color:#ffffff;
+		text-decoration: none;
+	}
+	#context{
+		width: 100%;
+		height: 100%;
+		overflow-y: scroll;
+		overflow-x:hidden;
+		position: absolute;
+		background: #dddddd;
+		padding-top:50px;
+		padding-bottom:50px;
+	}
+	#contrller{
+		width: 100%;
+		height:50px;
+		position: absolute;
+		bottom:0px;
+		left:0px;
+		padding:5px;
+		background: #ffffff;
+		box-shadow:0px -3px 1px rgba(0,0,0,0.1);
+	}
+	#text{
+		float:left;
+		width: 60%;
+		height:100%;
+		margin-left: 10px;
+		border:none;
+		border-bottom:2px solid #e2e2e2;
+	}
+	#sub{
+		float:right;
+		width: 30%;
+		margin-right:10px;
+		background: #619BB7;
+		color:#ffffff;
+		border:none;
+		height:100%;
+		border-radius: 5px;
+	}
+	.userimg{
+		width:50px;
+		height:auto;
+		overflow:hidden;
+		border-radius: 50%;
+	}
+	.userimg img{
+		width:100%;
+		height:auto;
+	}
+	.userimg-left{
+		float: left;
+	}
+	.userimg-right{
+		float:right;
+	}
+	.usertext{
+		width: 100%;
+		height:auto;
+		position:relative;
+		margin-top:10px;
+		float: left;
+	}
+	.user-context-left{
+		margin-top:-50px;
+		float: left;
+		padding:5px;
+		border:1px solid #f6f6f6;
+		margin-left:60px;
+		margin-right:60px;
+		position: relative;
+		background: #ffffff;
+		box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+		border-radius:5px;
+	}
+	.user-context-right{
+			float: right;
+			padding:5px;
+			border:1px solid #f6f6f6;
+			margin-left:60px;
+			margin-right:60px;
+			margin-top:-50px;
+			position: relative;
+			background: #ffffff;
+			box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+			border-radius:5px;
+	}
+
+	.user-context-left:after{
+		    content: "";
+		    display: block;
+		    width: 0px;
+		    height: 0px;
+		    border-top: 10px solid transparent;
+		    border-right: 10px solid #ffffff;
+		    position: absolute;
+		    top: 20px;
+    		left: -6px;
+	}
+	.user-context-right:after{
+		    content: "";
+		    display: block;
+		    width: 0px;
+		    height: 0px;
+		    border-top: 5px solid transparent;
+		    border-left: 10px solid #ffffff;
+		    border-bottom: 5px solid transparent;
+		    position: absolute;
+		    top: 20px;
+    		right: -6px;
+	}
+	.usertime{
+		width: 100%;
+		padding:0px 0px;
+		text-align: center;
+	}
+    </style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<a href="#" class="glyphicon glyphicon-chevron-left"></a>
+		<span>与xxx聊天中</span>
+	</nav>
+	<div class="container-fluid" id="context" style="padding:5px;padding-top:50px;padding-bottom:50px">
+		<div class="usertext">
+		<p class="usertime">17:20</p>
+			<div class="userimg userimg-left">
+				<img src="../combestres/images/1.jpg">
+			</div>
+			<p class="user-context-left">
+				你好啊啊你
+			</p>
+		</div>
+		<br/><br/>
+		<div class="usertext">
+		<p class="usertime">17:20</p>
+			<div class="userimg userimg-right">
+				<img src="../combestres/images/2.jpg">
+			</div>
+			<p class="user-context-right">
+				你好啊啊
+			</p>
+		</div>
+		<div class="usertext">
+		<p class="usertime">17:20</p>
+			<div class="userimg userimg-right">
+				<img src="../combestres/images/2.jpg">
+			</div>
+			<p class="user-context-right">
+				你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊
+			</p>
+		</div>
+		<div class="usertext">
+		<p class="usertime">17:20</p>
+			<div class="userimg userimg-right">
+				<img src="../combestres/images/2.jpg">
+			</div>
+			<p class="user-context-right">
+				你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊
+			</p>
+		</div>
+		<div class="usertext">
+		<p class="usertime">17:20</p>
+			<div class="userimg userimg-right">
+				<img src="../combestres/images/2.jpg">
+			</div>
+			<p class="user-context-right">
+				你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好啊啊你好
+			</p>
+		</div>
+	</div>
+	<div id="contrller">
+		<textarea id="text"></textarea>
+		<button type="button" id="sub" >发送</button>
+	</div>
+</body>
+</html>

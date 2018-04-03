@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="en" onselectstart='return false'>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>客户</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <link href="combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="combestres/css/work/work.css" rel="stylesheet">
+    <link rel="stylesheet" href="combestres/css/customer/customer.css" type="text/css">
+    <link rel="stylesheet" href="combestres/css/customer/jquery-ui.min.css" type="text/css">
+    <link href="combestres/css/combest.css" rel="stylesheet">
+    <link href="combestres/css/style.css" rel="stylesheet">
+    <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="combestres/js/combest.js"></script>
+    <script src="combestres/js/customer/jquery.js"></script>
+    <script src="combestres/js/customer/jquery-ui.min.js"></script>
+    <script>
+          $(function() {
+            // 运行当前选中的特效
+            function runEffect() {
+              // 从中获取特效类型
+              var selectedEffect = "blind";
+
+              // 大多数的特效类型默认不需要传递选项
+              var options = {};
+              // 一些特效带有必需的参数
+              if ( selectedEffect === "scale" ) {
+                options = { percent: 0 };
+              } else if ( selectedEffect === "size" ) {
+                options = { to: { width: 200, height: 60 } };
+              }
+
+              // 运行特效
+              $( "#effect" ).toggle( selectedEffect, options, 500 );
+            };
+
+            // 根据选择菜单值设置特效
+            $( "#button" ).click(function() {
+              runEffect();
+              return false;
+            });
+          });
+
+        start=1;
+        function getDatas(begin,b){
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+
+            }
+
+           var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocList.xsp";//请求数据地址
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.ou/combest_crm.nsf";//url参数，数据来源数据库
+            var vw="CBVw_catchManagerByUserName";//url参数，数据来源视图
+            var items="cusName,contacter,createTimeStr,belongProcess,gjTime,followMan";//请示的字段
+            //var thisStart=start;//第几条数据开始
+            var count=5;//读取数据条数
+            //var cat="key1,key2"//查询关键字
+            var cat=app.getAccount();
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+cat
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+            kailLodings();
+        }
+        refresh();
+    </script>
+</head>
+
+<body onload="getDatas(1,true)">
+<div class="headssContent" style="background-color: #2e2e2e">
+    <!-- 头部-->
+    <div class="headContent" style="">
+        <a class="linkLeftSty" href="work.html">
+            <img src="combestres/images/back.png" style="width:20px; height:20px;margin-top:1px;"/>
+        </a>
+                <span class="tital" style="">
+               <!--  <a class="linkRightSty" href="#">
+                    <img src="combestres/images/more.png" style="width:18px; height:18px;vertical-align: middle;"/>
+                </a> -->
+                <span style="color:#ff6400;">首页&nbsp;</span>
+                <a href="crm/Hot_customer.html"  target="_blank" style="color:#fff;"><span>热点&nbsp;</span></a>
+                <a href="crm/Sales_opportunities.html"  target="_blank"  style="color:#fff;"><span>机会&nbsp;</span></a>
+                <a href="crm/cusFile.html"  target="_blank"  style="color:#fff;"><span>档案&nbsp;</span></a>
+                <a href="crm/catchFile.html"  target="_blank"  style="color:#fff;"><span>跟进</span></a>
+                <!--<span id="button">更多&nbsp;<img src="combestres/images/customer/more.png" style="height:10px; width:10px;"></span>-->
+                </span>
+        <!--  <span id="rightimg"></span> -->
+        <a class="linkRightSty" id="button" href="#" style="margin-right:10px;">
+            <img src="combestres/images/more.png" style="width:22px; height:22px;margin-top:-3px;"/>
+        </a>
+        <div class="toggler" >
+            <div id="effect" class="ui-widget-content ui-corner-all" style="color:#727272" >
+                <p>
+                    <span><img src="combestres/images/customer/img_7.png" style="width:20px;height:20px;">&nbsp;统计</span>
+                    <span><img src="combestres/images/customer/img_8.png" style="width:20px;height:20px;" >&nbsp;售后</span>
+                    <span><img src="combestres/images/customer/img_9.png" style="width:20px;height:20px;" >&nbsp;库存</span>
+                    <span><img src="combestres/images/customer/img_10.png" style="width:20px;height:20px;" >&nbsp;分销</span>
+                    <span><img src="combestres/images/customer/img_11.png" style="width:20px;height:20px;" >&nbsp;订单</span>
+                    </p>
+                <p>
+                    <a href="crm/contractManage.html"  target="_blank">
+                        <span><img src="combestres/images/customer/img_12.png"style="width:20px;height:20px;" >&nbsp;合同</span></a>
+                    <span><img src="combestres/images/customer/img_13.png" style="width:20px;height:20px;" >&nbsp;拜访</span>
+                    <span><img src="combestres/images/customer/img_14.png"  style="width:20px;height:20px;">&nbsp;对手</span>
+                    <span><img src="combestres/images/customer/img_15.png" style="width:20px;height:20px;" >&nbsp;星座</span>
+                    <span><img src="combestres/images/customer/img_16.png"  style="width:20px;height:20px;">&nbsp;地图</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bgsearch">
+<div class="search">
+    <a href="#" style="">
+        <span class="glyphicon glyphicon-search" style="font-size: 12px;font-weight: normal !important;"></span>
+        搜索
+    </a>
+</div>
+</div>
+<div class="mainbody">
+
+   <!--  <div class="labelDiv" style="">
+        <img src="combestres/images/customer/img_1.png">
+        <span>本月销售简报</span>
+    </div> -->
+   <!--  搜索  -->
+
+    <!--底部上层-->
+    <div class="mainTop">
+     <div class="labelDiv">
+       <!-- <img src="combestres/images/customer/img_1.png"> -->
+        <span>本月销售简报</span>
+    </div>
+        <!--一行开始-->
+        <div class="divSty">
+            <div class="borderRightSty"><img class="imgSty" src="combestres/images/customer/op_02.png" /></div>
+            <div class="fontsty_lable"><span style="color:#FF6400">2</span><small>个</small></div>
+            <div class="fontsty">新增机会数</div>
+        </div>
+
+        <div class="divSty">
+            <div class="borderRightSty"><img class="imgSty" src="combestres/images/customer/client_02.png" /></div>
+            <div class="fontsty_lable"><span style="color:#49b8a3">7</span><small>个</small></div>
+            <div class="fontsty">新增客户数</div>
+        </div>
+        <!--一行结束-->
+        <!--二行开始-->
+        <div class="divSty">
+            <div class="borderRightSty"><img class="imgSty" src="combestres/images/customer/rclient_02.png" /></div>
+            <div class="fontsty_lable"><span style="color:#1852b7">10</span><small>个</small></div>
+            <div class="fontsty">热点客户数</div>
+        </div>
+
+        <div class="divSty">
+            <div class="borderRightSty"><img class="imgSty" src="combestres/images/customer/times_02.png" /></div>
+            <div class="fontsty_lable"><span style="color:#F32542">4</span><small>个</small></div>
+            <div class="fontsty">跟进次数</div>
+        </div>
+        <!--二行结束-->
+        <!--三行开始-->
+        <div class="divSty">
+            <div class="borderRightSty"><img class="imgSty" src="combestres/images/customer/mgrade_02.png" /></div>
+            <div class="fontsty_lable"><span style="color:#FF8749">0</span></div>
+            <div class="fontsty">本月业绩</div>
+        </div>
+
+        <div class="divSty">
+            <div class="borderRightSty"><img class="imgSty" src="combestres/images/customer/mcom_02.png" /></div>
+            <div class="fontsty_lable"><span style="color:#5E299E">0</span><small>个</small></div>
+            <div class="fontsty">本月回款</div>
+        </div>
+        <!--三行结束-->
+        <a href="#" >&nbsp;</a>
+    </div>
+
+    <!--底部上层结束-->
+    <div class="gray"></div>
+   
+    <!--底部下层开始-->
+    <div class="mainBottom">
+         <div class="labelDiv">
+           <!-- <img src="combestres/images/customer/img_1.png"> -->
+            <span>最新跟进记录</span>
+        </div>
+        <div id="template" style="display:none;" >
+            <!--<a href="crm/catchFile_document.html?unid={unid}" class="list-group-item" target="_blank">-->
+            <a href="crm/catchFile_document.html?unid={unid}" class="list-group-item" target="_blank" style="width:90%;border:none;border-bottom:1px solid #CCC; margin:0px auto;padding:10px 0px 10px 0px;border-radius:0px !important;">
+                <p class="list-group-item-heading" style="font-size:1em">{cusName}</p>
+                <p style="color:#999;">
+                    <span class="list-group-item-text" style="display:inline-block;width:40%;font-size:0.9em;">联系人:{contacter} </span>
+                    <span class="list-group-item-text" style="font-size:0.9em">所属阶段:{belongProcess}</span>
+                </p>
+                <p style="color:#999;">
+                    <span class="list-group-item-text" style="display:inline-block;width:40%;font-size:0.9em;">跟进人:{followMan} </span>
+                    <span class="list-group-item-text" style="font-size:0.9em">跟进时间:{gjTime}</span>
+                </p>
+            </a>
+        </div>
+        <div class="list-group" id="content">
+
+        </div>
+        <a style="display:none;text-align:center;border-bottom-radius:0px !important;" class="list-group-item" id="loadStaut">
+            加载中...
+        </a>
+    </div>
+    <!--底部下层结束-->
+</div>
+<!--底部结束-->
+
+</body>
+</html>

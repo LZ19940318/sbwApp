@@ -1,0 +1,119 @@
+//
+//  NavView.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/25.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "NavView.h"
+
+@implementation NavView{
+    
+    ButtonTagBlock tempButtonTagBlock;
+    
+    UIView *titleView;
+    UIButton *selectButton;
+    
+    
+}
+
+
+- (instancetype)initWithFrame:(CGRect)frame withButtonTag:(ButtonTagBlock)buttonTagBlock{
+    
+    tempButtonTagBlock = [buttonTagBlock copy];
+    
+    if (self = [super initWithFrame:frame]) {
+        [self createView];
+    }
+    return self;
+}
+
+
+/** 
+ 
+ Tag: 
+    8:导航左按钮
+    9:导航右按钮
+    10:销售报表
+    11:制泥日报
+    12:成瓷分析"
+ 
+ 
+ */
+- (void)createView{
+    
+    UIButton *leftButton = [[UIButton alloc]initWithFrame:CGRectMake(20, 10, 22, 22)];
+    leftButton.tag = 8;
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"me@3x.png"] forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:leftButton];
+    
+    UIButton *rightButton = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width - 50, 10, 22, 22)];
+    
+    [rightButton setBackgroundImage:[UIImage imageNamed:@"more.png"] forState:UIControlStateNormal];
+    rightButton.tag = 9;
+    [rightButton addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:rightButton];
+    
+    
+    
+    titleView = [[UIView alloc] initWithFrame:CGRectMake(60, 0, self.frame.size.width - 120 , 40)];
+    NSArray *nameArr = @[@"销售报表", @"制泥日报", @"成瓷分析"];
+    
+    CGFloat buttonWidth = titleView.frame.size.width / nameArr.count;
+    for (int i = 0; i < nameArr.count; i++) {
+        
+        UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(i *buttonWidth, 0, buttonWidth, 40)];
+        [button setTitle:nameArr[i] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:15];
+        button.tag = i + 10;
+        [button addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithRed:214/255.0f green:70/255.0f blue:10/255.0f alpha:1.0f] forState:UIControlStateSelected];
+        
+        if (i == 0) {
+            
+            button.selected = YES;
+            selectButton = button;
+        }
+        
+        [titleView addSubview:button];
+    }
+    [self addSubview:titleView];
+    
+}
+
+
+#pragma mark buttonClick
+
+- (void)buttonClick:(UIButton *)sender{
+    
+    tempButtonTagBlock(sender.tag);
+    
+    
+}
+- (void)titleButtonClick:(UIButton *)sender{
+    
+    tempButtonTagBlock(sender.tag);
+    
+    
+    if (sender == selectButton) {
+        
+        
+    }else{
+        
+        if (selectButton.selected == YES) {
+            
+            selectButton.selected = NO;
+            sender.selected = YES;
+        }
+        
+    }
+    
+    selectButton = sender;
+
+    
+}
+
+@end

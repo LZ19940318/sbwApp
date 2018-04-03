@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html lang="cn" onselectstart='return false'>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<title>智慧赢家</title>
+<link rel="stylesheet" href="combestres/bootstrap/css/bootstrap.min.css">
+
+<script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+<script src="combestres/bootstrap/js/bootstrap.min.js"></script>
+<script src="combestres/js/combest.js"></script>
+</head>
+<style>
+#bodys{
+	height: auto;
+}
+#navs{
+	width:100%;
+	position:absolute;
+	bottom:0px;
+	background:#ffffff;
+	padding-top:5px;
+	box-shadow: 0px -2px 5px rgba(0,0,0,0.3);
+	}
+#navs>ul{
+	width:100%;
+	padding:0px;}
+#navs>ul>li{
+	list-style:none;
+	float:left;
+	width:20%;
+	text-align:center;
+	vertical-align:text-top;
+	color: #585858;}
+#conter{
+	width:100%;
+	height:91%;
+	border:none;
+	overflow-x:hidden;
+	position:absolute;
+	left:0px;
+}
+#navs>ul>li:nth-child(1){
+	color: #38acff;
+}
+#usericon{
+	width:40px;
+	height: 40px;
+	overflow: hidden;
+	border-radius: 50%;
+	float: right;
+	color: #000000;
+	text-align: center;
+	line-height: 40px;
+	font-size:17pt;
+    margin-top: 3px;
+}
+#search1{
+    float: right;
+    line-height: 45px;
+    color: #000000;
+    font-size: 20pt;
+}
+@font-face {font-family: 'iconfont';
+    src: url('icon/iconfont.eot'); /* IE9*/
+    src: url('icon/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('icon/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('icon/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('icon/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+    font-family:"iconfont" !important;
+    font-size:18px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+    color: #ffffff;
+    float: right;
+    line-height: 45px;
+	margin-top: 4px;}
+</style>
+<body>
+	<div id="bodys" style="padding-top:1px;">
+		<iframe id="conter" name="conter" src="msg.html"></iframe>
+    <div id="navs" style = "position:fixed;left:0;bottom:0;width:100%;z-index:2000;box-shadow:none !important;border-top:1px solid #d1d1d1;">
+    	<ul>
+            <li class="usertabs" data-index="msg.html" tabs="1"  imgname="msg2.png" defaultimg="msg1.png">
+            	<!--span class="glyphicon glyphicon-edit" style="font-size:1.5em"></span><br/-->
+                <img id=msg src="combestres/images/index/msg2.png" style="width:26px;height:26px"><br/>
+                <span style="font-size:0.8em">消息</span>
+            </li>
+			<!--li class="usertabs" data-index="customer.html" tabs="2">
+				<p class="glyphicon glyphicon-lock" style="font-size:1.5em"></p>
+				<p style="font-size:0.8em">驾驶舱</p>
+			</li-->
+            <li class="usertabs" data-index="customer.html" tabs="2" target="_blank" imgname="customer2.png" defaultimg="customer1.png">
+            	<!--span class="glyphicon glyphicon-user" style="font-size:1.5em"></span><br/-->
+				<img id=customer src="combestres/images/index/customer1.png" style="width:26px;height:26px"><br/>
+                <span style="font-size:0.8em">客户</span>
+            </li>
+			<li class="usertabs" data-index="work.html" tabs="3" imgname="work2.png" defaultimg="work1.png">
+				<!--span class="glyphicon glyphicon-pencil" style="font-size:1.5em"></span><br/-->
+				<img src="combestres/images/index/work1.png" style="width:26px;height:26px"><br/>
+				<span style="font-size:0.8em">工作</span>
+			</li>
+            <li class="usertabs" data-index="address.html" tabs="4" imgname="address2.png" defaultimg="address1.png">
+            	<!--span class="glyphicon glyphicon-list" style="font-size:1.5em"></span><br/-->
+                <img id=address src="combestres/images/index/address1.png" style="width:26px;height:26px"><br/>
+                <span style="font-size:0.8em">通讯录</span>
+            </li>
+            <li class="usertabs" data-index="myset.html" tabs="5" imgname="me2.png" defaultimg="me1.png">
+            	<!--span class="glyphicon glyphicon-star" style="font-size:1.5em"></span><br/-->
+                <img id=me src="combestres/images/index/me1.png" style="width:26px;height:26px"><br/>
+                <span style="font-size:0.8em">我</span>
+            </li>
+        </ul>
+    </div>
+	</div>
+</body>
+<script>
+
+redirectMainPage();
+	$(".usertabs").click(function(){
+			var x = $(this).attr("data-index");
+			$('#conter').attr('src',x);
+			$(this).css({"color":"#38acff"}).siblings(".usertabs").css({"color":"#585858"});
+			$(this).siblings(".usertabs").attr('src',"combestres/images/index/"+$(this).attr("defaultimg"));
+
+			  $(".usertabs").each(function(index){
+			        var defaultimg = $(this).attr("defaultimg");
+                    $(this).find("img").attr('src',"combestres/images/index/"+defaultimg+"");
+              })
+			var imgname = $(this).attr("imgname");
+			$(this).find("img").attr('src',"combestres/images/index/"+imgname+"");
+
+			var t = $(this).attr("tabs");
+			app.put("usertabs_color",t);
+			//app.put("usertabs_src",t);
+		})
+/*
+var t = app.get("usertabs_color");
+if(t!=""){
+	$(".usertabs:nth-child("+t+")").css({"color":"#007EFF"}).siblings(".usertabs").css({"color":"#585858"})
+}*/
+</script>
+</html>

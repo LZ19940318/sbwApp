@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+	<title>付款申请列表</title>
+   <link rel="stylesheet" type="text/css" href="../combestres/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../combestres/css/approve.css">
+	 <script src="http://hostname"></script>
+    <script type="text/javascript" src="../combestres/js/jquery-1.11.2.min.js"></script>
+	<script src="../combestres/js/combest.js"></script>
+	<script>
+		 start=1;
+        function getDatas(begin,b){
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+            }
+
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocListByProve_pay.xsp";//请求数据地址
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.ou/combest_data.nsf";//url参数，数据来源数据库
+            var vw="CBVw_todoByName_reg";//url参数，数据来源视图
+            var items="department_Name,vendor_Name,cny,amount";//请示的字段    经办部门、收款单位、金额
+            //var thisStart=start;//第几条数据开始
+            var count=20;//读取数据条数
+           // var cat="key1,key2"//查询关键字
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count;//+"&cat="+cat;
+
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+
+        }
+        refresh();
+	</script>
+</head>
+<body onload="getDatas(1,true)">
+	<!-- 头部 -->
+	<div class="header">
+		<a class="left" onclick="android.closeAct()">
+            <span class="glyphicon glyphicon-menu-left" style="display:inline-block;margin-bottom:-2px;color:#ffffff;"></span>
+            返回
+   		</a>
+		<span style="margin-left:-45px;">付款申请列表</span>
+	</div>
+	<!-- 头部over -->
+
+	<!-- <a href="fund_plan.html">
+		<div class="lHead">
+			<label>资金计划待办</label>
+		</div>
+		<div class="lcont">
+			<span>创建时间：</span><span>2017-03-20</span>
+		</div>
+	</a>
+	<div class="space"></div> -->
+
+	<div class="mainHead" id="template" style="display: none;">
+	<a href="{href}">
+		<div class="lHead">
+			<label>{department_Name}</label>
+		</div>
+		<div class="lcont">
+			<span>收款单位：</span><span>{vendor_Name}</span>
+		</div>
+		<div class="lcont">
+			<span>请款金额(人民币)：</span><span>{cny}</span>
+		</div>
+        <div class="lcont">
+            <span>请款金额(原币)：</span><span>{amount}</span>
+        </div>
+	</a>
+	<div class="space"></div>
+	</div>
+	<div class="mainHead" id="content">
+		
+	</div>
+	<a style="display:none;text-align:center" id="loadStaut">
+        加载中...
+    </a>
+</body>
+</html>

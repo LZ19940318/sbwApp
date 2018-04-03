@@ -1,0 +1,171 @@
+﻿@charset "utf-8";
+/* CSS Document */
+body{
+	background-color:#fff;
+	width:100%;
+	margin:0 auto;
+	font-family:"微软雅黑";
+	/*font-size: 100%;*/
+	color:#4c4948;
+}
+
+a{
+	text-decoration:none;
+	border:0px;
+	color:#4c4948;
+	display:inline-block;
+}
+.wordSty{ font-size:1em;}
+ul li{
+	list-style:none;
+}
+
+.icons{height:24px;width:24px; border:0px;}
+.imgSty{height:32px;width:32px; border:0px;}
+.circle{
+	display:inline-block;
+	float:left;
+	width: 50px;
+	height: 50px;
+	margin-top:-5px;
+	color:#fff;
+	background-color:#5cc896;
+	padding:15px 13px;
+	border-radius:50%;
+	}
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, table, td, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, caption, tbody, tfoot, thead, tr, th, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video, textarea, input{
+	margin:0 auto;
+	padding:0 auto;
+	outline:none 0;
+	vertical-align:baseline;
+	font-weight:500px;
+}
+
+.container{ margin:0 auto; padding:0px;}
+.linkSty{ display:block;font-size: 1em;}
+.headssContent{
+	position:fixed;
+	z-index:999;
+	width:100%;
+	/*box-shadow:3px 3px 3px #f1f1f1;*/
+	background-color: #2e2e2e;
+	clear:both;
+}
+.headContent{
+	margin:0 auto;
+	width:95%;
+	text-align:center;
+	padding-top:5px;
+	height:45px;
+	line-height:45px;
+}
+.left{
+	display:inline-block;
+	margin-left:12px;
+}
+.right{ float:right; margin-top:10px;}
+.linkLeftSty{ 
+	float:left;
+	display: inline-block;
+	width: 25px;height: 25px;
+    /*border:1px solid #000;*/
+}
+.linkLeftSty img{
+        position:absolute;
+        margin-left:-13px;
+}
+
+.linkRightSty{
+	float:right;
+	width: 25px;height: 25px;
+	/*border: 1px solid #000;*/
+}
+.linkSty{ padding:10px 10px}
+.linkRightSty img{ 
+	position: absolute;
+}
+.tital{
+	text-align:center;
+	color:#fff;
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: -11px;
+}
+.leftSpan{ float:left; margin-top:5px;}
+.rightSpan{ margin-left:17px; float:left;font-size: 1em;}
+.intro{
+	height:60px;
+	border-bottom:1px solid #dedede;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.blueBagage{
+	/*border-radius:35%;
+	padding:3px;
+	background-color:rgb(255,140,60);
+	color:#fff;
+	font-size:12px;*/
+display: inline-block;
+padding:0px 5px 0px 5px;
+height: 17px;
+color: rgb(255, 255, 255);
+background-color: rgb(255, 140, 60);
+border-radius: 20px;
+font-size: 12px;
+text-align: center;
+line-height: 17px;
+}
+.name{ margin:5px 0px 0px 0px;}
+.manageContent{
+	background-color:#fff;
+	width:100%;
+	height:78px;
+}
+
+.manageContent ul{
+	width:99%;
+	padding:5px;
+	/*margin-top:7px;*/
+	}
+.manageContent ul li{
+	float:left;
+	width:33%;
+	text-align:center;
+	border-right:2px solid #f1f1f1;
+}
+.manageNum{
+	display:inline-block;
+	border-radius:20%;
+	font-weight:300;
+	border:1px solid #dedede;
+	padding:12px 12px;
+	width:22px;
+	height:22px;
+	margin-bottom:5px;
+}
+
+.grayDiv{
+	height:10px;
+	width:100%;
+	background-color:#f1f1f1;
+	}
+
+.ulDiv{ width:100%;}
+.ulSty{ width:96%; padding:0px 0px;margin-left: 11px;}
+.ulSty li{
+	height:40px;
+	line-height:40px;
+	border-bottom:1px solid #f1f1f1;
+}
+.footDiv{
+	height:30px;
+	background-color:#f1f4f9;
+	}
+.footDiv p{
+	height:30px;
+	line-height:30px;
+	color:#c2c3c5;
+	text-align:center;
+}
+

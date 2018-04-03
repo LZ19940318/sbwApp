@@ -1,0 +1,295 @@
+//
+//  NewsVC.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 16/9/29.
+//  Copyright © 2016年 admin. All rights reserved.
+//
+
+#import "NewsVC.h"
+#import "NetworkManager.h"
+#import "DataManager.h"
+#import "DataEncoding.h"
+#import "ZHYJLoginViewController.h"
+#import "CustomURLProtocol.h"
+#import "RedpacketViewControl.h"
+#import "RNCachingURLProtocol.h"
+#import "CustomVC.h"
+
+#import "MyVC.h"
+
+#import "WorkDetailVC.h"
+@interface NewsVC ()<UIWebViewDelegate, UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+{
+    UIWebView *_webView;
+    NSString  *_urlString;
+    NSMutableDictionary *_userIcon;
+    NSMutableArray *userLocationArr;
+    UIDatePicker *datePic;
+    NSString *timeStr;
+}
+@property (nonatomic,retain) NSURLConnection *aSynConnection;
+@property (nonatomic,retain) NSInputStream *inputStreamForFile;
+@property (nonatomic,retain) NSString *photoFilePath;
+@end
+
+@implementation NewsVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [self setNav];
+    
+    [self initWebView];
+    
+}
+
+
+- (void)initWebView{
+    
+    
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -44, self.view.frame.size.width, self.view.frame.size.height + 44)];
+    //    _webView.opaque = NO;//设置webview透明
+    self.view.backgroundColor = [UIColor clearColor];
+    _webView.delegate = self;
+    _webView.scrollView.bounces = NO;//禁止下拉滚动
+    //    _webView.scalesPageToFit = YES;//设置自适应
+    //    _webView.mediaPlaybackAllowsAirPlay = YES;
+    //    _webView.mediaPlaybackRequiresUserAction = YES;
+    _webView.backgroundColor = [UIColor clearColor];
+    //从mainBundle里取本地html文件
+    NSString *mainBundlePath = [[NSBundle mainBundle] bundlePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:mainBundlePath isDirectory:YES];
+    NSString *htmlPath = [NSString stringWithFormat:@"%@/work.html", mainBundlePath];
+    NSString *htmlStr = [NSString stringWithContentsOfFile:htmlPath
+                                                  encoding:NSUTF8StringEncoding error:nil];
+    [_webView loadHTMLString:htmlStr baseURL:baseURL];
+    //    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://hostname"]]];
+    [self.view addSubview:_webView];
+    
+    _userIcon = [NSMutableDictionary dictionary];
+    [DataManager sharedDataManager].putDic = [NSMutableDictionary dictionary];
+    
+}
+
+- (void)setNav{
+    self.title = @"我的工作";
+
+    //导航栏的左右功能按钮
+    
+    UIImage *image1 = [UIImage imageNamed:@"me@3x.png"];
+    image1 = [image1 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+    UIBarButtonItem *leftBtn=[[UIBarButtonItem alloc] initWithImage:image1 style:UIBarButtonItemStyleDone target:self action:@selector(rightClick)];
+    [leftBtn setTintColor:[UIColor blueColor]];
+    self.navigationItem.leftBarButtonItem=leftBtn;
+    
+    
+    UIButton *rightButton = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 50, 10, 22, 22)];
+    
+    [rightButton setBackgroundImage:[UIImage imageNamed:@"more.png"] forState:UIControlStateNormal];
+    UIBarButtonItem *rightButtonItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = rightButtonItem;
+    
+}
+- (void)rightClick{
+    
+    MyVC *myVC = [[MyVC alloc]init];
+    myVC.urlSS = @"myset.html";
+    [self.navigationController pushViewController:myVC animated:YES];
+    
+}
+- (void)rightClick1{
+    
+}
+
+#pragma mark -- UIWebViewDelegate
+//准备加载，拦截url
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{//多次调用shouldStartLoad,是因为js文件里使用了自定义url的方式
+    NSString *requestString = [[request URL] absoluteString];
+    NSLog(@"--------requestString:%@", requestString);
+    
+    
+    NSArray *urlArray = @[@"oa/todo.html",@"work_signin/signIn.html",@"work/daily_list.html",@"oa/oa.html",@"oa/send_list.html",@"work/calendar.html"];
+    for (NSString *urlStr  in urlArray) {
+        if ([requestString hasSuffix:urlStr]) {
+            WorkDetailVC *workDetailVC = [[WorkDetailVC alloc]init];
+            workDetailVC.urlStr = urlStr;
+            [self.navigationController pushViewController:workDetailVC animated:YES];
+            
+            return NO;
+        }
+        
+    }
+    
+    
+    //提交数据,页面调用app.postData
+    if ([requestString hasPrefix:@"posturl"]) {
+        [self postDataWithRequestStr:requestString];
+        return YES;
+    }
+    //测试跳转
+    if ([requestString hasSuffix:@"ceshi.html"]) {
+        CustomVC *controller = [CustomVC new];
+        
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+
+    //退出登录,页面调用app.logout
+    if ([requestString hasPrefix:@"logouturl"]) {
+        NSLog(@"%@", requestString);
+        [self logoutWithRequestStr:requestString];
+        return YES;
+    }
+    //调用相机,页面调用jsFunc的photo.takePhoto方法
+       //页面切换时调用
+    if ([requestString hasPrefix:@"puturl"]) {
+        [self putWithRequestStr:requestString];
+        return YES;
+    }
+    //判断是否是红包跳转 是跳转到红包页面
+    if ([requestString hasSuffix:@"hongbao.html"]) {
+        UIViewController *controller = [RedpacketViewControl changeMoneyController];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
+
+    return YES;
+}
+
+
+
+//开始加载
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+}
+//加载完成
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
+//        [_webView stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('body')[0].style.webkitTextSizeAdjust= '120%'"];
+    }else{
+    }
+    
+    //webview加载完成后移除黑色视图，否则会覆盖本地html的导航栏
+    //Html当中的js代码会引起内存泄露,设置缓存
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    // WebView放到最上层
+    [_webView stringByEvaluatingJavaScriptFromString:@"onchangeDate('1')"];
+    
+    [self.view bringSubviewToFront:_webView];
+}
+
+#pragma mark - 与JS交互
+//页面切换
+- (void)putWithRequestStr:(NSString *)requestString
+{
+    NSArray  *parts = [requestString componentsSeparatedByString:@"$$$"];
+    NSString *key   = [parts objectAtIndex:1];
+    NSString *value = [parts objectAtIndex:2];
+    NSMutableDictionary *putDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:value, key, nil];
+    //将取到的键值对累加到字典
+    [[DataManager sharedDataManager].putDic addEntriesFromDictionary:putDic];
+    //    NSLog(@"保存的key：%@", putDic[key]);
+}
+
+//提交数据
+- (void)postDataWithRequestStr:(NSString *)requestString
+{
+    NSArray  *components = [requestString componentsSeparatedByString:@"$$$"];
+    NSString *urlString = [components objectAtIndex:1];//请求路径
+    NSString *params = [components objectAtIndex:2];//请求参数
+    //    NSString *callback = [components objectAtIndex:3];//回调函数
+    NSRange range = [params rangeOfString:@"back"];//匹配得到的下标
+    //    NSLog(@"rang:%@",NSStringFromRange(range));
+    NSString *callback = [params substringWithRange:range];//截取范围类的字符串
+    //    NSLog(@"截取的值为：%@",str);
+    
+    urlString = [urlString stringByReplacingOccurrencesOfString:@"app.server_address" withString:[DataManager sharedDataManager].hostString];
+    urlString = [urlString stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+    params = [params stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    
+    //所有网络请求都需要带cookie
+    NSString *cookie = [[DataManager sharedDataManager] cookieValue];
+    [request setValue:cookie forHTTPHeaderField:@"Cookie"];
+    request.HTTPMethod = @"POST";
+    //    NSLog(@"%@", request.allHTTPHeaderFields);
+    // 设置请求体
+    // NSString --> NSData
+    
+    request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+    [NetworkManager networkWithRequest:request completion:^(id responseObject, NSURLResponse *response, NSError *error) {
+        if (error == nil) {
+            NSString *dataString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+            NSString *jsFunc=[callback stringByAppendingFormat:@"%@%@%@",@"(",dataString,@")"];
+            // NSLog(@"提交数据jsFunc: %@", jsFunc);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_webView stringByEvaluatingJavaScriptFromString:jsFunc];
+            });
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络请求错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            });
+        }
+    }];
+}
+
+//退出登录
+- (void)logoutWithRequestStr:(NSString *)requestString
+{
+    //清除用户信息
+    [[DataManager sharedDataManager] clearUsername:nil andPwd:nil];
+    [[DataManager sharedDataManager] saveUserMsg:nil];
+    [[DataManager sharedDataManager] saveCookie:nil];//清除保存的cookie
+    [DataManager sharedDataManager].putDic = nil;
+    
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    //遍历清除缓存机制里的所有cookie,有两个cookie元素
+    for (cookie in [storage cookies]) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    NSArray *cookieArray = [NSHTTPCookieStorage sharedHTTPCookieStorage].cookies;
+    NSLog(@"清除后：%@, %@", cookie, cookieArray);
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    //解除推送绑定
+    //    [CloudPushSDK unbindAccount:^(CloudPushCallbackResult *res) {
+    //        if (res.success) {
+    //            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"bindAccount"];
+    //            [[NSUserDefaults standardUserDefaults] synchronize];
+    //        }
+    //    }];
+    
+    // 跳到登录界面
+    ZHYJLoginViewController *loginVC = [ZHYJLoginViewController new];
+    //切换rootViewController
+    [UIApplication sharedApplication].keyWindow.rootViewController = loginVC;
+}
+
+
+
+
+//更改状态栏字体为白色  (默认为黑色)
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

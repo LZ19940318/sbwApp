@@ -1,0 +1,19 @@
+//
+//  QuickView.h
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/29.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+typedef void(^QuickTypeBlock)(NSInteger tag);
+
+
+@interface QuickView : UIView
+
+- (instancetype)initWithFrame:(CGRect)frame withQuickType:(QuickTypeBlock)aBlock;
+@property (nonatomic ,assign) NSInteger num;
+
+@end

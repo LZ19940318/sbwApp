@@ -1,0 +1,379 @@
+/***************timeDiv******************/
+.timeDiv{
+		float:left;
+		/**/
+		position: fixed;
+		z-index: 9999;
+		margin-top: -50px;
+}
+.timeDiv ul{list-style:none;}
+.timeDiv ul li{float:left;margin:0 5px;}
+.timeDiv ul li select{width:90px;}
+/*******************************************/
+
+body{
+	margin: 0;
+	padding: 0;
+	font-size: 1em;
+	font-family: "微软雅黑";
+}
+a{
+	text-decoration: none;
+}
+/**************************************/
+.header{
+	width: 100%;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    background-color:#2e2e2e;
+    top: 0;
+    position: fixed;
+}
+.header a{
+	color: #fff;
+}
+.header span{
+	color: #fff;
+}
+.header a.left{
+	float: left;
+	padding-left: 10px;
+}
+.header a.right{
+	float: right;
+	padding-right: 10px;
+}
+.header img{
+	vertical-align: middle;
+	margin-top: -2px;
+}
+.header span{
+	font-size: 1em;
+}
+.cont{
+	margin:100px 0px 50px 0px;
+	font-size: 0.9em;
+	color: #4c4948;
+}
+table{
+	border-collapse: collapse;
+	width: 100%;
+	table-layout: fixed;
+}
+/*#EDF1F0  #F8F8F8*/
+table tr td{
+	/*border:1px solid #e1e1e1;line-height: 38px;*/
+	/*height: 30px;*/
+
+}
+.alyzin .even{
+	background-color: #EDF1F0;
+}
+.alyzin .odd{
+	/background-color: #F8F8F8;
+}
+.firstcol{
+	background-color: #fff;
+	padding-left: 12px;
+	width: 30%;
+	position: fixed;
+	z-index: 9999;
+	border: 1px solid #e1e1e1;
+	line-height: 35px;
+}
+.firstcolLeft{
+    background-color: #fff;
+    padding-left: 12px;
+    width: 30%;
+    border: 1px solid #e1e1e1;
+}
+.sedcol{
+	width:67%;
+}
+.alyzin tr td{
+	padding: 0px 10px 0px 10px ;
+	text-align: center;
+	width: 70px;
+	border: 1px solid #e1e1e1;
+}
+
+.footer{
+	width: 100%;
+	height:50px;
+	background-color: #f8f8f8;
+	bottom:0px;
+    position: fixed;
+}
+/**************************************************88*/
+.sheader{
+	width: 100%;
+	height: 45px;
+	line-height: 45px;
+    background-color:#2e2e2e;
+    position: fixed;
+    top: 0;
+    text-align:center;
+}
+.sheader > a{
+	display: inline-block;
+	height: 22px;
+	line-height:22px;
+	color: #fff;
+	font-size: 1em;
+	padding: 0px 5px 0px 5px;
+}
+.sheader > a:first-child{
+    float:left;
+    margin-top: 7px;
+	margin-left: 7px;
+}
+.sheader > a:nth-child(3),.sheader > a:nth-child(4){
+    /*margin-left:7px;*/
+}
+/*.sheader a:last-child{
+	float: right;
+	margin-top: 7px;
+	text-align: right;
+	margin-right: 7px;
+}*/
+.sheader .fade{
+	float: right;
+	margin-right: 7px;
+	margin-top: 7px;
+}
+.sheader img{
+	vertical-align: middle;
+	margin-top: 2px;
+}
+.togg{
+	text-align: center;
+	display:none;
+	width: 100%;
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #f8f8f8;
+	} 
+.togg a{
+	color: #7d7d7d;
+	font-size: 1em;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+.space{
+	width: 100%;
+	height: 10px;
+	background-color: #f8f8f8;
+}
+.scont{
+	padding: 0;
+	margin: 45px 0px 100px 0px;
+}
+.stit{
+	/*height: 35px;
+	line-height: 35px;*/
+	/*padding: 0px 12px 0px 12px;*/
+/** border-bottom:1px solid #f1f1f1; */
+    height: 35px;
+	line-height:35px;
+	margin:0px 11px 0px 11px;
+}
+.stit a{
+display:inline-block;
+width:100%;
+color:#2e2e2e;
+/*color:#4c4948;*/
+font-size:0.9em;
+}
+.stit img{
+width:20px;
+height:20px;
+}
+.sorder,.sreceipt,.sclient,.storder{
+	padding: 0;
+	margin:0;
+}
+.storder{
+    margin-left:2px;
+}
+.otable,.rtable,.ctable,.ptable,.countable{
+	border-collapse: collapse;
+	margin-bottom:8px;
+}
+.otable tr td,.rtable tr td,.ctable tr td,.ptable tr td{
+	text-align: left;
+	padding: 0;
+	margin:0;
+	color: #7d7d7d;
+	font-size: 0.85em;
+	height: 20px;
+	line-height: 20px;
+}
+/** 数字样式 **/
+.otable tr td:nth-child(2n),.rtable tr td:nth-child(2n),.ctable tr td:nth-child(2n){
+   /** font-size:1.2em;**/
+   text-align:right;
+   padding-right:11px;
+}
+.otable tr td:first-child{
+	width:45%;
+	padding-left:14px;
+}
+/**.otable tr td:nth-child(2){
+	width: 20%;
+}**/
+.otable tr td:last-child{
+}
+.rtable tr td:first-child{
+	width:36%;
+    padding-left:14px;
+}
+.rtable tr td:nth-child(2){
+	width: 20%;
+}
+.rtable tr td:last-child{
+	width: 20%;
+	text-align:right;
+	padding-right:14px;
+}
+.ctable tr td:first-child{
+	width:36%;
+	padding-left:14px;
+
+}
+.ctable tr td:nth-child(2){
+	width: 20%;
+}
+.ctable tr td:last-child{
+	width: 20%;
+}
+table tr td label{
+    font-size:1.2em;
+}
+.sfooter{
+	width: 100%;
+	height: 100px;
+	background-color: #f8f8f8;
+	bottom: 0;
+	position: fixed;
+}
+/****************************************************/
+.pcont{
+	padding: 0;
+	margin: 50px 0px 100px 0px;
+}
+.daypro{
+	padding: 0;
+	margin:0px 12px 0px 12px;
+}
+.ptable{
+	color: #7d7d7d;
+}
+.ptable tr td:first-child{
+	width: 45%;
+	padding-left:14px;
+	font-size: 0.85em;
+}
+.ptable tr td:nth-child(2n){
+    text-align:right;
+    padding-right:13px;
+}
+/************************************************/
+.count{
+	padding: 0;
+	margin: 45px 0px 100px 0px;
+}
+.countpro{
+	padding: 0;
+	margin-left:2px;
+}
+.countable{
+	text-align: left;
+	padding: 0;
+	color: #7d7d7d;
+}
+.countable tr td{
+	height: 20px;
+	line-height:20px;
+}
+.countable tr td:first-child{
+	width: 45%;
+	padding-left:14px;
+	font-size: 0.85em;
+}
+.countable tr td:nth-child(2n){
+    font-size:1.4em;
+    text-align:right;
+    padding-right:13px;
+}
+.search{
+		width: 100%;
+		height: 30px;
+		background-color: #f1f1f1;
+ /*		text-align: center;*/
+		position: fixed;
+		margin-top:-5px;
+		}
+.search li{
+    list-style:none;
+	display:inline-block;
+	padding:0;
+	margin:0;
+}
+.search li:first-child{
+	width:35%;
+	height:30px;
+	line-height:30px;
+	float:left;
+	margin-left:13px;
+	border-right:1px solid #e1e1e1;
+}
+.search li:nth-child(2){
+width:58%;
+	height:30px;
+}
+		.search .serin{
+		margin:0 auto;
+		width:95%;
+		height: 25px;
+		background-color: #fff;
+		display: inline-block;
+		margin-left:10px;
+		margin-top:2px;
+    	padding: 0;
+	    border-radius: 4px;
+		}
+		.serin input{
+		margin:0;
+		padding:0;
+		width: 75%;
+		height: 20px;
+		border: none;
+		background-color: #fff;
+		outline: none;
+		}
+		.serin img{
+		vertical-align: middle;
+		}
+/********************更多************************/
+ .toggler {
+    width: 94%;
+    margin:0px auto;
+    margin-left: -2.7%;
+
+  }
+   #effect {
+    position: absolute;
+    width: 100%;
+    background-color:#f1f1f1;
+    /*color:#4c4948;*/
+    display:none;
+    font-size: 1em;
+    border-bottom:1px solid #fff;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+  }

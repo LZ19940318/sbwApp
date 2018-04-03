@@ -1,0 +1,291 @@
+//
+//  NvaPushViewController.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/23.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "NvaPushViewController.h"
+#import "CustomURLProtocol.h"
+#import "UUDatePicker.h"
+#import "DataManager.h"
+#import "NetworkManager.h"
+#import <JavaScriptCore/JavaScriptCore.h>
+
+
+
+
+
+@interface NvaPushViewController ()<UIWebViewDelegate>{
+    
+    UIWebView *_webView;
+    NSString *timeStr;
+    NSString *callback;
+    UIView *stateView ;
+}
+@property (nonatomic ,strong)NSDictionary *titleDic;
+@end
+
+@implementation NvaPushViewController
+
+-(NSDictionary *)titleDic{
+    if (!_titleDic) {
+        _titleDic = @{
+                      @"crm/Hot_customer_document.html":@"新增客户",
+                      @"crm/Sales_opportunities_document.html?choice=1":@"新增机会",
+                      };
+    }
+    return _titleDic;
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor redColor];
+    self.title = self.titleDic[self.urlStr];
+    
+    
+    [self setNav];
+    
+    [NSURLProtocol registerClass:[CustomURLProtocol class]];
+    
+    
+    [self initWebView];
+
+}
+
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+//    self.navigationController.navigationBar.hidden = YES;
+
+    
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+//    self.navigationController.navigationBar.hidden = NO;
+//    [stateView removeFromSuperview];
+
+    
+}
+- (void)setNav{
+    
+//    stateView = [[UIView alloc]initWithFrame:CGRectMake(0, 80, self.view.frame.size.width, 20)];
+//    stateView.backgroundColor = [UIColor blackColor];
+//    [self.view addSubview:stateView];
+    
+    if (self.title.length > 0) {
+        UIBarButtonItem *rightBtn=[[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStyleDone target:self action:@selector(rightClick)];
+        [rightBtn setTintColor:[UIColor whiteColor]];
+        self.navigationItem.rightBarButtonItem=rightBtn;
+    }
+    
+    
+    
+}
+
+- (void)rightClick{
+    
+    
+   NSString *str =  [_webView stringByEvaluatingJavaScriptFromString:@"getdata1();"];
+    
+    NSLog(@"str -  - %@",str);
+//    JSContext *context=[_webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
+//    
+////    JSContext *context=[_webView stringByEvaluatingJavaScriptFromString:@"getdate()"];
+//    NSString *alertJS=@"alert('test js OC')"; //准备执行的js代码
+//    [context evaluateScript:alertJS];//通过oc方法调用js的alert
+    
+    
+//   ;
+
+    
+    
+}
+- (void)initWebView{
+    
+    _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -44, self.view.frame.size.width, self.view.frame.size.height + 44)];
+    //    _webView.opaque = NO;//设置webview透明
+    
+    _webView.delegate = self;
+    _webView.scrollView.bounces = NO;//禁止下拉滚动
+    //从mainBundle里取本地html文件
+    NSString *mainBundlePath = [[NSBundle mainBundle] bundlePath];
+    NSString *htmlPath = [NSString stringWithFormat:@"%@/%@", mainBundlePath, self.urlStr];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",[htmlPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]];
+    [_webView loadRequest:request];
+    [self.view addSubview:_webView];
+    
+}
+
+
+#pragma mark -- UIWebViewDelegate
+//准备加载，拦截url
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{//多次调用shouldStartLoad,是因为js文件里使用了自定义url的方式
+    NSString *requestString = [[request URL] absoluteString];
+    NSLog(@"--------requestString:%@", requestString);
+    
+    
+    //根据
+    //提交数据,页面调用app.postData
+    if ([requestString hasPrefix:@"posturl"]) {
+        [self postDataWithRequestStr:requestString];
+        return YES;
+    }
+    
+    if ([requestString hasSuffix:@"saletab.html"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return YES;
+    }
+    if ([requestString hasSuffix:@"product-count.html"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return YES;
+    }
+    if ([requestString hasSuffix:@"dproduct-tab.html"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return YES;
+    }
+    
+    if ([requestString hasSuffix:@"rili"]) {
+        //自定义时间选择器
+        UIView*whiteview=[UIView new];
+        whiteview.backgroundColor=[UIColor whiteColor];
+        whiteview.tag=19;
+        whiteview.frame=CGRectMake(0, self.view.frame.size.height-216, self.view.frame.size.width, 216);
+        [self.view addSubview:whiteview];
+        UUDatePicker *datePic = [[UUDatePicker alloc] initWithframe:CGRectMake((self.view.frame.size.width-320)/2, 0, 320, 216) PickerStyle:UUDateStyle_YearMonthDay didSelected:^(NSString *year, NSString *month, NSString *day, NSString *hour, NSString *minute, NSString *weekDay){
+            
+            timeStr=[NSString stringWithFormat:@"%@-%@-%@",year,month,day];
+        }];
+        [whiteview addSubview:datePic];
+        UIButton*btn1=[UIButton buttonWithType:UIButtonTypeCustom];
+        btn1.frame=CGRectMake(0, 10, 40, 10);
+        [btn1 setTitle:@"取消" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        
+        [btn1 addTarget:self action:@selector(xiaoshi) forControlEvents:UIControlEventTouchUpInside];
+        [whiteview addSubview:btn1];
+        UIButton*btn2=[UIButton buttonWithType:UIButtonTypeCustom];
+        btn2.frame=CGRectMake(self.view.frame.size.width-5-40,10 , 40, 10);
+        
+        [btn2 setTitle:@"确定" forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        btn2.tag=20;
+        [btn2 addTarget:self action:@selector(xiaoshi1:) forControlEvents:UIControlEventTouchUpInside];
+        [whiteview addSubview:btn2];
+        
+        return YES;
+    }
+    
+    
+    return YES;
+    
+}
+
+-(void)xiaoshi1:(UIButton*)btn{
+    NSLog(@"timelll%@", timeStr);
+    [_webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"onchangeDateiOS('%@')", timeStr]];
+    UIView*view=(UIView*)[self.view viewWithTag:19];
+    [view removeFromSuperview];
+}
+-(void)xiaoshi{
+    UIView*view=(UIView*)[self.view viewWithTag:19];
+    [view removeFromSuperview];
+}
+
+//提交数据
+- (void)postDataWithRequestStr:(NSString *)requestString
+{
+    NSArray  *components = [requestString componentsSeparatedByString:@"$$$"];
+    NSString *urlString = [components objectAtIndex:1];//请求路径
+    NSString *params = [components objectAtIndex:2];//请求参数
+    //    NSString *callback = [components objectAtIndex:3];//回调函数
+    NSRange range = [params rangeOfString:@"back"];//匹配得到的下标
+    //    NSLog(@"rang:%@",NSStringFromRange(range));
+    if (range.length == 0) {
+        //        callback = [params substringWithRange:range];//截取范围类的字符串
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.server_address" withString:[DataManager sharedDataManager].hostString];
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        params = [params stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        NSLog(@"ou===%@", [DataManager sharedDataManager].userMsg[@"ou"]);
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+        
+        //所有网络请求都需要带cookie
+        NSString *cookie = [[DataManager sharedDataManager] cookieValue];
+        [request setValue:cookie forHTTPHeaderField:@"Cookie"];
+        request.HTTPMethod = @"POST";
+        NSLog(@"%@", params);
+        // 设置请求体
+        // NSString --> NSData
+        
+        request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [NetworkManager networkWithRequest:request completion:^(id responseObject, NSURLResponse *response, NSError *error) {
+            if (error == nil) {
+                NSLog(@"88888%@   ----%@", responseObject, requestString);
+                NSString *dataString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                
+                NSString *jsFunc=[callback stringByAppendingFormat:@"%@%@%@",@"(",dataString,@")"];
+                NSLog(@"提交数据jsFunc: %@", jsFunc);
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([dataString isEqualToString:@"alert('发送成功!')"]) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                    [_webView stringByEvaluatingJavaScriptFromString:dataString];
+                });
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络请求错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                });
+            }
+        }];
+        
+    }else{
+        NSLog(@"截取的值为：%@",callback);
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.server_address" withString:[DataManager sharedDataManager].hostString];
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        params = [params stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        NSLog(@"ou===%@", [DataManager sharedDataManager].userMsg[@"ou"]);
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+        
+        //所有网络请求都需要带cookie
+        NSString *cookie = [[DataManager sharedDataManager] cookieValue];
+        [request setValue:cookie forHTTPHeaderField:@"Cookie"];
+        request.HTTPMethod = @"POST";
+        NSLog(@"%@", params);
+        // 设置请求体
+        // NSString --> NSData
+        
+        request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [NetworkManager networkWithRequest:request completion:^(id responseObject, NSURLResponse *response, NSError *error) {
+            if (error == nil) {
+                NSLog(@"88888%@   ----%@", responseObject, requestString);
+                NSString *dataString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                NSLog(@"777%@", dataString);
+                
+                NSString *jsFunc=[callback stringByAppendingFormat:@"%@%@%@",@"(",dataString,@")"];
+                NSLog(@"提交数据jsFunc: %@", jsFunc);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_webView stringByEvaluatingJavaScriptFromString:dataString];
+                    [_webView stringByEvaluatingJavaScriptFromString:jsFunc];
+
+                });
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络请求错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                });
+            }
+        }];
+    }
+}
+
+@end

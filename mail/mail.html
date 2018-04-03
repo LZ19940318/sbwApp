@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>客户档案文档</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+    <script src="http://hostname"></script>
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+            var unid=url.substring(url.indexOf("unid=")+5);
+
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getMailDocument.xsp?callback=open&db=app.mail&items=Subject,from,SendTo,CopyTo,Body,lastModify&unid="+unid
+            document.body.appendChild(script);
+          //  kailLodings();
+        }
+        // IOS 原生交互，方法重写
+        function iOSreply(){
+            
+            reply();
+            return false;
+        }
+        function reply(){
+            
+            var url=location.href;
+            var unid=url.substring(url.indexOf("unid=")+5);
+           location.href = "newMail.html?unid="+unid+"&type=reply";
+        
+        }
+    </script>
+</head>
+<style type="text/css">
+    #conter{
+    padding-bottom:30px;
+    }
+</style>
+<body onload="load()">
+<style type="text/css">
+    #lodings{
+    position:fixed;
+    top:0px;
+    left:0px;
+    background:rgba(0, 0, 0, 0.3);
+    width:100%;
+    height:100%;
+    z-index:999999;
+    text-align:center;
+    }
+    #lodings>div{
+    width:100%;
+    height:100%;
+    position:relative;
+    }
+    #lodings>div>img{
+    width: 30%;
+    height: auto;
+    display: initial;
+    position: absolute;
+    margin: auto;
+    top: 40%;
+    left: 35%;
+    }
+    .cto{
+        display:inline-block;
+        width:100%;
+        word-wrap:break-word;
+    }
+    #Body{display:inline-block;width:100%;  word-wrap:break-word;}
+    #Body img{width:100%;}
+
+</style>
+<!--<nav class="navbar navbar-inverse navbar-fixed-top">-->
+    <!--<div class="container">-->
+        <!--<div class="navbar-header">-->
+            <!--<a class="navbar-brand" href="mailList.html" style="color:#ffffff">-->
+                <!--<span class="glyphicon glyphicon-menu-left"></span>-->
+
+            <!--</a>-->
+            <!--<a class="navbar-brand" href="#" style="float:right;color:#ffffff;" onclick="reply();return false;">-->
+                <!--<span  id="ok">回复</span>-->
+            <!--</a>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</nav>-->
+
+<!-- 头部 -->
+<div class="sheader">
+    <a href="mailList.html"  style="float: left;margin-left: 7px;">
+        <img src="../combestres/images/back.png" />
+        返回
+    </a>
+    <a class="navbar-brand" href="#" style="float:right;color:#ffffff;" onclick="iOSreply()">
+        <span  id="ok">回复</span>
+    </a>
+</div>
+<!-- over -->
+<div class="container-fluid" style="margin-top:51px;">
+    <div class="page-header" style="margin-top:20px;">
+        <p id='Subject'></p>
+        <small style="color:#9d9d9d">发件人:<span id="from"></span><span style="margin-left:10px">日期:</span><span id="lastModify" ></span></small>
+        <small style="color:#9d9d9d;" class="cto">抄送人：<span id="CopyTo"></span></small>
+    </div>
+    <div >
+        <span id="Body"></span>
+    </div>
+</div>
+<div style="margin-top:50px;padding-bottom:30px;">
+    <p style="margin-left:5px">附件列表：</p>
+    <p id="atts" style="margin-left:15px"></p>
+</div>
+</body>
+</html>

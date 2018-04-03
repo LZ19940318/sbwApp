@@ -1,0 +1,284 @@
+//
+//  CustomURLProtocol.m
+//  NSURLProtocolExample
+//
+//  Created by lujb on 15/6/15.
+//  Copyright (c) 2015年 lujb. All rights reserved.
+//
+
+#import "CustomURLProtocol.h"
+#import "DataManager.h"
+#import "AppDelegate.h"
+#import "Reachability.h"
+#import "NetworkManager.h"
+#import "DataEncoding.h"
+
+static NSString * const URLProtocolHandledKey = @"URLProtocolHandledKey";
+
+@interface CustomURLProtocol () <NSURLConnectionDataDelegate>
+{
+    NSURLResponse *returnResponses;
+//    AppDelegate *appDelegate;
+}
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSURLSessionDataTask *task;
+
+@end
+
+/**
+    1.OC中所有请求都会经过URL loading system
+    2.URLProtocol类可以拦截到system里的所有请求
+    3.在这里对所需的url请求进行处理后再重载
+    4.离线缓存:自定义一个response返回结果，将其作为离线请求的返回结果
+ **/
+
+@implementation CustomURLProtocol
+
+//判断request是否需要处理
++ (BOOL)canInitWithRequest:(NSURLRequest *)request
+{
+    //只对http/https做处理
+    //通过自定义协议，调用js
+    NSString *scheme = [[request URL] scheme];
+    NSString *host   = [[request URL] host];
+//    NSLog(@"++++++requestString+++++:%@", [request URL].absoluteString);
+
+//    NSLog(@"url host: %@, requestString: %@", host, [request URL].absoluteString);
+    if ( [scheme caseInsensitiveCompare:@"http"] == NSOrderedSame ||
+        [scheme caseInsensitiveCompare:@"https"] == NSOrderedSame)
+    {//NSOrderedSame:内容相同
+        if ([host caseInsensitiveCompare:@"hostname"] == NSOrderedSame) {
+            if ([NSURLProtocol propertyForKey:URLProtocolHandledKey inRequest:request]) {
+                return NO;
+            }
+            return YES;
+        }
+        //看看是否已经处理过了，防止无限循环
+        if ([NSURLProtocol propertyForKey:URLProtocolHandledKey inRequest:request]) {
+            return NO;
+        }
+        return YES;
+    }
+    return NO;
+}
+
+//修改request
++ (NSURLRequest *) canonicalRequestForRequest:(NSURLRequest *)request {
+    NSMutableURLRequest *mutableReqeust = [request mutableCopy];
+//    mutableReqeust = [self redirectHostInRequset:mutableReqeust];
+//    NSLog(@"重定向后的url: %@", [mutableReqeust URL].absoluteString);
+    return mutableReqeust;
+}
+
+//判断两个request是否相同，如果相同的话可以使用缓存数据，通常只需要调用父类的实现
++ (BOOL)requestIsCacheEquivalent:(NSURLRequest *)a toRequest:(NSURLRequest *)b
+{
+    return NO;
+}
+
+#pragma mark - 开始请求
+- (void)startLoading
+{
+    NSMutableURLRequest *mutableReqeust = [[self request] mutableCopy];
+    //打标签，防止无限循环
+    [NSURLProtocol setProperty:@YES forKey:URLProtocolHandledKey inRequest:mutableReqeust];
+    NSLog(@"requestttt: %@", [[[self request] URL] absoluteString]);
+    NSMutableDictionary *userMsg = [DataManager sharedDataManager].userMsg;
+    //http:/hostname文件,替换Function.js文件并发送请求
+    if ([[[mutableReqeust URL] host] caseInsensitiveCompare:@"hostname"] == NSOrderedSame && userMsg != nil)
+//    if(true)
+    {
+//        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+//        if (appDelegate.netStatus == NotReachable) {
+//            dispatch_async(dispatch_get_main_queue() , ^{
+//            [appDelegate showAlertTitle:@"" WithMessage:@"网络似乎开了点小差"];
+//            });
+//        }
+        
+        //先将Function.js文件写入data，再取js文本来修改，再转成data去请求
+        NSString *mainPath    = [[NSBundle mainBundle] bundlePath];
+        NSString *funcPathStr = [NSString stringWithFormat:@"%@/Function.js", mainPath];
+        NSData   *originData  = [NSData dataWithContentsOfFile:funcPathStr];
+        NSString *jsString    = [[NSString alloc] initWithData:originData encoding:NSUTF8StringEncoding];
+        //将Function.js文件里的字符串更改为获取的参数，传递js参数
+        jsString = [jsString stringByReplacingOccurrencesOfString:@"{userName}" withString:userMsg[@"userName"]];
+        jsString = [jsString stringByReplacingOccurrencesOfString:@"{deptNum}" withString:userMsg[@"deptNum"]];
+        jsString = [jsString stringByReplacingOccurrencesOfString:@"{deptName}" withString:userMsg[@"deptName"]];
+        jsString = [jsString stringByReplacingOccurrencesOfString:@"{ou}" withString:userMsg[@"ou"]];
+        jsString = [jsString stringByReplacingOccurrencesOfString:@"{account}" withString:[DataManager sharedDataManager].username];
+        jsString = [jsString stringByReplacingOccurrencesOfString:@"{etJobTitle}" withString:userMsg[@"etJobTitle"]];
+        //js加载base64字符串的格式
+        NSString *prefixStr  = @"data:image/jpg;base64,";
+        NSString *jsImageStr;
+        
+        NSMutableDictionary *userIcon = [DataManager sharedDataManager].userIcon;
+//        NSLog(@"icon    77 %@", [DataManager sharedDataManager].userIcon);
+        if (userIcon[@"userPhoto"] != nil || [userIcon[@"userPhoto"] isEqualToString: @""]) {
+            NSString *photo = [DataManager sharedDataManager].userIcon[@"userPhoto"];
+            jsImageStr = [[NSString alloc] initWithFormat:@"%@%@",prefixStr, photo];
+            //传递图片的字符串
+            jsString = [jsString stringByReplacingOccurrencesOfString:@"{imgStr}" withString:jsImageStr];
+        }
+        //传递的json
+        NSMutableDictionary *dic = [DataManager sharedDataManager].putDic;
+        if (dic != nil && [dic count] > 0) {
+            NSMutableArray *tempArray = [NSMutableArray array];
+            NSArray  *arr = [dic allKeys];
+            for (NSString *key in arr) {
+                NSString *valueString = [dic objectForKey:key];//遍历数组，取出value
+                NSString *formattedString = [NSString stringWithFormat:@"'%@':'%@'", key, valueString];//拼接键值对
+                [tempArray addObject:formattedString];//将遍历并拼接出来的字符串放入数组
+            }
+            NSString *finalString = [tempArray componentsJoinedByString:@","];
+            NSString *dicStr = [NSString stringWithFormat:@"%@%@%@", @"{", finalString, @"}"];
+            jsString = [jsString stringByReplacingOccurrencesOfString:@"{json}" withString:dicStr];
+        }else{
+            /*  必须做空字符的处理，否则在iOS8上会出现js文件格式错误导致后面的js方法都执行不了
+                在js里“{json}”是有语法错误的，当putDic为空时，{json}没有被替换，则导致后面的方法都执行不了。
+             */
+            jsString = [jsString stringByReplacingOccurrencesOfString:@"{json}" withString:@"{}"];
+        }
+        
+        //传递用户定位经纬度
+        NSMutableArray *userLoc = [DataManager sharedDataManager].userLocation;
+        if (userLoc != nil) {
+            NSString *longitude = [userLoc objectAtIndex:0];
+            NSString *latitude = [userLoc objectAtIndex:1];
+            jsString = [jsString stringByReplacingOccurrencesOfString:@"{latitude}" withString:latitude];
+            jsString = [jsString stringByReplacingOccurrencesOfString:@"{longitude}" withString:longitude];
+        }
+        
+        NSData* updateData = [jsString dataUsingEncoding:NSUTF8StringEncoding];
+        
+        //自定义一个response，用来做离线请求的返回数据
+        NSURLResponse *response = [[NSURLResponse alloc]
+                                   initWithURL: self.request.URL
+                                      MIMEType: @"text/javascript"
+                         expectedContentLength: updateData.length
+                              textEncodingName: @"utf-8"];
+        /**
+            1.将文件作为请求内容发送，didLoadData
+            2.将自定义的response作为文件请求的返回结果，didReceiveResponse
+            3.直接用URLProtocol返回结果，结束加载，DidFinish
+            4.相当于URLConnection的代理方法的过程
+         **/
+        [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        //加载
+        [self.client URLProtocol:self didLoadData:updateData];
+        [self.client URLProtocolDidFinishLoading:self];
+        /*
+        NSString *mimeType = @"text/html";
+        NSMutableDictionary *header = [[NSMutableDictionary alloc] initWithCapacity:2];
+        NSString *contentType = [mimeType stringByAppendingString:@";charset=UTF-8"];
+        header[@"Content-Type"] = contentType;
+        header[@"Content-Length"] = [NSString stringWithFormat:@"%lu", (unsigned long) updateData.length];
+        NSHTTPURLResponse *httpResponse = [[NSHTTPURLResponse alloc] initWithURL:self.request.URL
+                                                                      statusCode:200
+                                                                     HTTPVersion:@"1.1"
+                                                                    headerFields:header];
+        [self.client URLProtocol:self didReceiveResponse:httpResponse cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        [self.client URLProtocol:self didLoadData:updateData];
+        [self.client URLProtocolDidFinishLoading:self];
+         */
+    }else{
+        //发起请求
+//    self.connection = [NSURLConnection connectionWithRequest:mutableReqeust delegate:self];
+//        NSLog(@"----%@", [mutableReqeust URL].absoluteString);
+        [NSURLProtocol setProperty:@YES forKey:URLProtocolHandledKey inRequest:mutableReqeust];
+        NSMutableURLRequest *mutableReqeust1 = [mutableReqeust mutableCopy];
+        mutableReqeust = [CustomURLProtocol redirectHostInRequset:mutableReqeust1];
+        
+        // 掉线重连的措施，使用离线缓存的方式，当前请求在networkManager里进行，将请求的结果返回后，把请求结果放入URLProtocol当做数据加载。
+        //当cookie失效掉线时后台会返回登录界面，登录
+         [NetworkManager networkWithRequest:mutableReqeust completion:^(id responseObject, NSURLResponse *response, NSError *error) {
+             /*if(responseObject != nil ){
+                 NSString *dataString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                 NSLog(@"eror++%@  %@", error, dataString);
+             }*/
+             
+             if (error == nil) {
+                 if (response) {
+                     [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+                 }
+                 [self.client URLProtocol:self didLoadData:responseObject];
+                 [self.client URLProtocolDidFinishLoading:self];
+             }else{
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络连接失败，请检查您的网络设置" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                     [alert show];
+                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                         [alert dismissWithClickedButtonIndex:0 animated:YES];
+                     });
+                 });
+             }
+        }];
+    }
+}
+
+- (void)stopLoading
+{
+    [self.connection cancel];
+}
+
+#pragma mark - NSURLConnectionDelegate
+//在处理网络请求的时候会调用到代理方法，我们需要将收到的消息通过client返回给URL Loading System。
+//- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+//    [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+//}
+//- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+//    [self.client URLProtocol:self didLoadData:data];
+//}
+//- (void) connectionDidFinishLoading:(NSURLConnection *)connection {
+//    [self.client URLProtocolDidFinishLoading:self];
+//}
+//- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+//    [self.client URLProtocol:self didFailWithError:error];
+//}
+
+#pragma mark -- private
+//重定向request
++(NSMutableURLRequest*)redirectHostInRequset:(NSMutableURLRequest*)request
+{
+    //避免替换字符串时参数为空
+    NSMutableDictionary *userMsg = [DataManager sharedDataManager].userMsg;
+//    NSString *requestString = [[request URL] absoluteString];
+    if ([request.URL host].length == 0){
+        return request;
+    }
+    else if ([[[request URL] host] isEqualToString:@"hostname"]){
+        return request; 
+    }
+    else if ([[request.URL scheme] isEqualToString:@"http"] && ![[[request URL] host] isEqualToString:@"hostname"] && userMsg != nil )
+    {
+    NSString *requestString = [[request URL] absoluteString];
+//        NSLog(@"----requestString---:%@", requestString);
+    //替换url变量
+    requestString = [requestString stringByReplacingOccurrencesOfString:@"app.server_address" withString:[DataManager sharedDataManager].hostString];
+    requestString = [requestString stringByReplacingOccurrencesOfString:@"app.ou" withString:userMsg[@"ou"]];
+    requestString = [requestString stringByReplacingOccurrencesOfString:@"app.mail" withString:userMsg[@"mail"]];
+    request.URL = [NSURL URLWithString:requestString];
+        
+    NSString *cookieValue = [[DataManager sharedDataManager] cookieValue];
+    //2.添加到request头域
+    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
+    //3.把值覆给request
+    request = [request copy];
+    //4.查看请求头
+//    NSLog(@"---请求头---%@", request.allHTTPHeaderFields);
+    return request;
+        
+    }
+    else{
+        return request;
+    }
+}
+
+
+
+
+
+@end
+
+
+
+

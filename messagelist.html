@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" onselectstart='return false'>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>通讯录</title>
+    <link rel="stylesheet" href="combestres/bootstrap/css/bootstrap.min.css">
+    <link href="combestres/css/work/work.css" rel="stylesheet">
+    <link rel="stylesheet"  href="combestres/css/address/addrstyle.css">
+    <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="combestres/bootstrap/js/bootstrap.min.js"></script>
+    <script src="combestres/js/combest.js"></script>
+    <script>
+        start=1;
+        function getDatas(begin,b){
+
+          //  redirectParentPage();
+          ;
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+
+            }
+
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocListByDeptNum.xsp";//请求数据地址
+
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.ou/combest_hr.nsf";//url参数，数据来源数据库
+            var vw="CBVw_pmUserListByDeptNum";//url参数，数据来源视图
+            var items="ChineseName,etJobTitle,cellnum";//请示的字段
+            //var thisStart=start;//第几条数据开始
+            var count=20;//读取数据条数
+            //var cat="key1,key2"//查询关键字
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count//+"&cat="+cat
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+
+        }
+        refresh();
+
+        /**
+        *群组点击事件
+        */
+        function getconfigData(){
+             window.groups.getGroups();
+
+        }
+    </script>
+</head>
+<body onload="getDatas(1,true)">
+<!--<div class="headssContent" style="background-color: #2e2e2e">-->
+    <!--&lt;!&ndash; 头部&ndash;&gt;-->
+    <!--<div class="headContent" style=";">-->
+        <!--<a class="linkLeftSty" href="myset.html">-->
+            <!--<img src="combestres/images/me.png" style="width:22px; height:22px;margin-top:1px;"/>-->
+        <!--</a>-->
+        <!--<span class="tital" style="font-size:1.2em;color:#fff;">通讯录</span>-->
+        <!--<a class="linkRightSty" href="#" style="margin-right:10px;">-->
+            <!--<img src="combestres/images/more.png" style="width:22px; height:22px;margin-top:-3px;"/>-->
+        <!--</a>-->
+    <!--</div>-->
+<!--</div>-->
+<!--  搜索  -->
+<!--<div class="search">-->
+    <!--<a href="#" style="">-->
+        <!--<span class="glyphicon glyphicon-search" style="font-size: 12px;font-weight: normal !important;"></span>-->
+        <!--找人-->
+    <!--</a>-->
+<!--</div>-->
+<div class="containn"  style="">
+    <div class="con_3" style="">
+        <li>
+            <a onclick="openUrl(1)">
+                <div class="left">
+                    <img src="combestres/images/newfrd.png" />
+                </div>
+                <div class="right">
+                    <span style="display:line-block;"> 搜索</span>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="hr/messagelist-department.html">
+                <div class="left">
+                    <img src="combestres/images/kj.png" />
+                </div>
+                <div class="right">
+                    <span style="display:line-block;"> 组织架构</span>
+                </div>
+            </a>
+        </li>
+       <!--<li style="border-bottom: 0px;">
+            <a href="qunzu.html"  >
+                <div class="left">
+                    <img src="combestres/images/mfr.png" />
+                </div>
+                <div class="right">
+                <span style="display:line-block;"> 重要群组
+                    <span style="display: inline-block;margin:0;height:14px;line-height:14px;color: #fff;background-color: #FF6400;border-radius:10px;font-size: 0.8em;text-align: center;padding:0px 2px 0px 2px;position:absolute;margin-top:12px;">全员</span></span>
+                </div>
+            </a>
+        </li>-->
+    </div>
+    <div id="template" style="display:none" >
+        <a href="hr/messagelist-document.html?unid={unid}" class="list-group-item" target="_blank">
+            <p class="list-group-item-heading" style = "font-size:1em">{ChineseName}</p>
+            <p class="list-group-item-text" style="font-size:0.8em">{cellnum}&nbsp;&nbsp;&nbsp;{etJobTitle}</p>
+        </a>
+    </div>
+    <div class="list-group subhead" id="content">
+
+    </div>
+    <a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+        加载中...
+    </a>
+</div>
+<script type="text/javascript">
+    redirectParentPage();
+
+    function openUrl(index){
+        if(index == 1){
+            location.href="hr/userSearch.html";
+        }else if(index == 2){
+  //          location.href="hr/messagelist-department.html";
+        }else if(index == 3){
+   //         location.href="qunzu.html";
+            
+            
+        }
+    }
+</script>
+</body>
+</html>

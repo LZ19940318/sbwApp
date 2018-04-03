@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model
+END
+EaseConversationModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/EaseConversationModel.h
+END
+IModelCell.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/IModelCell.h
+END
+IModelChatCell.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/IModelChatCell.h
+END
+EaseUserModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/EaseUserModel.h
+END
+EaseConversationModel.m
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/EaseConversationModel.m
+END
+IMessageModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/IMessageModel.h
+END
+EaseUserModel.m
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/EaseUserModel.m
+END
+EaseMessageModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/EaseMessageModel.h
+END
+IConversationModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/IConversationModel.h
+END
+EaseMessageModel.m
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/EaseMessageModel.m
+END
+IUserModel.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/Model/IUserModel.h
+END

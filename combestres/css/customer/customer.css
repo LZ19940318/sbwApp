@@ -1,0 +1,168 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/*html {font-size: 100%;}*/
+body{margin:0 auto;font-size:1em;}
+img{border:0px;}
+a{ text-decoration:none;}
+.headssContent{
+  position:fixed;
+  z-index:999;
+  background:#2e2e2e;
+  box-shadow: none;
+  clear: both;
+}
+/* 头部 */
+#topLayer{ width:100%; float:left; height:40px; line-height:40px; text-align:center;display:inline-block;position: fixed;}
+#userimg{  left:20px; top:10px; position:absolute;}
+#userimg img{border:0px;height:25px; width:25px; float:left;vertical-align:middle}
+#topLayer{font-size:1em; font-family:'微软雅黑';}
+#topLayer span img{vertical-align:middle}
+
+#container{width:100%;margin:0px auto;}
+#rightimg{ position:absolute; right:20px; top:10px;}
+#rightimg img{border:0px;height:25px; width:25px; float:right;vertical-align:middle}
+
+/* 主体 */
+#mainBody{ width:100%; display:list-item;}
+/* 主体头部开始 */
+#mainTop{ width:99%; margin:0 auto;border:1px solid #666;}
+/*.labelDiv{margin-top:20px; float:left; width:100%;margin-left:20px;}*/
+/*.labelDiv>img{height:30px; width:30px;vertical-align:middle;}*/
+/*.labelDiv>a{ font-size:1em; color:#9C3; font-family:'微软雅黑'; margin-left:8px;}*/
+
+.imgSty{width:22px;height:22px;vertical-align:middle;}
+.divSty{width:50%; float:left;}
+.fontsty_lable{float:left; width:60%;margin-top:10px;color:#999;}
+.fontsty_lable span{font-size:23px; font-family:'微软雅黑';color: #4c4948;}
+.fontsty{ font-size:0.9em; color:#999; font-family:'微软雅黑';float:left; width:60%; margin-top:10px;}
+.borderRightSty{ border-right:#CCC 1px dotted; width:25px;float:left;margin:20px;}
+
+
+/*#mainBottom{ width:100%; float:left; text-align:center;}*/
+.listSty{ width:90%;border-bottom:1px solid #CCC; margin:0px auto; display:inline-block; line-height:30px;margin-left: 20px;}
+.listOne{font-size:1em;font-family:'微软雅黑'; text-align:left; float:left; width:100%;}
+.listTwo{float:left;width:100%;text-align:left; margin-bottom:10px;}
+.listTwo a{font-size:0.9em; color:#999; font-family:'微软雅黑';}
+.listTwo>img{height:20px; width:20px;vertical-align:middle;}
+/* 主体头部结束 */
+/*#FE0000*/
+  body{
+    font-family:'微软雅黑';
+  }
+.headContent{
+	margin:0 auto;
+	width:95%;
+	text-align:center;
+	padding-top:5px;
+	height:50px;
+	line-height:50px;
+}
+.linkLeftSty{ 
+	float:left;
+	display: inline-block;
+	width: 25px;height: 25px;
+    /*border:1px solid #000;*/
+}
+.linkLeftSty img{ 
+	position: absolute;
+}
+.linkRightSty{
+	float:right;
+	width: 25px;height: 25px;
+	/*border: 1px solid #000;*/
+	margin-right: 2.5%;
+}
+.linkRightSty img{ 
+	position: absolute;
+	margin-top: 5px;
+}
+.tital{
+	text-align:center;
+	color:#fff;
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: -11px;
+}
+  .tital{
+    font-size: 1em;
+  }
+  .tital a{color:#fff}
+  /*
+  .toggler {
+    width: 94%;
+    margin:0px auto;
+    margin-left: -2.7%;
+
+  }
+   #effect {
+    position: absolute;
+    width: 100%;
+    background-color:#f1f1f1;
+    /*color:#4c4948;*/
+  /*  display:none;
+    font-size: 1em;
+    border-bottom:1px solid #fff;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+  }
+#effect p{
+  line-height: 40px;
+}
+
+  /**********头部搜索*************/
+.search{
+  margin-left: 2.5%;
+  text-align: center;
+  background-color:#f1f1f1;
+  height: 27px;
+  line-height:27px;
+  width: 95%;
+  position: absolute;
+  border-radius: 5px;
+}
+.search a{
+  display: inline-block;
+  font-size: 13px;
+  color: #A9A9A9;
+  width: 100%;
+}
+.mainbody{
+    padding-top: 87px;
+    margin:0px auto;
+  }
+  .labelDiv{
+    width: 100%;
+    margin: 0px auto;
+    /*margin-left: 2.5%;*/
+    font-size: 1em;
+    height: 30px;
+    line-height: 30px;
+    /*background-color: #f1f1f1;*/
+    border-left: 3px solid #FE0000;
+  }
+  .labelDiv span{
+    color: #4c4948;
+    padding-left: 2.5%;
+  }
+  .mainTop{
+    /*padding-top: 30px;*/
+    border: 1px solid #f1f1f1;
+    width: 100%;
+    margin:0 auto;
+    border-radius:4px;
+  }
+  .mainBottom{
+    /*border: 0px solid #666;
+    background-color: #fff;*/
+     border: 1px solid #f1f1f1;
+    width: 100%;
+    margin:0 auto;
+    /*border-radius:7px;*/
+    border-radius:4px;
+  }
+  .gray{
+    width: 100%;
+    height: 10px;
+    background-color: #f1f1f1;
+  }

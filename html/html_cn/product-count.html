@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<!--报表 成瓷分析-->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>成瓷分析</title>
+	<link href="combestres/css/report/alyzSty.css" rel="stylesheet">
+	<script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="combestres/js/combest_report.js"></script>
+	<style type="text/css">
+	.sheader a:nth-child(4){
+	color: #ff6400;
+	<!--border-bottom: 1px solid #ff6400;-->
+}
+/*.countpro{height: 67px;}*/
+	</style>
+
+	<script>
+	window.onload=function(){
+		productImgFunction();
+	}
+	function productImgFunction(){
+	    var script=document.createElement("script");
+	    var db="app.ou/combest_produce.nsf";//url参数，数据来源数据库
+	    var vw="CBVw_statementSummarizeBy_D,CBVw_statementPuddlingBy_D,CBVw_statementMoldingBy_D,CBVw_statementFiringBy_D,CBVw_statementArranging_D";//url参数，数据来源视图
+	     var url=" http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocDproduct_count.xsp";//请求数据地址app.server_address/app.ou
+	    var callback="editS";//回调函数
+	   	//新建
+	    var items="exitDateNum,currDateNum,totalDateNum,firingDateNum,moldlossDateNum";//请示的字段,出口瓷，制泥损耗，成型损耗，烧成损耗
+		script.src=url+"?callback="+callback+"&db="+db+"&items="+items+"&vw="+vw;
+	    document.body.appendChild(script);
+	}
+
+	$(document).ready(function(){
+		$(".fade").click(function(){
+			$(".togg").fadeToggle();
+		});
+	});
+	</script>
+</head>
+<body>
+<div class="container">
+		<!-- 头部 -->
+	<div class="sheader">
+		<a href="myset.html">
+			<img src="combestres/images/me.png" style="width:22px; height:22px;margin-top:5px;" />
+		</a>
+		<a href="saletab.html">
+			销售报表
+		</a>
+		<a href="dproduct-tab.html">
+			制泥日报
+		</a>
+		<a href="product-count.html">
+		成瓷分析
+		</a>
+		<a href="#" class="fade">
+			<img src="combestres/images/more.png" style="width:22px; height:22px;margin-top:5px;" />
+		</a>
+		<div class="togg">
+			<a href="report/cnArrange.html" style="border-bottom: 1px solid #f1f1f1;">生产计划</a>
+			<a href="report/cnShipmentOrder.html">出货计划</a>
+		</div>
+	</div>
+	<!-- over -->
+
+	<div class="count">
+	<!-- 分割 -->
+		<div class="space"></div>
+		<div class="countpro" onclick="onTab('cc');">
+			<div class="stit">
+				<a href="#">
+					<!--<img src="combestres/images/tab1.png" style="vertical-align: middle;width:22px;height:22px;" />-->
+					成瓷统计
+					<!--<img src="combestres/images/right.png" style="float: right;margin-top:8px;width:20px;height:20px;"/>-->
+				</a>
+			</div>
+			<table class="countable">
+				<tr>
+					<td style="line-height: 22px;"><span>昨日出口瓷：</span></td>
+					<td style="color: #49b8a3;"><label name="exitDateNum"></label></td>
+				</tr>
+			</table>
+		</div>
+		<!-- 分割 -->
+		<div class="space"></div>
+
+		<div class="countpro" onclick="onTab('zn');">
+		<div class="stit">
+			<a href="#">
+				<!--<img src="combestres/images/tab2.png" style="vertical-align: middle;width:22px;height:22px;" />-->
+				制泥损耗分析
+				<!--<img src="combestres/images/right.png" style="float: right;margin-top:8px;width:20px;height:20px;"/>-->
+			</a>
+		</div>
+			<table class="countable">
+				<tr>
+					<td style="line-height: 22px;"><span>昨日损耗合计：</span></td>
+					<td style="color: #ff8749;"><label name="currDateNum"></label></td>
+				</tr>
+			</table>
+		</div>
+		<!-- 分割 -->
+		<div class="space"></div>
+
+		<div class="countpro" onclick="onTab('cxsh');">
+		<div class="stit">
+			<a href="#">
+				<!--<img src="combestres/images/tab3.png" style="vertical-align: middle;width:22px;height:22px;" />-->
+				成型损耗分析
+				<!--<img src="combestres/images/right.png" style="float: right;margin-top:8px;width:20px;height:20px;"/>-->
+			</a>
+		</div>
+			<table class="countable">
+				<tr>
+					<td style="line-height: 22px;"><span>昨日损耗合计：</span></td>
+					<td style="color:  #1852B7;"><label name="totalDateNum"></label></td>
+				</tr>
+			</table>
+		</div>
+		<!-- 分割 -->
+		<div class="space"></div>
+
+		<div class="countpro" onclick="onTab('sc');">
+		<div class="stit">
+			<a href="#">
+				<!--<img src="combestres/images/tab4.png" style="vertical-align: middle;width:22px;height:22px;" />-->
+				烧成损耗按产品
+				<!--<img src="combestres/images/right.png" style="float: right;margin-top:8px;width:20px;height:20px;"/>-->
+			</a>
+
+		</div>
+			<table class="countable">
+				<tr>
+					<td style="line-height: 22px;"><span>昨日损耗合计：</span></td>
+					<td style="color: #F32542;"><label name="firingDateNum"></label></td>
+				</tr>
+			</table>
+		</div>
+		<!-- 分割 -->
+		<div class="space"></div>
+		<div class="countpro" onclick="onTab('pb');">
+			<div class="stit">
+				<a href="#">
+					<!--<img src="combestres/images/tab4.png" style="vertical-align: middle;width:22px;height:22px;" />-->
+					烧成损耗按排班
+					<!--<img src="combestres/images/right.png" style="float: right;margin-top:8px;width:20px;height:20px;"/>-->
+				</a>
+
+			</div>
+			<table class="countable">
+				<tr>
+					<td style="line-height: 22px;"><span>昨日损耗合计：</span></td>
+					<td style="color: #F32542;"><label name="moldlossDateNum"></label></td>
+				</tr>
+			</table>
+		</div>
+		<!-- 分割 -->
+		<div class="space"></div>
+</div>
+	<!-- 底部 -->
+
+	<!-- over -->
+	</div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width,initial-scale=1 user-scalable=0"/>
+	<title>成瓷分析</title>
+	<!-- <link href="combestres/css/alyzSty.css" rel="stylesheet" > -->
+	<link href="combestres/css/mobiscroll.custom-2.17.1.min.css" rel="stylesheet" >
+	<link rel="stylesheet" type="text/css" href="combestres/css/report/repoSty.css">
+	<script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="combestres/js/combest_report.js"></script>
+	<script src="laydate/laydate.js"></script>
+	<script src="combestres/js/cnJs.js"></script>
+
+
+	<script>
+		window.onload=function(){
+			var key="";
+			var keyValue="";
+			forFunction(key,keyValue);
+
+		}
+	function forFunction(key,keyVal){
+		var begin=1;
+		var cat=key;
+		var keyValue=keyVal;
+		var url=" http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocSaletSell.xsp";//请求数据地址
+		var callback="lists";//回调函数
+		var param="divTmp,alyztab,0";//回调函数的参数，
+
+		var db="app.ou/combest_produce.nsf";//url参数，数据来源数据库
+	    var vw="CBVw_salesOrderSale_D";//url参数，数据来源视图
+
+		var items="no,orderNum,cusName,salesMan,deliverDate,amount,hadProduce,saleState,orderTime";//请示的字段
+		//执行一个jsonp语句
+		var script=document.createElement("script");
+		script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&items="+items+"&start="+begin+"&vw="+vw+"&cat="+cat+"&keyValue="+keyValue;
+	  	script.type="text/javascript";
+		document.body.appendChild(script);
+
+		if(key!="" || keyVal!=""){
+				$("#alyztab").html("");
+			}
+
+	}
+		function exectueUserdefined(){
+			//dateList();
+		}
+
+	function post_a(){
+		var keyVal=$("#postVal").val();
+		var key=$("#dateId").val();
+		if(keyVal!="" && keyVal !=null){
+			forFunction(key,keyVal);
+			$("#postVal").val("");
+		}
+	}
+
+
+	</script>
+	<script>
+	//	$(".firstcol").attr("firstcol","firstcolLeft");
+	function right(){
+		document.getElementById("dateId").click();
+	}
+	function onchangeDate(v){
+		if(v.value!="" && v.value!=null){
+			document.getElementById("time").innerHTML=v.value;
+			var key=v.value
+			var keyVal="";
+			forFunction(key,keyVal);
+		}
+	}
+	</script>
+	<script>
+		$(function(){
+			var top = $(window).scrollTop();
+			var left = $(window).scrollLeft();
+			$(window).scroll(function(){
+				if(top!=$(window).scrollTop()){
+				   $(".firstcol").attr("class","firstcolLeft");
+				}
+				if(left!=$(window).scrollLeft()){
+				   $(".firstcolLeft").attr("class","firstcol");
+				}
+			})
+		})
+	</script>
+	<style>
+
+	.clearFixd:after{
+		content:".";
+		height: 0;
+		visibility: hidden;
+		clear:both;
+		display:"block"
+	}
+	*{ margin:0; padding:0;}
+	#main{
+		overflow: hidden;
+		position: relative;
+	}
+	.content{
+		width:100%;
+		padding:0;
+		height: 30px;
+	}
+	</style>
+
+</head>
+<body>
+<div style="display:none">
+	<table  id="divTmp" class="alyztab" >
+		<tr>
+			<td class="firstcol">{order}</td>
+			<td class="sedcol">
+				<div class="content clearFixd">
+					{tdHTML}
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+
+
+<div class="container" >
+
+	<!-- 头部 -->
+	<div class="sheader">
+		<a href="saletab.html" style="float: left;margin-left: 7px;">
+			<img src="combestres/images/back.png"/>
+			返回
+		</a>
+		<span style="color:#fff;">销售订单</span>
+		<!-- <a href="#" onclick="right();"  class="right">
+			<img src="combestres/images/date.png" style="width:24px;height:24px;"/>
+		</a> -->
+	</div>
+	<!-- <div style="float:left;margin-top:-20px">
+		<input style="width:1px;height:1px" type="date" id="dateId" onchange="onchangeDate(this);"/>
+	</div> -->
+	<!-- over -->
+	<!-- 搜索 -->
+
+	<!-- over -->
+<!-- 	<div class="timeDiv">
+		<div class="search">
+			<div class="serin">
+				<input id="postVal" type="text" placeholder="输入关键词..." />
+				<a href="#" onclick="post_a();">
+					<img src="combestres/images/search.png">
+				</a>
+			</div>
+
+			<span id="time"></span>
+		</div>
+		<div  style="display:none">
+		<ul>
+			<li><span>按月搜索</span></li>
+			<li>
+				<span id="dateList1s"></span>
+			</li>
+			<li>
+				<span id="dateList2"></span>
+			</li>
+			<li>
+				<input type="button" id="submit" onclick="submits();" value="搜索"/>
+			</li>
+		</ul>
+		</div>
+	</div> -->
+	<!-- 筛选 -->
+	<div class="filter">
+		<ul>
+			<li>
+			 <a href="#" class="sart" id="date">本日
+			<span class="imgcont">
+			<img src="combestres/images/sel.png" style=""/></span></a>
+			</li>
+
+			<li>
+			<a href="#" class="sart" id="sale">内销
+			<span class="imgcont">
+			<img src="combestres/images/sel.png"></span></a>
+  <!-- 内销、外销 -->
+		    <div id="hidesale"></div> 
+		    <div style="position: fixed;z-index: 9999;width: 24%;top: 85px;">
+		     <div id="hidesalebox">
+		     <dl>
+		      <dd onclick="hide(2)">
+		        <a href="#" style="color: #ff8749;">内销</a>
+		        </dd>
+		        <dd onclick="hide(2)">
+		        <a href="#">外销</a>
+		        </dd>
+		        </dl>
+		    </div>
+		    </div>
+    <!-- over -->
+			</li>
+
+			<li>
+			<a href="#" class="sart" id="client">客户名称
+			<span class="imgcont">
+			<img src="combestres/images/sel.png"></span></a>
+ <!-- 客户名称、订单编号 -->
+		    <div id="hideclient"></div> 
+		    <div style="position: fixed;z-index: 9999;width: 24%;top: 85px;">
+		     <div id="hideclientbox">
+		     <dl>
+		      <dd  onclick="hide(3)">
+		        <a href="#" style="color: #ff8749;">客户名称</a>
+		        </dd>
+		        <dd  onclick="hide(3)">
+		        <a href="#">订单编号</a>
+		        </dd>
+		        </dl>
+		    </div>
+		    </div>
+    <!-- over -->
+			</li>
+
+			<li>
+			<a href="#" class="sart" id="detail">详情列表
+  			<span class="imgcont">
+			<img src="combestres/images/sel.png"></span></a>
+<!-- 详情列表、详情统计表 -->
+		    <div id="hidedetail"></div> 
+		    <div style="position: fixed;z-index: 9999;width: 28%;top: 85px;">
+		     <div id="hidedetailbox">
+		     <dl>
+		      <dd onclick="hide(4)">
+		        <a href="#" style="color: #ff8749;">详情列表</a>
+		        </dd>
+		        <dd onclick="hide(4)">
+		        <a href="#">统计表</a>
+		        </dd>
+		        </dl>
+		    </div>
+		    </div>
+    <!-- over -->
+			</li>
+		</ul>
+	</div>
+	<!-- over -->
+	 <!-- 本日、本周、本月 -->
+    <div id="hidebg"></div> 
+    <div style="position: fixed;z-index: 9999;width: 24%;top: 85px;">
+     <div id="hidebox">
+     <dl>
+      <dd onclick="hide(1)" >
+        <a href="#" style="color: #ff8749;">本日</a>
+        </dd>
+        <dd onclick="hide(1)">
+        <a href="#" >本周</a>
+        </dd>
+        <dd onclick="hide(1)">
+         <a href="#">本月</a>
+        </dd>
+        </dl>
+    </div>
+    </div>
+    <!-- over -->
+	<div class="cont">
+		<div id="canvas">
+			<table class="alyztab" >
+				<tbody id="alyztab">
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- time type Do not ignore -->
+
+<!-- time type Do not ignore over -->
+
+<script>
+var canvas = document.getElementById("canvas");
+var div=canvas.children[0];
+
+var startX,startY;
+
+function touchStart(event){
+	var touch=event.touches[0];
+	startX=touch.pageX;
+	startY=touch.pageY;
+}
+function touchMove(event){
+	var touch=event.touches[0];
+	timer = setInterval(function() {
+	renderTouches(touches);
+}, 1);
+
+var x = touch.pageX - startX;
+var y = touch.pageY - startY;
+
+ div.style.webkitTransform
+=canvas.style.msTransform
+=div.style.MozTransform
+= 'translate(0, ' +y + 'px)';
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal
+END
+DemoErrorCode.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/DemoErrorCode.h
+END
+EMCDDeviceManager+Remind.h
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+Remind.h
+END
+EMCDDeviceManager+Media.h
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+Media.h
+END
+EMAudioPlayerUtil.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMAudioPlayerUtil.h
+END
+EMCDDeviceManager+Remind.m
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+Remind.m
+END
+EMCDDeviceManager+Media.m
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+Media.m
+END
+EMAudioPlayerUtil.m
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMAudioPlayerUtil.m
+END
+EMAudioRecorderUtil.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMAudioRecorderUtil.h
+END
+EMAudioRecorderUtil.m
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMAudioRecorderUtil.m
+END
+EMCDDeviceManager+ProximitySensor.h
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+ProximitySensor.h
+END
+EMCDDeviceManagerBase.h
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManagerBase.h
+END
+EMCDDeviceManager+ProximitySensor.m
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+ProximitySensor.m
+END
+EMCDDeviceManager+Microphone.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+Microphone.h
+END
+EMCDDeviceManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager.h
+END
+EMCDDeviceManagerBase.m
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManagerBase.m
+END
+EMCDDeviceManager+Microphone.m
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/huanxin/EaseUI/EMUIKit/3rdparty/DeviceHelper/internal/EMCDDeviceManager+Microphone.m
+END

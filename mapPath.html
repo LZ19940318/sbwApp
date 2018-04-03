@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <link href="combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="combestres/css/combest.css" rel="stylesheet">
+
+        <script src="combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+        <script src="combestres/bootstrap/js/bootstrap.js"></script>
+        <script src="combestres/js/combest.js"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=EXDEUNxM6kpY5RFGqfbBbbXG"></script>
+        <script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+        <title>拜访路径</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-default" style="margin-bottom: -12px;height:40px;line-height:40px;z-index:9999">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html" style="color:#000000">
+                        <span class="glyphicon glyphicon-menu-left">返回</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div id="allmap" style="width:100%;height:100%;position:absolute;top:0px;left:0px;"></div>
+    </body>
+    <script type="text/javascript">
+       var post =  app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_position_list.xsp","key="+app.getUserName())
+       if(post!=null){
+            eval(post)
+       }
+       function back(data){
+            var maplist = new Array();
+            for (var i = 0; i < data.length; i++) {
+                maplist.push(new BMap.Point(data[i].longitude,data[i].latitude))
+            }
+            // 百度地图API功能
+            
+            var map = new BMap.Map("allmap");
+            map.centerAndZoom(maplist[0], 10);
+            map.enableScrollWheelZoom();
+            var curve = new BMapLib.CurveLine(maplist, {strokeColor:"blue", strokeWeight:1, strokeOpacity:0.5}); //创建弧线对象
+            map.addOverlay(curve); //添加到地图中
+       }
+
+    </script>
+</html>

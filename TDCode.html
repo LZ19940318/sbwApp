@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"">
+<title>智慧ERP</title>
+<link rel="stylesheet" href="combestres/css/productDetails.css">
+<script src="combestres/js/jquery-1.8.2.min.js"></script>
+<script src="combestres/js/jquery.qrcode.min.js"></script>
+<style>
+.myTrade{font-size:14pt;}
+.contentDiv{margin:0 auto; width:258px;margin-top:12px;}
+ #codeico{
+         position:fixed;
+         z-index:9999999;
+         width:80px; 
+         height:80px;
+         background:url(combestres/images/icon.png) no-repeat;
+     }
+ 
+</style>
+<script type="text/javascript">
+//获取base64位返回编码
+function androidToHtmlData(url){
+	generateQRCode("canvas",258, 258, url);
+    var margin = ($("#qrcode").height()-$("#codeico").height())/2;
+    $("#codeico").css("margin",margin);
+}
+
+function generateQRCode(rendermethod, picwidth, picheight, url) {
+    $("#qrcode").qrcode({ 
+        render: rendermethod, // 渲染方式有table方式（IE兼容）和canvas方式
+        width: picwidth, //宽度 
+        height:picheight, //高度 
+        text: utf16to8(url), //内容 
+        typeNumber:-1,//计算模式
+        correctLevel:2,//二维码纠错级别
+        background:"#ffffff",//背景颜色
+        foreground:"#000000"  //二维码颜色
+
+    });
+}
+function init() {
+   //调用android后台生成url地址
+   window.TDCode.getTDCode();
+}
+
+
+
+//中文编码格式转换
+function utf16to8(str) {
+    var out, i, len, c;
+    out = "";
+    len = str.length;
+    for (i = 0; i < len; i++) {
+        c = str.charCodeAt(i);
+        if ((c >= 0x0001) && (c <= 0x007F)) {
+            out += str.charAt(i);
+        } else if (c > 0x07FF) {
+            out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));
+            out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+        } else {
+            out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));
+            out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));
+        }
+    }
+    return out;
+} 
+</script>
+</head>
+<body onload="init()">
+	<div>
+		<div class="topDiv" style="background:#f1f1f1;">
+			<a class="myTrade">我的二维码</a>
+		</div>
+	</div>
+	<div class="contentDiv">
+		 <div id="qrcode">
+	        <div id="codeico" style=""></div>
+	    </div>
+	</div>
+</body>
+</html>

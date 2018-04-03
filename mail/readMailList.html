@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+    <meta name="format-detection" content="telephone=no">
+    <title>智慧赢家</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/combest.css" rel="stylesheet">
+    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+    <!--<link href="../combestres/css/work/work.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="../combestres/css/customer/customer.css" type="text/css">-->
+    <!--<link rel="stylesheet" href="../combestres/css/customer/jquery-ui.min.css" type="text/css">-->
+    <!--<link href="../combestres/css/style.css" rel="stylesheet">-->
+    <!--<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>-->
+    <script src="http://hostname"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script src="../combestres/js/customer/jquery-ui.min.js"></script>
+    <script src="../combestres/js/jquery-1.8.3.min.js"></script>
+    <script src="../combestres/js/hammer.min.js"></script>
+    <script src="../combestres/js/slide2del.js"></script>
+    <script>
+           $(function() {
+            // 运行当前选中的特效
+            function runEffect() {
+              // 从中获取特效类型
+              var selectedEffect = "blind";
+
+              // 大多数的特效类型默认不需要传递选项
+              var options = {};
+              // 一些特效带有必需的参数
+              if ( selectedEffect === "scale" ) {
+                options = { percent: 0 };
+              } else if ( selectedEffect === "size" ) {
+                options = { to: { width: 200, height: 60 } };
+              }
+
+              // 运行特效
+              $( "#effect" ).toggle( selectedEffect, options, 500 );
+            };
+
+            // 根据选择菜单值设置特效
+            $( "#button" ).click(function() {
+              runEffect();
+              return false;
+            });
+          });
+
+
+        start=1;
+        function getDatas(begin,b){
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+
+            }
+            //jsonp异步请求
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getMailDocList.xsp";//请求数据地址
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.mail";//url参数，数据来源数据库
+            var vw="($Inbox)";//url参数，数据来源视图
+            var items="Subject,@create,from";//请示的字段
+            //var thisStart=start;//第几条数据开始
+            var count=20;//读取数据条数
+            var isNew=0;
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&isNew="+isNew;
+
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+        }
+        refresh();
+        //左滑删除列表方法
+        function runDefinFun(){
+
+
+        	$(".session-box").slide2del({
+		        sItemClass: ".session-box",
+		        sDelBtnClass: ".del-btn",
+		        //删除事件
+		        delHandler: function (target) {
+		            //var text = target.find('.session-content').text();
+		            var unid = target.find('.session-content').find('.unid').val();
+		            if(confirm("您确认删除邮件吗？")){
+                        target.remove();
+                        alert("成功删除");
+		            }else{
+		                return false;
+		            }
+		            var url = "http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_delDoc.xsp";
+		            var db = "app.mail";
+		            var script = document.createElement("script");
+		            script.src = url +"?unid="+ unid +"&db="+ db;
+		            script.type = "text/javascript";
+		            document.body.appendChild(script);//html不能写请求，所以需要加到script里，就像head里一样
+		        }
+		    });
+		    var itemHeight = $(".session-box").height();
+        	$(".del-btn").css("height",itemHeight+"px");
+        	$(".del-btn").css("line-height",itemHeight+"px");
+        }
+
+    </script>
+    <style type="text/css">
+        .toggler{margin-right:18px;margin-top:48px;width: 120px;float: right;border-radius:
+        1px;border: 1px solid #2b2c2f;}
+        .toggler a{text-decoration:none;color: #fff;}
+        .toggler p{border-top: 1px solid #2b2c2f;height:45px;line-height:45px;}
+        #effect span{ display: inline-block;}
+        #effect p{text-align: center;}
+    </style>
+    <style type="text/css">
+        .session-box {
+        width: calc(100% + 80px);
+        overflow-x: auto;
+        position: relative;
+        border-bottom:1px solid #e1e1e1 !important;
+        }
+        .session-box .session-content {
+        background-color: #FFFFFF;
+        float: left;
+        width: calc(100% - 80px);
+        border:none !important;
+        displayLinline-block;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
+        height:65px;
+        }
+        .list-group-item{border:none !important;}
+        .session-box .del-btn {
+        width: 80px;
+        text-align: center;
+        background-color: #de0000;;
+        color: #FFFFFF;
+        font-size: 1.1em;
+        font-weight: normal;
+        float: left;
+        display:inline-block;
+        }
+    .session-box p{
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        font-size:1em;
+    }
+    .session-box span{
+        font-size:0.9em;
+        display:inline-block;
+        white-space: nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+        .clear {
+        clear: both;
+        }
+    </style>
+
+</head>
+<body onload="getDatas(1,true)">
+<!-- 头部 -->
+<!--<div class="headssContent" style="background-color: #2e2e2e">-->
+<!--&lt;!&ndash; 头部&ndash;&gt;-->
+<!--<div class="headContent" style="height:50px;padding-top:10px;">-->
+<!--&lt;!&ndash;<a class="linkLeftSty">&ndash;&gt;-->
+<!--&lt;!&ndash;<img  style="width:22px; height:22px;margin-top:1px;"/>&ndash;&gt;-->
+<!--&lt;!&ndash;</a>&ndash;&gt;-->
+<!--<span class="tital" style="font-size:1.2em;color:#fff;">收件箱</span>-->
+<!--<a class="linkRightSty" id="button" href="#" style="margin-right:10px;">-->
+<!--<img src="../combestres/images/more.png" style="width:22px; height:22px;margin-top:-3px;"/>-->
+<!--</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="toggler"  >-->
+<!--<div id="effect" class="ui-widget-content ui-corner-all" style="color:#727272;display:none;background-color:#393a3f; z-index:999;position:relative;" >-->
+<!--<p onclick="startActHtml(1)">-->
+<!--<span><img src="../combestres/images/fa.png" style="width:18px;height:18px;">&#8195;发件箱</span>-->
+<!--</p>-->
+<!--<p onclick="startActHtml(2)">-->
+<!--<span><img src="../combestres/images/cao.png" style="width:18px;height:18px;">&#8195;草稿箱</span>-->
+<!--</p>-->
+<!--<p onclick="startActHtml(3)">-->
+<!--<span><img src="../combestres/images/xie.png" style="width:18px;height:18px;">&#8195;写&#8195;信</span>-->
+<!--</p>-->
+<!--</div>-->
+<!--</div>-->
+<div class="sheader">
+    <a onclick="android.closeAct()"  style="float: left;margin-left: 7px;">
+        <img src="../combestres/images/back.png" />
+        返回
+    </a>
+        <span>
+            已读邮件
+        </span>
+</div>
+<!--内容-->
+<div class="list-group" id="content" style="margin-top:45px;overflow-x:hidden;">
+
+    <!--<div class="" id="content">-->
+</div>
+
+<div id="template" style="display:none;">
+    <div class="session-box">
+        <div class="session-content" onclick="startWeb('{unid}')">
+            <!--href="mail.html?unid="-->
+            <a  class="list-group-item" target="_blank">
+                <p class="list-group-item-heading">{from}</p>
+                <div style="width:100%">
+                    <span class="list-group-item-text" style="width:68%;">{Subject}</span>
+                    <span class="list-group-item-text" style="float:right">{@create}</span></div>
+            </a>
+            <input type="text" value={unid} class="unid" style="display:none;"/>
+           
+        </div>
+        <a href="javascript:;" class="del-btn">删除</a>
+        
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+    加载中...
+</a>
+
+<script>
+    function startWeb(unid){
+        location.href="mail/mail.html?unid="+unid
+    }
+</script>
+
+</body>
+</html>

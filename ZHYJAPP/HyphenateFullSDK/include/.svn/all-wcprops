@@ -1,0 +1,233 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include
+END
+EMTextMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMTextMessageBody.h
+END
+EMConversation.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMConversation.h
+END
+EMOptions+PrivateDeploy.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMOptions+PrivateDeploy.h
+END
+IEMChatroomManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/IEMChatroomManager.h
+END
+EMCallLocalView.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMCallLocalView.h
+END
+IEMChatManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/IEMChatManager.h
+END
+EMErrorCode.h
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMErrorCode.h
+END
+EMClient+Call.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMClient+Call.h
+END
+EMVideoMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMVideoMessageBody.h
+END
+EMPushOptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMPushOptions.h
+END
+EMOptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMOptions.h
+END
+EMLocationMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMLocationMessageBody.h
+END
+EMChatroomManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMChatroomManagerDelegate.h
+END
+EMChatManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMChatManagerDelegate.h
+END
+EMGroupOptions.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMGroupOptions.h
+END
+EMClientDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMClientDelegate.h
+END
+EMChatroom.h
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMChatroom.h
+END
+EMCursorResult.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMCursorResult.h
+END
+EMClient.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMClient.h
+END
+EMCallSession.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMCallSession.h
+END
+IEMCallManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/IEMCallManager.h
+END
+EMSDK.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMSDK.h
+END
+EMContactManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMContactManagerDelegate.h
+END
+EMGroupManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMGroupManagerDelegate.h
+END
+EMCallRemoteView.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMCallRemoteView.h
+END
+EMMessage.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMMessage.h
+END
+EMCmdMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMCmdMessageBody.h
+END
+EMVoiceMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMVoiceMessageBody.h
+END
+EMError.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMError.h
+END
+EMGroup.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMGroup.h
+END
+IEMContactManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/IEMContactManager.h
+END
+OpenGLView20.h
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/OpenGLView20.h
+END
+IEMGroupManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/IEMGroupManager.h
+END
+EMCallManagerDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMCallManagerDelegate.h
+END
+EMMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMMessageBody.h
+END
+EMFileMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMFileMessageBody.h
+END
+EMSDKFull.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMSDKFull.h
+END
+EMImageMessageBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/app/!svn/ver/27/ios/ZHYJMES%201.0/ZHYJAPP/HyphenateFullSDK/include/EMImageMessageBody.h
+END

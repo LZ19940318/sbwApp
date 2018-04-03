@@ -1,0 +1,40 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+//#define testIP1 @"192.168.10.202"
+#define testIP1 @"113.240.251.10"
+#define testIP2 @"58.20.54.3"
+#define testIP3 @"183.214.86.166"
+
+#define REDPACKET_AVALABLE
+#define DEMO_CALL 1
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "ChatDemoUIDefine.h"
+#import "EMAlertView.h"
+#import "TTGlobalUICommon.h"
+
+#import "EMSDKFull.h"
+#import "EaseUI.h"
+#import "ApplyViewController.h"
+#import "ChatDemoHelper.h"
+
+#import "AlipaySDK.h"
+#import "RedPacketUserConfig.h"
+#import "RedpacketOpenConst.h"
+//#define DEMO_CALL 1
+
+
+
+#endif
+

@@ -1,0 +1,16 @@
+//
+//  MyVC.h
+//  ZHYJAPP
+//
+//  Created by shuang wu on 16/9/28.
+//  Copyright © 2016年 admin. All rights reserved.
+//
+
+#import "MESNavBaseViewController.h"
+
+@interface MyVC : MESNavBaseViewController
+
+@property (nonatomic, copy) NSString *urlSS;
+
+
+@end

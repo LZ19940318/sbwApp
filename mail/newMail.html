@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="cn">
+    <head>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+            <title>客户档案文档</title>
+            <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+                <link href="../combestres/css/oaSty.css" rel="stylesheet">
+                    <script src="http://hostname"></script>
+                    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+                    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+                    <script src="../combestres/js/combest.js"></script>
+                    <style type="text/css">
+                        #conter{
+                            padding-bottom:30px;
+                        }
+                    .form-combest .form-group{
+                        border:0;
+                        border-bottom:1px solid #e0e0e0;
+                        margin-left:0px;
+                        margin-top:5px;
+                        margin-right:0px;
+                        margin-bottom:5px;
+                    }
+                    .form-group>label{
+                        color:#7b7b7b;
+                        margin-left:5px;
+                        font-family:"宋体";
+                        font-style：normal;
+                        font-weight:normal;
+                    }
+                    @media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){
+                        .glyphicon-plus{
+                            display:inline-block;float:right;padding-right:5px;margin-top:-28px;
+                        }
+                    }
+                    .form-combest .form-group input{
+                        border:0;
+                        -webkit-box-shadow:0;
+                        box-shadow:0;
+                    }
+                    .form-combest .form-group .form-control{
+                        border:0;
+                        width:80%;
+                        display:inline-block;
+                        -webkit-box-shadow:inset 0 0px 0px rgba(0, 0, 0, .075);
+                        box-shadow:inset 0 0px 0px rgba(0, 0, 0, .075);
+                        
+                    }
+                    #userList{
+                        width:100%;
+                        height:89%;
+                        border:none;
+                        overflow-x:hidden;
+                        position:absolute;
+                        top:55px;
+                        left:0px;
+                    }
+                    </style>
+                    <script>
+                        function load(){
+                            var script=document.createElement("script");
+                            var url=location.href;
+                            var unid=url.substring(url.indexOf("unid=")+5);
+                            if(url.indexOf("unid=")==-1){
+                                unid="";
+                            }
+                            if(unid.indexOf("&")>0){
+                                unid=unid.substring(0,unid.indexOf("&"));
+                            }
+                            var callback="open"
+                            var type=url.substring(url.indexOf("type=")+5);
+                            if(url.indexOf("type=")==-1){
+                                type="";
+                            }
+                            if(type=="reply"){
+                                callback="replyMail";
+                            }
+                            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument.xsp?callback="+callback+"&db=app.mail&items=Subject,from,sendTo,body,Signature,lastModify,CopyTo&unid="+unid
+                            document.body.appendChild(script);
+                            //  kailLodings();
+                        }
+                    start=1;
+                    function getDatas(begin,b){
+                        //加载中状态条
+                        var loadStaut=document.getElementById("loadStaut");
+                        if(b){
+                            document.getElementById("content").appendChild(loadStaut);
+                            loadStaut.style.display="block";
+                        }else{
+                            
+                        }
+                        
+                        // var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocList.xsp";//请求数据地址
+                        var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocList.xsp";//请求数据地址
+                        var callback="list";//回调函数
+                        var param="template,userList,0";//回调函数的参数，
+                        var db="app.ou/combest_hr.nsf";//url参数，数据来源数据库
+                        var vw="CBVw_pmUserListByShortName";//url参数，数据来源视图
+                        var items="ChineseName,etJobTitle,cellnum";//请示的字段
+                        //var thisStart=start;//第几条数据开始
+                        var count=20;//读取数据条数
+                        //var cat="key1,key2"//查询关键字
+                        //执行一个jsonp语句
+                        var script=document.createElement("script");
+                        script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count//+"&cat="+cat
+                        script.type="text/javascript";
+                        if(b){
+                            start+=count;
+                        }
+                        document.body.appendChild(script);
+                    }
+                    function replyMail(data){
+                        
+                        $("#sendTo").html(data.from);
+                        $("#Subject").html("回复:"+data.Subject);
+                        var body="<div>"+data.Signature+"</div><div style='margin-top:30px'><div >----------原始邮件----------</div>"
+                        body+="<div>主题:"+data.Subject+"</div>";
+                        body+="<div>发件人:"+data.from+"</div>";
+                        body+="<div>收件人:"+data.sendTo+"</div>";
+                        body+="<div>抄送:"+data.CopyTo+"</div>";
+                        
+                        body+="<div style='margin-left:10px;border:0;border-left:1px solid #cccccc'>"+data.body+"</div></div>";
+                        $("#reply").html(body);
+                    }
+                    //选择地址本页
+                    function toSelUser(){
+                        document.getElementById("sendNav").style.display="none";
+                        document.getElementById("content").style.display="none";
+                        document.getElementById("userNav").style.display="";
+                        document.getElementById("userList").style.display="";
+                    }
+                    function toSend(){
+                        document.getElementById("sendNav").style.display="";
+                        document.getElementById("content").style.display="";
+                        document.getElementById("userNav").style.display="none";
+                        document.getElementById("userList").style.display="none";
+                        clearUser();
+                    }
+                    var sendUsers=[];
+                    //将用户添加到已选择用户列表中
+                    function addUser(obj,user){
+                        if(obj.getAttribute("checked")=="0"){//选择
+                            sendUsers.push(user);
+                            obj.setAttribute("checked","1");
+                            $(obj).removeClass("hiddenChecked").addClass("showChecked");
+                        }else{
+                            for(var i=0;i<sendUsers.length;i++){
+                                if(sendUsers[i]==user){
+                                    sendUsers[i]="";
+                                }
+                            }
+                            obj.setAttribute("checked","0");
+                            $(obj).removeClass("showChecked").addClass("hiddenChecked");
+                        }
+                    }
+                    //清除已选择用户列表
+                    function clearUser(){
+                        document.getElementById("userList").src="../address/userlist.html";
+                        sendUsers=[];
+                    }
+                    var addUserObj=null;
+                    //  var users="";
+                    //将用户添加到指定域当中
+                    function addSendUsers(){
+                        
+                        var users=addUserObj.html;
+                        if(users.length==1){//html()方法取出空值时，不知道为什么有可能得出长度是1的数
+                            users="";
+                        }
+                        var oldUsers=users.split(",");
+                        for(var i=0;i<sendUsers.length;i++){
+                            var isExit=false;
+                            if(sendUsers[i]!=""){
+                                for(var j=0;j<oldUsers.length;j++){
+                                    if(sendUsers[i]==oldUsers[j]){
+                                        isExit=true;
+                                        break;
+                                    }
+                                }
+                                if(!isExit){
+                                    // users=sendUsers[i]+","+users;
+                                    users=users+","+sendUsers[i];
+                                    
+                                }
+                            }
+                        }
+                        
+                        users.replace(/(^\s*)|(\s*$)/g, "")
+                        if(users.indexOf(",")==0){
+                            users=users.substring(1);
+                        }
+                        if(addUserObj!=null){
+                            addUserObj.html(users);
+                        }
+                        clearUser();
+                        
+                    }
+                    function checkNull(){
+                        if(document.getElementById("sendTo").innerHTML==""){
+                            alert("收件人不能为空!");
+                            return false;
+                        }
+                        if(document.getElementById("Subject").innerHTML==""){
+                            alert("标题不能为空!");
+                            return false;
+                        }
+                        if(document.getElementById("body").innerHTML==""){
+                            alert("内容不能为空!");
+                            return false;
+                        }
+                        return true;
+                    }
+                    /*
+                     提交数据
+                     */
+                    function sendDoc(url,contenter){
+                        // var timestamp = Date.parse(new Date());
+                        var params="";
+                        $("[contenteditable='true']").each(function(){
+                                                           var name=this.name==""?this.name:this.id;
+                                                           if(name==""){
+                                                           return true;
+                                                           }else if(name=="body"){
+                                                           //  params+="&"+name+"="+encodeURI(this.innerHTML+"</br>"+$("#reply").html());
+                                                           params+="&"+name+"="+this.textContent+"</br>"+$("#reply").html();
+                                                           
+                                                           }else{
+                                                           //  params+="&"+name+"="+encodeURI(this.innerHTML);
+                                                           
+                                                           params+="&"+name+"="+this.textContent;
+                                                           }
+                                                           });
+                                                           // var fileName = document.getElementById("fileName_span").innerHTML;
+                                                           //params += "&timestamp=" + timestamp;
+                                                           //回复时增加原邮件unid
+                                                           var hisurl=location.href;
+                                                           var unid=hisurl.substring(hisurl.indexOf("unid=")+5);
+                                                           if(hisurl.indexOf("unid=")==-1){
+                                                               unid="";
+                                                           }
+                                                           if(unid.indexOf("&")>0){
+                                                               unid=unid.substring(0,unid.indexOf("&"));
+                                                           }
+                                                           
+                                                           params += "&unid=" +unid;
+                                                           params=params.substring(1);//去掉首字母的&
+                                                           //                EmailUtils.postFile(timestamp +"_"+fileName);
+                                                           eval(app.postData(url,params));
+                                                           //location.href='mailList.html';
+                                                           // alert('发送成功');
+                                                           //   setTimeout("android.closeAct()", 2000 );
+                    }
+                    
+                    refresh();
+                    
+                    function setAttachmentFileName(fileName){
+                        
+                        document.getElementById("fileName_span").innerHTML=fileName;
+                    }
+                    
+                    
+ /**>>>>>>>>>>>>>>>iOS 原生与H5交互 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+                    
+                    // 原生交互调用 “发送”
+                    function send(){
+                        
+                        if(checkNull()){
+                            sendDoc('http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_sendMail.xsp','content');
+                            return false;
+                        }
+                        
+                    }
+                    
+                    // 收件人
+                    function sjr(){
+                        
+                        addUserObj=$('#sendTo');
+                        
+                        toSelUser()
+                        
+                        app.sendMainAdd(1);
+                    }
+                    
+                    // 抄送人
+                    function csr(){
+                        
+                        addUserObj=$('#CopyTo');
+                        toSelUser()
+                        app.sendMainAdd(2);
+                    }
+                    // 附件
+                    function fj(){
+                        
+                        alert("由于系统限制,请在安卓端或者pc端上传附件！");
+                        // photo.takePhoto1();
+                        // EmailUtils.getAttachmentFile()
+                        
+                    }
+                    
+                    // 选择人之后，确定
+                    function send1(){
+                        
+                        addSendUsers();
+                        toSend();
+                        return false;
+                    }
+                    
+                    function send2(){
+                        addSendUsers();
+                        toSend();
+                        return false;
+                    }
+                    
+                    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+                    
+                        </script>
+                    </head>
+    <body onload=" load()" >
+        <!--<nav class="navbar navbar-inverse navbar-fixed-top" id="sendNav">-->
+        <!--<div class="container">-->
+        <!--<div class="navbar-header">-->
+        <!--<a class="navbar-brand" href="list.html" style="color:#ffffff">-->
+        <!--<span class="glyphicon glyphicon-menu-left"></span>-->
+        <!--</a>-->
+        <!--<a class="navbar-brand" href="#" style="float:right;color:#ffffff;" >-->
+        <!--<span  id="ok" onclick="if(checkNull()){sendDoc('http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_sendMail.xsp','content');return false}" >发送</span>-->
+        <!--</a>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</nav>-->
+        <!-- 头部 -->
+        <div class="sheader" id="sendNav">
+            <a onclick="android.closeAct()"  style="float: left;margin-left: 7px;">
+                <img src="../combestres/images/back.png" />
+                返回
+            </a>
+            <a class="navbar-brand" href="#" style="float:right;color:#ffffff;" >
+                <span  id="ok" onclick="send()" style="font-size:1.1em;margin-top:-6px;">发送</span>
+            </a>
+        </div>
+        <!-- over -->
+        <div class="container-fluid" style="position:relative;top:45px;padding:0px" id="content">
+            <form class="form-combest">
+                <div class="form-group">
+                    <label for="sendTo" class="labels">收件人</label>
+                    <span type="text"  class="form-control required combest-edit" id="sendTo" name="sendTo" contenteditable="true">
+                    </span>
+                    <span onclick="sjr()"><span class="glyphicon glyphicon-plus" ></span></span>
+                </div>
+                <div class="form-group">
+                    <label for="CopyTo" class="labels">抄&nbsp;&nbsp;&nbsp;&nbsp;送</label>
+                    <span type="text"  class="form-control combest-edit" id="CopyTo" name="CopyTo" contenteditable="true"></span>
+                    <span onclick="csr()"><span class="glyphicon glyphicon-plus" ></span></span>
+                </div>
+                <div class="form-group">
+                    <label for="Subject" class="labels">主&nbsp;&nbsp;&nbsp;&nbsp;题</label>
+                    <span type="text"  class="form-control required combest-edit" id="Subject" name="Subject" contenteditable="true"></span>
+                </div>
+                <!--                <div class="form-group">-->
+                <!--                    <label for="CopyTo" class="labels">附&nbsp;&nbsp;&nbsp;&nbsp;件</label>-->
+                <!--                    <span type="text"  class="form-control combest-edit" id="fileName_span" contenteditable="true"></span>-->
+                <!--                    <span onclick="fj()"><span class="glyphicon glyphicon-plus" ></span></span>-->
+                <!--                </div>-->
+                <div class="form-group" style="border:0">
+                    <label for="body" class="labels">内&nbsp;&nbsp;&nbsp;&nbsp;容</label></br>
+                    <span  class="form-control required combest-edit" id="body" name="body" style="min-height:100px;" contenteditable="true"></span>
+                </div>
+                <div class="form-group" style="border:0">
+                    <span  class="form-control required combest-edit" id="reply" name="reply" style="min-height:100px;" contenteditable="true"></span>
+                    
+                </div>
+            </form>
+        </div>
+        <!--<nav class="navbar navbar-inverse navbar-fixed-top" id="userNav" style="display:none">-->
+        <!--<div class="container">-->
+        <!--<div class="navbar-header">-->
+        <!--<a class="navbar-brand" href="#" style="color:#ffffff" onclick="toSend();return false;">-->
+        <!--<span class="glyphicon glyphicon-menu-left"></span>-->
+        <!--</a>-->
+        <!--<a class="navbar-brand" href="#" style="float:right;color:#ffffff;" onclick="addSendUsers();toSend();return false;">-->
+        <!--<span  id="selectUser"  >确定</span>-->
+        <!--</a>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</nav>-->
+        <!-- 头部 -->
+        <div class="sheader" id="userNav" style="display:none">
+            <a href="#"  style="float: left;margin-left: 7px;" onclick="toSend();return false;">
+                <img src="../combestres/images/back.png" />
+                返回
+            </a>
+            <a class="navbar-brand" href="#" style="float:right;color:#ffffff;" onclick="send1()">
+                <span  id="selectUser"  style="font-size:1.1em;margin-top:-6px;">确定</span>
+            </a>
+        </div>
+        <!-- over -->
+        <iframe name="userList" src="../address/userlist.html" id="userList" style="display:none" />
+    </body>
+</html>

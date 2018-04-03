@@ -1,0 +1,17 @@
+//
+//  WorkNavPushVC.h
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/24.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "MESBeseViewController.h"
+
+@interface WorkNavPushVC : MESBeseViewController
+
+
+@property (nonatomic ,strong)NSString *urlStr;
+
+
+@end

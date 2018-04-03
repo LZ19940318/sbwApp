@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>代理合同</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        start=1;
+        function getDatas(begin,b){
+        //加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{
+
+            }
+
+            var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocList.xsp";//请求数据地址
+            var callback="list";//回调函数
+            var param="template,content,0";//回调函数的参数，
+            var db="app.ou/combest_crm.nsf";//url参数，数据来源数据库
+            var vw="CBVw_contractManageAgent";//url参数，数据来源视图
+            var items="contractName,nameFirst,contractTime";//请示的字段
+            //var thisStart=start;//第几条数据开始
+            var count=20;//读取数据条数
+            //var cat="key1,key2"//查询关键字
+            //执行一个jsonp语句
+            var script=document.createElement("script");
+            script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count//+"&cat="+cat
+            script.type="text/javascript";
+            if(b){
+                start+=count;
+            }
+            document.body.appendChild(script);
+           // kailLodings();
+        }
+        refresh();
+    </script>
+</head>
+<body onload="getDatas(1,true)">
+<style type="text/css">
+    #lodings{
+    position:fixed;
+    top:0px;
+    left:0px;
+    background:rgba(0, 0, 0, 0.3);
+    width:100%;
+    height:100%;
+    z-index:999999;
+    text-align:center;
+    }
+    #lodings>div{
+    width:100%;
+    height:100%;
+    position:relative;
+    }
+    #lodings>div>img{
+    width: 30%;
+    height: auto;
+    display: initial;
+    position: absolute;
+    margin: auto;
+    top: 40%;
+    left: 35%;
+    }
+</style>
+<div id="lodings" style="display:none">
+    <div><img src="../combestres/images/loding.gif" alt=""></div>
+</div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="contractList.html" style="color:#ffffff">
+                <span class="glyphicon glyphicon-menu-left"></span>
+                返回
+            </a>
+            <a href="contract_agentSearch.html" class="navbar-brand" targa="_top" style="float:left;color:#000000;width:50%;">
+                <input type="text" style="width:100%;position: relative;
+            top: -6px;float:left;border:1px solid #e2e2e2;" placeholder="搜索"/>
+            </a>
+            <a class="navbar-brand" href="contractAgent_document.html?choice=1" style="float:right;color:#ffffff;display:none" target="_blank">新增</a>
+        </div>
+    </div>
+</nav>
+<div id="template" style="display:none" >
+    <a href="contractAgent_document.html?unid={unid}" class="list-group-item" target="_blank">
+        <h4 class="list-group-item-heading">{contractName}</h4>
+        <span class="list-group-item-text">{nameFirst} </span>
+        <span style="float:right" class="list-group-item-text">{contractTime}</span>
+    </a>
+</div>
+<div class="list-group" id="content" style="position:relative;top:51px;">
+
+</div>
+<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+    加载中...
+</a>
+</body>
+<script type="text/javascript">
+ //   lodings()
+</script>
+</html>

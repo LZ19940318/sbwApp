@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+	<title>产品列表</title>
+
+	<link rel="stylesheet" type="text/css" href="../combestres/css/report/repoSty.css">
+	<script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+	<script src="../combestres/js/cnJs.js"></script>
+	<script src="../combestres/js/combest_report.js"></script>
+	<style type="text/css">
+
+		.clearFixd:after{
+		content:".";
+		height: 0;
+		visibility: hidden;
+		clear:both;
+		display:"block";
+		}
+		*{ margin:0; padding:0;}
+		#main{
+		overflow: hidden;
+		position: relative;
+		}
+		.content{
+		width:100%;
+		/*margin-left: 112px;*/
+		padding:0;
+		height: 38px;
+		border-right: none !important;
+		}
+	</style>
+	<script>
+
+		$(function(){
+			var top = $(window).scrollTop();
+			var left = $(window).scrollLeft();
+			$(window).scroll(function(){
+				if(top!=$(window).scrollTop()){
+				   $(".firstcol").attr("class","firstcolLeft");
+				}
+				if(left!=$(window).scrollLeft()){
+				   $(".firstcolLeft").attr("class","firstcol");
+				}
+			})
+		})
+
+	window.onload=function(){
+
+		//订单是外销的情况下加入生产才有效
+		var orderStauts=getQueryString("orderStauts");
+		var hadProduce=getQueryString("hadProduce");
+
+		if(orderStauts=="内销" || hadProduce=="2"){
+				document.getElementById("ok").style.display="none";
+		}
+		getDatas(1,true);
+	}
+
+		start=1;
+		function getDatas(begin,b){
+
+			//加载中状态条
+            var loadStaut=document.getElementById("loadStaut");
+            if(b){
+                document.getElementById("content").appendChild(loadStaut);
+                loadStaut.style.display="block";
+            }else{ }
+
+			//链接带过来的unid
+ 	   		var unid=getQueryString("documentId");
+			var begin=1;
+			var count=15;
+			var cat="";
+			var saleMenth="";
+			var script=document.createElement("script");
+			var url="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getAllSaleOrder_sub.xsp";//请求数据地址
+
+			var callback="listAppend";//回调函数
+			var param="tmp,tbcontent,0";
+			var db="app.ou/combest_produce.nsf";
+			var vw="";
+			var items="description,code,mark,caseNum,dozen,piece,casePrice,dozenPrice,totalPrice,orderNum,remarks";//请示的字段
+
+			//执行一个jsonp语句
+			script.src=url+"?callback="+callback+"&param="+param+"&db="+db+"&vw="+vw+"&items="+items+"&start="+begin+"&count="+count+"&cat="+cat+"&saleMenth="+saleMenth+"&mainUnid="+unid;
+			script.type="text/javascript";
+			document.body.appendChild(script);
+
+		}
+		//获取参数
+		function getQueryString(name) {
+			var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+			var r = window.location.search.substr(1).match(reg);
+			if (r != null)
+				return decodeURIComponent(r[2]);
+			return null;
+		}
+	</script>
+</head>
+<body>
+<table style="display:none" id="tmp">
+	<tr>
+		<td class="firstcol">{description}</td>
+		<td class="sedcol">
+			<div class="content clearFixd">
+				<table class="alyzin"><tr class="odd">
+					<td>{code}</td>
+					<td>{mark}</td>
+					<td>{caseNum}</td>
+					<td>{dozen}</td>
+					<td>{piece}</td>
+					<td>{casePrice}</td>
+					<td>{dozenPrice}</td>
+					<td>{totalPrice}</td>
+					<td>{orderNum}</td>
+					<td>{remarks}</td>
+				</tr></table>
+			</div>
+		</td>
+	</tr>
+</table>
+<div class="container">
+	<!-- 头部 -->
+	<div class="sheader">
+		<a href="javascript:history.back(-1)"  style="float: left;margin-left: 7px;">
+			<img src="../combestres/images/back.png" />
+			返回
+		</a>
+		<span style="">
+			产品列表
+		</span>
+
+		<a href="#" style="float:right;color:#fff;margin-right: 15px;font-size: 1em;">
+			<span style="" id="ok">生产</span>
+		</a>
+
+	</div>
+	<!-- over -->
+	<!-- 筛选 -->
+	<div class="filter" style="display:none;">
+		<ul>
+			<li>
+				<a href="#" class="sart" id="date">本日
+			<span class="imgcont">
+			<img src="../combestres/images/sel.png" style=""/></span></a>
+			</li>
+
+			<li>
+				<a href="#" class="sart" id="sale">内销
+			<span class="imgcont">
+			<img src="../combestres/images/sel.png"></span></a>
+				<!-- 内销、外销 -->
+				<div id="hidesale"></div>
+				<div style="position: fixed;z-index: 9999;width: 24%;top: 85px;">
+					<div id="hidesalebox">
+						<dl>
+							<dd onclick="hide(2)">
+								<a href="#" style="color: #ff8749;">内销</a>
+							</dd>
+							<dd onclick="hide(2)">
+								<a href="#">外销</a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!-- over -->
+			</li>
+
+			<li>
+				<a href="#" class="sart" id="client">客户名称
+			<span class="imgcont">
+			<img src="../combestres/images/sel.png"></span></a>
+				<!-- 客户名称、订单编号 -->
+				<div id="hideclient"></div>
+				<div style="position: fixed;z-index: 9999;width: 24%;top: 85px;">
+					<div id="hideclientbox">
+						<dl>
+							<dd  onclick="hide(3)">
+								<a href="#" style="color: #ff8749;">客户名称</a>
+							</dd>
+							<dd  onclick="hide(3)">
+								<a href="#">订单编号</a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!-- over -->
+			</li>
+
+			<li>
+				<a href="#" class="sart" id="detail">详情列表
+  			<span class="imgcont">
+			<img src="../combestres/images/sel.png"></span></a>
+				<!-- 详情列表、详情统计表 -->
+				<div id="hidedetail"></div>
+				<div style="position: fixed;z-index: 9999;width: 28%;top: 85px;">
+					<div id="hidedetailbox">
+						<dl>
+							<dd onclick="hide(4)">
+								<a href="#" style="color: #ff8749;">详情列表</a>
+							</dd>
+							<dd onclick="hide(4)">
+								<a href="#">统计表</a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!-- over -->
+			</li>
+		</ul>
+	</div>
+	<!-- over -->
+
+	<div id="canvas">
+		<!-- <table class="alyztab"> -->
+		<table class="alyztab" id="tbcontent" style="clear:both;margin-top:43px;">
+			<tr style="font-size: 1em;">
+				<td class="firstcol" style="color: #fff;font-size: 0.9em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">产品名称</td>
+				<td class="sedcol">
+					<div class="content clearFixd">
+						<table class="alyzin"><tr class="even">
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">产品代号</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">产品底标</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">箱</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">打</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">件</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">单价/箱</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">单价/打</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">金额</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">出货数量</td>
+							<td style="color: #fff;font-size: 1em;background-color: rgb(35,100,154);border-right: 1px solid rgb(35,100,154);">备注</td>
+						</tr></table>
+					</div>
+				</td>
+			</tr>
+
+
+		</table>
+	</div>
+	<script>
+	var unid=getQueryString("documentId");
+	$("#ok").click(function(){
+        if(confirm("您确定所选订单加入生产吗？")){
+            var callback="backresult";
+            var urldata ="form=CBFrm_produceOrder&db=app.ou/combest_produce.nsf&unid="+unid+"&callback="+callback;
+
+            var oks = app.postData("http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDocProPlan.xsp",urldata)
+             if(oks!=null){
+               eval(oks);
+             }
+        }else{
+            return false;
+        }
+
+     });
+
+       function backresult(oks){
+            if(oks.substring(0,5)=="false"){
+                 alert("执行错误");
+            }
+           if(oks.substring(0,4)=="true"){
+                alert("执行成功!");
+                //var parentUnid=getQueryString("parentUnid");
+                //window.location.href="cnArrangePro.html?documentId="+parentUnid+""
+             }
+      }
+
+
+var canvas = document.getElementById("canvas");
+var div=canvas.children[0];
+var startX,startY;
+
+function touchStart(event){
+	var touch=event.touches[0];
+	startX=touch.pageX;
+	startY=touch.pageY;
+}
+function touchMove(event){
+	var touch=event.touches[0];
+	timer = setInterval(function() {
+		renderTouches(touches);
+	}, 1);
+}
+
+var x = touch.pageX - startX;
+var y = touch.pageY - startY;
+
+div.style.webkitTransform =canvas.style.msTransform;
+div.style.MozTransform = 'translate(0, ' +y + 'px)';
+
+</script>
+
+</div>
+<div id="content"></div>
+<a style="display:none;text-align:center" class="list-group-item" id="loadStaut">
+	加载中...
+</a>
+</div>
+</body>
+</html>

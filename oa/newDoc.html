@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>username</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable =no">
+    <title>智慧赢家</title>
+     <script src="http://hostname"></script>
+    
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../combestres/css/combest.css" rel="stylesheet">
+    <link href="../combestres/css/oaSty.css" rel="stylesheet">
+        
+        
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <meta charset="utf-8">
+    <style>
+        .navbar>ul{
+            width:100%;
+            padding:0px;
+            padding-top:10px;
+        }
+        .navbar>ul>li{
+            list-style:none;
+            float:left;
+            width:25%;
+            text-align:center;
+            vertical-align:text-top;
+            color: #585858;
+        }
+        .navbar{
+            box-shadow: 0px -2px 5px rgba(0,0,0,0.3);
+        }
+        #approve{
+            position:absolute;
+            top:0px;
+            z-index:999;
+            height:100%;
+        }
+    </style>
+    <script>
+         function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+            var unid=getQueryString("unid"); //流程unid
+            var wfpath=getQueryString("wfpath"); //关联主数据库路径
+           script.src="http://app.server_address/"+wfpath+"/CBXsp_getNewDocument.xsp?unid="+unid+"&callback=showForm_doc";
+            document.body.appendChild(script);//自定义表单
+            var workflowScript=document.createElement("script");
+             workflowScript.src="http://app.server_address/"+wfpath+"/CBXsp_getNewWorkflow.xsp?unid="+unid+"&callback=showNextNode1";
+            document.body.appendChild( workflowScript);//流程节点人员
+           
+        }
+
+        //显示页签
+        function showTab(tab){
+            var Subject = document.getElementById("Subject").value;
+            if(Subject==""){
+                alert("请假事由不能为空!");
+                return false;
+            }
+            var mdd = document.getElementById("mdd").value;
+            if(mdd==""){
+                alert("目的地不能为空!");
+                return false;
+            }
+            var qssj = document.getElementById("qssj").value;
+            if(qssj==""){
+                alert("起始时间不能为空!");
+                return false;
+            }
+            var yjxjsj = document.getElementById("yjxjsj").value;
+            if(yjxjsj==""){
+                alert("预计销假时间不能为空!");
+                return false;
+            }
+            
+           
+           
+            var tabs=["main","sub","att","yjatt","record"];
+            if(tab!="mainBody"){
+                for(var i=0;i<tabs.length;i++){
+                    $("#"+tabs[i]).css({"display":"none"});
+                }
+                $("#"+tab).css({"display":""});
+                //工具栏
+                if(tab=="sub"){
+                    app.sub();
+                     $("#showtoolbar").css({"display":"none"});
+                }else{
+                     $("#showtoolbar").css({"display":""});
+                }
+            }
+        }
+
+        //执行页面事件
+        function formonload(){
+            //修该编辑框的可读性
+              $("input").each(function(){
+                if(this.getAttribute("cancreate")=="yes"){
+                    $(this).removeAttr("disabled");
+                    $(this).removeAttr("readOnly");
+                    $(this).removeAttr("readonly");
+                }
+            });
+            
+     }
+    
+    
+    
+/**>>>>>>>>>>>>ios 交互>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    // 提交
+    function getdata1(){
+        
+        
+        if(!confirm("是否确认提交?")){
+            return false;
+        }
+        //submitWorkFlowNew();
+                                                                                                                                              
+    }
+    function send1(){
+        
+     
+        showTab('main');
+        return false;
+        
+    }
+    function subbb(){
+        
+        showTab('sub');
+        
+    }
+    
+    function iosSubDataChangeConfirm(){
+        var params="";
+        var selUser="";
+        $("input[name=selUser]").each(function(){
+                                      if(this.checked){
+                                      selUser=selUser==""?this.value:selUser+","+this.value;
+                                      }
+                                      });
+                                      if(selUser==""){
+                                          var mustSelUser=true;
+                                          $("input[name=selNode]").each(function(){
+                                                                        if(this.checked && (this.getAttribute("nodetype")=="EndNode" || this.getAttribute("nodetype")=="AutoActivity")){
+                                                                        mustSelUser=false;
+                                                                        return false;
+                                                                        }
+                                                                        });
+                                                                        if(mustSelUser){
+                                                                            alert("请选择人员");
+                                                                            return false;
+                                                                            
+                                                                        }else{
+                                                                            alert("当前环节为自动节点，请在电脑端处理");
+                                                                            return false;
+                                                                        }
+                                      }
+                                      
+                                      var unid=getQueryString("unid"); //流程unid
+                                      var appdb=getQueryString("wfpath"); //关联主数据库路径
+                                      //var flowName=getQueryString("flowName"); //使用流程名
+                                      var url=location.href;
+                                      var flowName=url.substring(url.indexOf("flowName=")+9);
+                                      params="wfunid="+encodeURI(unid);
+                                      params+="&flowName="+flowName;
+                                      params+="&selUser="+encodeURI(selUser);
+                                      
+                                      
+                                      $("#content").find("input").each(function(){
+                                                                       var inputType=this.type.toLowerCase();
+                                                                       var name=this.name==""?this.name:this.id;
+                                                                       if(name==""){
+                                                                       return true;
+                                                                       }
+                                                                       if(inputType=="text"){
+                                                                       params+="&"+name+"="+encodeURI(this.value);
+                                                                       }else if(inputType=="radio"){
+                                                                       name=this.name;
+                                                                       if(this.checked){
+                                                                       params+="&"+name+"="+encodeURI(this.value);
+                                                                       }
+                                                                       }else if(inputType=="checkbox"){
+                                                                       var name=this.name;
+                                                                       if(params.indexOf("&"+name+"=")!=-1){
+                                                                       return true;
+                                                                       }
+                                                                       var value="";
+                                                                       $("[name="+name+"]").each(function(){
+                                                                                                 if(this.checked){
+                                                                                                 value=value==""?this.value:value+","+this.value;
+                                                                                                 }
+                                                                                                 });
+                                                                       params+="&"+name+"="+encodeURI(value);
+                                                                       }else if(inputType=="date"){
+                                                                       params+="&"+name+"="+encodeURI(this.value);
+                                                                       }
+                                                                       });
+                                                                       
+                                                                       $("#content").find("textarea").each(function(){
+                                                                                                           var name=this.name==""?this.name:this.id;
+                                                                                                           if(name==""){
+                                                                                                           return true;
+                                                                                                           }
+                                                                                                           params+="&"+name+"="+encodeURI(this.value);
+                                                                                                           });
+                                                                                                           $("#content").find("select").each(function(){
+                                                                                                                                             var name=this.name==""?this.name:this.id;
+                                                                                                                                             if(name==""){
+                                                                                                                                             return true;
+                                                                                                                                             }
+                                                                                                                                             var value="";
+                                                                                                                                             for(var i=0;i<this.options.length;i++){
+                                                                                                                                             if(this.options[i].selected){
+                                                                                                                                             value=value==""?this.options[i].value:value+","+this.options[i];
+                                                                                                                                             }
+                                                                                                                                             }
+                                                                                                                                             params+="&" +name+ "="+ encodeURI(value);
+                                                                                                                                             })
+                                                                                                                                             var suggestion=$("#suggestion").val();
+                                                                                                                                             if(suggestion!=""){
+                                                                                                                                                 params+="&suggestion="+ encodeURI(suggestion);
+                                                                                                                                             }
+                                                                                                                                             var url="http://app.server_address/"+appdb+"/CBXsp_saveNewDocument.xsp";
+                                                                                                                                             var post = app.postData(url,params);
+                                                                                                                                             if(post!=null){
+                                                                                                                                                 eval(post)
+                                                                                                                                                 AppUI.hideDialog();
+                                                                                                                                             }
+                                                                                                                                             
+                                                                                                                                             
+                                                                                                                                             
+    }
+    </script>
+</head>
+<body onload="load()" >
+    <!--内容-->
+    <!-- 头部 -->
+<!--    <div class="sheader">-->
+<!--        <a onclick="android.closeAct()"  style="float: left;margin-left: 7px;">-->
+<!--            <img src="../combestres/images/back.png" />-->
+<!--            返回-->
+<!--        </a>-->
+<!--        <span>-->
+<!--           请销假管理-->
+<!--        </span>-->
+<!--    </div>-->
+    <!-- over -->
+    
+    <div class="container-fluid"  style="padding:0px 10px 0px 10px;margin-top:50px;margin-bottom:60px" id="main">
+        <div style="width:100%;height:100%"  id="content" ></div>
+    </div>
+
+    <!--审批工具栏-->
+    <div id="showtoolbar" class="navbar navbar-default navbar-fixed-bottom" style="box-shadow:none !important;border-top:1px solid #d1d1d1;bottom:0px;">
+        <nav  onclick="subbb()" style="background-color: #38acff;">
+            <div  style="color:#ffffff;text-align:center;font-size: 18px;padding: 15px 15px;font-size: 18px;line-height: 20px;">
+                提交
+            </div>
+        </nav>
+    </div>
+
+<!--提交-->
+<div class="container-fluid"  style="padding:2px;display:none;" id="sub">
+    
+<!--    <div id="showtoolbar" class="navbar navbar-default navbar-fixed-bottom" style="box-shadow:none !important;border-top:1px solid #d1d1d1">-->
+<!--        <nav  onclick="submitWorkFlowNew();return false;" style="background-color: #38acff;">-->
+<!--            <a class="navbar-brand"  href="#" id="backSub" style="color:#ffffff"  onclick="showTab('main');return false;" >-->
+<!--                <span class="glyphicon glyphicon-menu-left"></span>-->
+<!--                返回-->
+<!--            </a>-->
+<!--            <div  style="color:#ffffff;text-align:center;font-size: 18px;padding: 15px 15px;font-size: 18px;line-height: 20px;">-->
+<!--                提交-->
+<!--            </div>-->
+<!--        </nav>-->
+<!--    </div>-->
+
+<!--        <nav class="navbar navbar-inverse navbar-fixed-top">-->
+<!--            <a class="navbar-brand"  href="#" id="backSub" style="color:#ffffff"  onclick="showTab('main');return false;" >-->
+<!--                <span class="glyphicon glyphicon-menu-left"></span>-->
+<!--                返回-->
+<!--            </a>-->
+<!--            <a class="navbar-brand" href="#" style="float:right;color:#ffffff" onclick="submitWorkFlowNew();return false;">-->
+<!--                <span  id="ok">提交</span>-->
+<!--            </a>-->
+<!---->
+<!--        </nav>-->
+    
+    
+    
+    <div class="container-fluid"  style="padding:2px;margin-top:60px;margin-bottom:55px">
+        <div style="width:100%;height:100%;display:none"  id="divSuggestion"  >
+            <div class="form-group">
+                <label for="suggestion">填写意见</label>
+                <span style="float:right;margin-right:20px" for="zdyj">常用意见：<select id=zdyj onchange="look();"></select></span>
+                <textarea id="suggestion" class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+        <div style="width:100%;height:100%"   >
+            <div class="form-group">
+                <label >选择环节</label>
+                <div id="divSelNode">
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;height:100%"   >
+            <div class="form-group">
+                <label >选择人员</label>
+                <div id="divSelUser"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

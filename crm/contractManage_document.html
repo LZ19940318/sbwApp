@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="cn" onselectstart='return false'>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>合同管理文档</title>
+    <link href="../combestres/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <script src="../combestres/bootstrap/js/jquery-1.12.3.min.js"></script>
+    <script src="../combestres/bootstrap/js/bootstrap.js"></script>
+    <script src="../combestres/js/combest.js"></script>
+    <script>
+        function load(){
+            var script=document.createElement("script");
+            var url=location.href;
+
+            var unid=url.substring(url.indexOf("unid=")+5);
+            script.src="http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_getDocument.xsp?callback=edit&db=app.ou/combest_crm.nsf&items=contractName,contractNum,cusName,contractType,contarctStauts,qyDate,sDate,eDate,totalMoney,hasGiven,shouldRecieve,shouldReceMonth,qianYue,telephone&unid="+unid
+            document.body.appendChild(script);
+            kailLodings();
+        }
+    </script>
+</head>
+<style type="text/css">
+#conter{
+    padding-bottom:30px;
+}
+</style>
+<body onload="load()">
+<style type="text/css">
+        #lodings{
+            position:fixed;
+            top:0px;
+            left:0px;
+            background:rgba(0, 0, 0, 0.3);
+            width:100%;
+            height:100%;
+            z-index:999999;
+            text-align:center;
+        }
+        #lodings>div{
+            width:100%;
+            height:100%;
+            position:relative;
+        }
+        #lodings>div>img{
+            width: 30%;
+            height: auto;
+            display: initial;
+            position: absolute;
+            margin: auto;
+            top: 40%;
+            left: 35%;
+        }
+    </style>
+<div id="lodings">
+    <div><img src="combestres/images/loding.gif" alt=""></div>
+</div>
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!-- <div class="navbar-header">
+            <a class="navbar-brand" href="javascript:history.back(-1)" style="font-size:1.2em;color:#4c4948">
+                <span class="glyphicon glyphicon-menu-left"></span>
+                返回
+            </a> -->
+             <div class="navbar-header" style="text-align:center;height:45px;line-height:50px;background-color:#2e2e2e;">
+        <a class="navbar-brand" href="javascript:history.back(-1)" style="color:#fff;font-size:1.1em;">
+            <span class="glyphicon glyphicon-menu-left"style="font-size:1.3em;" ></span>
+            <span style="position: absolute;display: inline-block;margin-top: -23px;margin-left: 10px;">返回</span>
+        </a>
+            <a class="navbar-brand" href="#" style="float:right;font-size:1.1em;color:#fff">
+                <span style="display: none;" id="ok">提交</span>
+                <span  style="display:inline-block;" id="bianji">编辑</span>
+            </a>
+        </div>
+
+    </div>
+</nav>
+<div class="container-fluid" style="position: relative;top:60px;">
+    <!-- http://{app.server_address}/{app.ou}/combest_crm.nsf/CBXsp_save.xsp -->
+    <form action="javascript:vido(0)" >
+        <fieldset id="conter">
+            <div class="form-group">
+                <label for="contractName" class="labels">合同标题</label>
+                <input type="text" disabled class="form-control required" id="contractName" name="contractName" placeholder="合同标题">
+            </div>
+
+            <div class="form-group">
+                <label for="contractNum" class="labels">合同编号</label>
+                <input type="text" disabled class="form-control required" id="contractNum" name="contractNum" placeholder="合同编号">
+            </div>
+            <div class="form-group">
+                <label for="cusName" class="labels">客户名称</label>
+                <input type="text" disabled="" class="form-control required" id="cusName" name="cusName" placeholder="客户名称">
+            </div>
+            <div class="form-group">
+                <label for="contractType" class="labels">合同类型</label>
+                <input type="text" disabled class="form-control required" id="contractType" name="contractType" placeholder="客户网址">
+            </div>
+            <div class="form-group">
+                <label for="contarctStauts" class="labels">合同状态</label>
+                <input type="select" disabled  class="form-control required" id="contarctStauts" name="contarctStauts" placeholder="合同状态">
+            </div>
+            <div class="form-group">
+                <label for="qyDate" class="labels">签约日期</label>
+                <input type="date" disabled class="form-control required" id="qyDate" name="qyDate" placeholder="签约日期">
+            </div>
+            <div class="form-group">
+                <label for="sDate" class="labels">开始日期</label>
+                <input type="date" disabled class="form-control required" id="sDate" name="sDate" placeholder="开始日期" value="">
+            </div>
+            <div class="form-group">
+                <label for="eDate" class="labels">结束日期</label>
+                <input type="date" disabled class="form-control required" id="eDate" name="eDate" placeholder="结束日期">
+            </div>
+            <div class="form-group">
+                <label for="totalMoney" class="labels">合同总金额</label>
+                <input type="text" disabled class="form-control required" id="totalMoney" name="totalMoney" placeholder="合同总金额">
+            </div>
+            <div class="form-group">
+                <label for="hasGiven" class="labels">已付款</label>
+                <input type="text" disabled class="form-control required" id="hasGiven" name="hasGiven" placeholder="已付款">
+            </div>
+            <div class="form-group">
+                <label for="shouldRecieve" class="labels">应收款</label>
+                <input type="text" disabled class="form-control required" id="shouldRecieve" name="shouldRecieve" placeholder="应收款">
+            </div>
+            <div class="form-group">
+                <label for="shouldReceMonth" class="labels">本月应收款</label>
+                <input type="text" disabled class="form-control required" id="shouldReceMonth" name="shouldReceMonth" placeholder="本月应收款">
+            </div>
+            <div class="form-group">
+                <label for="qianYue" class="labels">甲方签约人</label>
+                <input type="text" disabled class="form-control required" id="qianYue" name="qianYue" placeholder="甲方签约人">
+            </div>
+            <div class="form-group">
+                <label for="telephone" class="labels">联系电话</label>
+                <input type="text" disabled class="form-control required" id="telephone" name="telephone" types="tel" placeholder="联系电话">
+            </div>
+        </fieldset>
+    </form>
+</div>
+<script type="text/javascript">
+var url=location.href;
+var unids =url.indexOf("unid=")
+        if(unids=="-1"){
+            $(".form-group input,.form-group select").removeAttr("disabled")
+            $("#ok").css({"display":"inline-block"})
+            $("#bianji").css('display', 'none');
+        }
+    $("#bianji").click(function(){
+        $(".form-group input").removeAttr("disabled")
+        $(this).css({"display":"none"});
+        $("#ok").css({"display":"inline-block"})
+    })
+    $("#ok").click(function(){
+        var unid=url.substring(url.indexOf("unid=")+5);
+        var posts=[
+                encodeURI($("#contractName").val()),//合同标题
+                encodeURI($("#contractNum").val()),//合同编号
+                encodeURI($("#cusName").val()),//客户名称
+                encodeURI($("#contractType").val()),//合同类型
+                encodeURI($("#contarctStauts").val()),//合同状态
+                encodeURI($("#qyDate").val()),//签约时间
+                encodeURI($("#sDate").val()),//开始日期
+                encodeURI($("#eDate").val()),//结束日期
+                encodeURI($("#totalMoney").val()),//合同总金额
+                encodeURI($("#hasGiven").val()),//已付款
+                encodeURI($("#shouldRecieve").val()),//应收款
+                encodeURI($("#shouldReceMonth").val()),//本月应收款
+                encodeURI($("#qianYue").val()),//甲方签约人
+                encodeURI($("#telephone").val()),//联系电话
+                encodeURI(app.getUserName())//当前登录人
+                ]
+
+        for (var i = 1; i < $(".required").length+1; i++) {
+                var a = Verification.text("fieldset>.form-group:nth-child("+i+")>.required");
+                if(a==false){
+                    return false;
+                    break;
+
+                    }
+                }
+        if (unids=="-1"){
+            var urldata ="form=CBFrm_contractManage&db=app.ou/combest_crm.nsf&contractName="+posts[0]+"&contractNum="+posts[1]+"&cusName="+posts[2]+"&contractType="+posts[3]+"&contarctStauts="+posts[4]+"&qyDate="+posts[5]+"&sDate="+posts[6]+"&eDate="+posts[7]+"&totalMoney="+posts[8]+"&hasGiven="+posts[9]+"&shouldRecieve="+posts[10]+"&shouldReceMonth="+posts[11]+"&qianYue="+posts[12]+"&telephone="+posts[13]+"&cusAddName="+posts[14]+"&hotCus=0&callback=back";
+        }else {
+            var urldata ="form=CBFrm_contractManage&db=app.ou/combest_crm.nsf&unid="+unid+"&contractName="+posts[0]+"&contractNum="+posts[1]+"&cusName="+posts[2]+"&contractType="+posts[3]+"&contarctStauts="+posts[4]+"&qyDate="+posts[5]+"&sDate="+posts[6]+"&eDate="+posts[7]+"&totalMoney="+posts[8]+"&hasGiven="+posts[9]+"&shouldRecieve="+posts[10]+"&shouldReceMonth="+posts[11]+"&qianYue="+posts[12]+"&telephone="+posts[13]+"&cusAddName="+posts[14]+"&hotCus=0&callback=back";
+        }
+            var result=app.postData(
+                "http://app.server_address/app.ou/combest_mopcontroller.nsf/CBXsp_saveDoc.xsp",urldata
+            );
+            if(result!=null){
+                eval(result);
+            }
+        })
+    function back(){
+            window.location.href="contractManage.html"
+        }
+</script>
+</body>
+<script type="text/javascript">
+    lodings();
+    function fanhui(){
+        history.back(-1)
+    }
+</script>
+</html>

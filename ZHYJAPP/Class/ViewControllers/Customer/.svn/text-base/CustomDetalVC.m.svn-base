@@ -1,0 +1,324 @@
+//
+//  CustomDetalVC.m
+//  ZHYJAPP
+//
+//  Created by shuang wu on 17/3/22.
+//  Copyright © 2017年 admin. All rights reserved.
+//
+
+#import "CustomDetalVC.h"
+#import "UUDatePicker.h"
+#import "DataManager.h"
+#import "NetworkManager.h"
+#import "Custom_Document_VC.h"
+#import "NvaPushViewController.h"
+#import "UIWebView+JavaScriptAlert.h"
+
+
+@interface CustomDetalVC ()<UIWebViewDelegate>{
+    
+    UIWebView *_webView;
+    NSString *timeStr;
+    NSString *callback;
+    NSString *NavButtonStr;
+    BOOL isShowNavButton;
+
+}
+@property (nonatomic ,strong)NSDictionary *titleDic;
+
+@end
+
+@implementation CustomDetalVC
+
+- (NSDictionary *)titleDic{
+    if (!_titleDic) {
+
+        _titleDic = [NSDictionary dictionaryWithObjectsAndKeys:
+                     @"热点客户",@"crm/Hot_customer.html",
+                     @"销售机会",@"crm/Sales_opportunities.html",
+                     @"客户档案",@"crm/cusFile.html",
+                     @"客户跟进",@"crm/catchFile.html",nil];
+        
+
+    }
+    return _titleDic;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+
+    [self setNav];
+    [self initWebView];
+    
+}
+
+- (void)setNav{
+    
+   
+
+    self.title = self.titleDic[self.urlStr];
+    
+    if ([self.title isEqualToString:@"热点客户"]) {
+        
+         NavButtonStr = @"crm/Hot_customer_document.html";
+         isShowNavButton = YES;
+        
+    }else if([self.title isEqualToString:@"销售机会"]){
+        
+         NavButtonStr = @"crm/Sales_opportunities_document.html?choice=1";
+         isShowNavButton = YES;
+        
+    }else if([self.title isEqualToString:@"客户档案"]){
+        
+         NavButtonStr = @"crm/cusFileSearch.html";
+         isShowNavButton = YES;
+        
+    }else{
+        isShowNavButton = NO;
+    }
+    
+    
+    if (isShowNavButton) {
+        
+        UIImage *image2 = [UIImage imageNamed:@"me@3x.png"];
+        image2 = [image2 imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+         UIBarButtonItem *rightBtn=[[UIBarButtonItem alloc] initWithTitle:@"新增" style:UIBarButtonItemStyleDone target:self action:@selector(rightClick)];
+        if([self.title isEqualToString:@"客户档案"]){
+            
+            
+            rightBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(rightClick)];
+                      
+            
+        }
+        
+
+        [rightBtn setTintColor:[UIColor whiteColor]];
+        self.navigationItem.rightBarButtonItem=rightBtn;
+    }
+    
+}
+
+- (void)rightClick{
+    
+    NvaPushViewController *navPushViewController =[[NvaPushViewController alloc]init];
+    navPushViewController.urlStr = NavButtonStr;
+    [self.navigationController pushViewController:navPushViewController animated:YES];
+    
+}
+
+- (void)initWebView{
+    
+    if (!_webView) {
+        
+        
+        _webView = [UIWebView initWithSet];
+        _webView.delegate = self;
+        [self.view addSubview:_webView];
+
+
+    }
+    
+    
+    //从mainBundle里取本地html文件
+    NSString *mainBundlePath = [[NSBundle mainBundle] bundlePath];
+    NSString *htmlPath = [NSString stringWithFormat:@"%@/%@", mainBundlePath, self.urlStr];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",[htmlPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]];
+    [_webView loadRequest:request];
+    
+}
+
+#pragma mark -- UIWebViewDelegate
+//准备加载，拦截url
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{//多次调用shouldStartLoad,是因为js文件里使用了自定义url的方式
+    NSString *requestString = [[request URL] absoluteString];
+    NSLog(@"--------requestString:%@", requestString);
+    
+    NSArray *unidArray = [requestString componentsSeparatedByString:@"?unid="];
+    NSString *urlStr;
+    
+    if (unidArray.count > 1) {
+        
+        
+        if ([self.urlStr isEqualToString:@"crm/Hot_customer.html"]) {
+            
+            if ([unidArray.firstObject hasSuffix:@"crm/Hot_customer_document.html"]) {
+                
+                urlStr = @"crm/Hot_customer_document.html";
+            }
+            
+            
+            
+        }else if([self.urlStr isEqualToString:@"crm/Sales_opportunities.html"]){
+            
+            if ([unidArray.firstObject hasSuffix:@"crm/Sales_opportunities_document.html"]) {
+                
+                urlStr = @"crm/Sales_opportunities_document.html";
+            }
+            
+            
+        }else if ([self.urlStr isEqualToString:@"crm/cusFile.html"]){
+            
+            if ([unidArray.firstObject hasSuffix:@"crm/cusFile_document.html"]) {
+                
+                urlStr = @"crm/cusFile_document.html";
+            }
+           
+            
+        }else if ([self.urlStr isEqualToString:@"crm/catchFile.html"]){
+            
+            if ([unidArray.firstObject hasSuffix:@"crm/catchFile_document.html"]) {
+                
+                urlStr = @"crm/catchFile_document.html";
+            }
+            
+            
+        }else if ([self.urlStr isEqualToString:@"crm/contractManage.html"]){
+            
+            if ([unidArray.firstObject hasSuffix:@"crm/contractManage_document.html"]) {
+                
+                urlStr = @"crm/contractManage_document.html";
+            }
+            
+        } else{
+            
+            return NO;
+               
+        }
+        
+        Custom_Document_VC *customDocumentVC = [[Custom_Document_VC alloc]init];
+        customDocumentVC.urlStr = [NSString stringWithFormat:@"%@?unid=%@",urlStr,unidArray.lastObject];
+        
+        [self.navigationController pushViewController:customDocumentVC animated:YES];
+        
+        return NO;
+    }
+    
+   
+    
+    //根据
+    //提交数据,页面调用app.postData
+    if ([requestString hasPrefix:@"posturl"]) {
+        [self postDataWithRequestStr:requestString];
+        return YES;
+    }
+    
+    if ([requestString hasSuffix:@"saletab.html"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return YES;
+    }
+    if ([requestString hasSuffix:@"product-count.html"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return YES;
+    }
+    if ([requestString hasSuffix:@"dproduct-tab.html"]) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return YES;
+    }
+    
+    if ([requestString hasSuffix:@"rili"]) {
+        
+        
+        return YES;
+    }
+    
+    
+    return YES;
+    
+}
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    
+    
+}
+
+//提交数据
+- (void)postDataWithRequestStr:(NSString *)requestString
+{
+    NSArray  *components = [requestString componentsSeparatedByString:@"$$$"];
+    NSString *urlString = [components objectAtIndex:1];//请求路径
+    NSString *params = [components objectAtIndex:2];//请求参数
+    //    NSString *callback = [components objectAtIndex:3];//回调函数
+    NSRange range = [params rangeOfString:@"back"];//匹配得到的下标
+    //    NSLog(@"rang:%@",NSStringFromRange(range));
+    if (range.length == 0) {
+        //        callback = [params substringWithRange:range];//截取范围类的字符串
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.server_address" withString:[DataManager sharedDataManager].hostString];
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        params = [params stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        NSLog(@"ou===%@", [DataManager sharedDataManager].userMsg[@"ou"]);
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+        
+        //所有网络请求都需要带cookie
+        NSString *cookie = [[DataManager sharedDataManager] cookieValue];
+        [request setValue:cookie forHTTPHeaderField:@"Cookie"];
+        request.HTTPMethod = @"POST";
+        NSLog(@"%@", params);
+        // 设置请求体
+        // NSString --> NSData
+        
+        request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [NetworkManager networkWithRequest:request completion:^(id responseObject, NSURLResponse *response, NSError *error) {
+            if (error == nil) {
+                NSLog(@"88888%@   ----%@", responseObject, requestString);
+                NSString *dataString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                
+                NSString *jsFunc=[callback stringByAppendingFormat:@"%@%@%@",@"(",dataString,@")"];
+                NSLog(@"提交数据jsFunc: %@", jsFunc);
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([dataString isEqualToString:@"alert('发送成功!')"]) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }
+                    [_webView stringByEvaluatingJavaScriptFromString:dataString];
+                });
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络请求错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                });
+            }
+        }];
+        
+    }else{
+        NSLog(@"截取的值为：%@",callback);
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.server_address" withString:[DataManager sharedDataManager].hostString];
+        urlString = [urlString stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        params = [params stringByReplacingOccurrencesOfString:@"app.ou" withString:[DataManager sharedDataManager].userMsg[@"ou"]];
+        NSLog(@"ou===%@", [DataManager sharedDataManager].userMsg[@"ou"]);
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+        
+        //所有网络请求都需要带cookie
+        NSString *cookie = [[DataManager sharedDataManager] cookieValue];
+        [request setValue:cookie forHTTPHeaderField:@"Cookie"];
+        request.HTTPMethod = @"POST";
+        NSLog(@"%@", params);
+        // 设置请求体
+        // NSString --> NSData
+        
+        request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [NetworkManager networkWithRequest:request completion:^(id responseObject, NSURLResponse *response, NSError *error) {
+            if (error == nil) {
+                NSLog(@"88888%@   ----%@", responseObject, requestString);
+                NSString *dataString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                NSLog(@"777%@", dataString);
+                
+                NSString *jsFunc=[callback stringByAppendingFormat:@"%@%@%@",@"(",dataString,@")"];
+                NSLog(@"提交数据jsFunc: %@", jsFunc);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_webView stringByEvaluatingJavaScriptFromString:dataString];
+                    [_webView stringByEvaluatingJavaScriptFromString:jsFunc];
+                });
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络请求错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                });
+            }
+        }];
+    }
+}
+@end
